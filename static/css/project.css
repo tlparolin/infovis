@@ -1,0 +1,31 @@
+/* .container{
+    max-width: 95%;
+    width: 95%;
+} */
+
+.laranja {
+    color:rgb(255, 127, 14);
+}
+
+.laranja-claro {
+    /* color:rgb(255, 159, 75); */
+    color:rgb(255, 127, 14);
+    opacity: 30%;
+}
+.azul {
+    color: rgb(31, 119, 180);
+}
+
+.esconde{
+    display: none;
+}
+
+.mostra{
+    display: block;
+}
+
+.sankey-link:hover {
+    fill: gold !important;
+    fill-opacity: 1 !important;
+    opacity: 1 !important;
+}
