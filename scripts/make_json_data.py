@@ -43,4 +43,4 @@ df = pd.concat([df0, df1, df2], axis=0)
 df.reset_index(drop=True, inplace=True)
 
 # salva o dataframe no arquivo em formato json
-df.to_json('../data/json/dados.json')
+df.to_json('../data/json/dados.json', orient='records')
