@@ -49,7 +49,7 @@ df.to_json('../data/json/dados.json', orient='records')
 
 # agrupar os dados em décadas para o gráfico não ficar muito pesado
 df['target'] = df['target'].astype('int')
-group = df['target']//10*10 # como décadas
+group = df['target']//10*10  # como décadas
 df = df.groupby([group, 'source']).value.sum().reset_index(name="value")
 
 # altera a ordem das colunas

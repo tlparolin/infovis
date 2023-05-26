@@ -1,16 +1,19 @@
-d3.json("https://raw.githubusercontent.com/tlparolin/infovis/master/data/json/dados.json")
+d3.json("https://raw.githubusercontent.com/tlparolin/infovis/master/data/json/dados_por_decadas.json")
 .then(json => {
     const data = json;
 
-    const width = 954;
+    const width = 754;
     const height = width;
 
-    const innerRadius = Math.min(width, height) * 0.5 - 90;
+    // const innerRadius = Math.min(width, height) * 0.5 - 90;
+    const innerRadius = (Math.min(width, height) / 2 )- 90;
     const outerRadius = innerRadius + 10;
 
-    const names = Array.from(new Set(data.flatMap(d => [d.source, d.target]))).sort(d3.ascending)
+    const names = Array.from(new Set(data.flatMap(d => [d.source, d.target])));//.sort(d3.ascending);
+    console.log(names);
 
     const color = d3.scaleOrdinal(names, d3.quantize(d3.interpolateRainbow, names.length));
+    //const color = d3.scaleOrdinal(d3.schemeCategory10)
 
     const ribbon = d3.ribbonArrow()
         .radius(innerRadius - 1)
@@ -50,9 +53,27 @@ d3.json("https://raw.githubusercontent.com/tlparolin/infovis/master/data/json/da
             .data(chords.groups)
             .join("g");
       
+        function onMouseOver(selected) {
+            group      
+                .filter( d => d.index !== selected.index)
+                .style("opacity", 0.3);
+            
+            svg.selectAll(".chord")
+                .filter( d => d.source.index !== selected.index)
+                .style("opacity", 0.3);
+        };
+            
+        function onMouseOut() {
+            group.style("opacity", 1);
+            svg.selectAll(".chord")
+                .style("opacity", 1);
+        };
+
         group.append("path")
             .attr("fill", d => color(names[d.index]))
-            .attr("d", arc);
+            .attr("d", arc)
+            .on("mouseover", onMouseOver)
+            .on("mouseout", onMouseOut);
       
         group.append("text")
             .each(d => (d.angle = (d.startAngle + d.endAngle) / 2))
