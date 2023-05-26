@@ -42,5 +42,18 @@ df = pd.concat([df0, df1, df2], axis=0)
 # resetar o index do dataframe que fica repetido ao fazer a concatenação (deleta e recria)
 df.reset_index(drop=True, inplace=True)
 
+
 # salva o dataframe no arquivo em formato json
 df.to_json('../data/json/dados.json', orient='records')
+
+
+# agrupar os dados em décadas para o gráfico não ficar muito pesado
+df['target'] = df['target'].astype('int')
+group = df['target']//10*10 # como décadas
+df = df.groupby([group, 'source']).value.sum().reset_index(name="value")
+
+# altera a ordem das colunas
+df = df.reindex(columns=['source', 'target', 'value'])
+
+# salva o dataframe no arquivo em formato json
+df.to_json('../data/json/dados_por_decadas.json', orient='records')
