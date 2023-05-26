@@ -1,17 +1,27 @@
 import pandas as pd
 
-# montagem do dataframe para produção de plástico por tipo
+# montagem do dataframe para produção de plástico POR TIPO (PRIMÁRIO/SECUNDÁRIO)
 # lê o arquivo csv
-df0 = pd.read_csv('../data/csv/global-plastics-prod-by-type.csv')
+df0 = pd.read_csv('data/csv/global-plastics-prod-by-type.csv')
 # retira o 'Total' da coluna 'type_of_plastic', para deixar somente os tipos
 df0.drop(df0[df0.type_of_plastic == 'Total'].index, inplace=True)
 # altera a ordem das colunas
 df0 = df0.reindex(columns=['type_of_plastic', 'year', 'value'])
 # altera o nome das colunas para padronizar em 'source', 'target', e 'value'
 df0.rename(columns={'type_of_plastic': 'source', 'year': 'target'}, inplace=True)
+# deixa como inteiro a coluna target (anos)
+df0['target'] = df0['target'].astype('int')
+# salva um json
+df0.to_json('data/json/prod_by_type.json', orient='records')
+# agrupa por década
+group = df0['target']//10*10  # como décadas
+df0 = df0.groupby([group, 'source']).value.sum().reset_index(name="value")
+# salva json por década
+df0.to_json('data/json/prod_by_type_decade.json', orient='records')
+
 
 # montagem do dataframe para consumo por polímero
-df1 = pd.read_csv('../data/csv/global-plastics-prod-by-polymer.csv')
+df1 = pd.read_csv('data/csv/global-plastics-prod-by-polymer.csv')
 # muda o modo da tabela de wide para long
 df1 = df1.melt(id_vars=["polymer"], var_name="year", value_name="value")
 # agrupa por tipo de polímero e depois por ano
@@ -24,7 +34,7 @@ df1.rename(columns={'polymer': 'source', 'year': 'target'}, inplace=True)
 df1.loc[df1.target.isin(['Other']), 'target'] = 'Other Polymers'
 
 # montagem do dataframe para consumo por aplicação
-df2 = pd.read_csv('../data/csv/global-plastics-prod-by-application.csv')
+df2 = pd.read_csv('data/csv/global-plastics-prod-by-application.csv')
 # muda o modo da tabela de wide para long
 df2 = df2.melt(id_vars=["plastics_applications"], var_name="year", value_name="value")
 # retira o 'Total' da coluna 'plastics_applications'
@@ -44,7 +54,7 @@ df.reset_index(drop=True, inplace=True)
 
 
 # salva o dataframe no arquivo em formato json
-df.to_json('../data/json/dados.json', orient='records')
+df.to_json('data/json/dados.json', orient='records')
 
 
 # agrupar os dados em décadas para o gráfico não ficar muito pesado
@@ -56,4 +66,4 @@ df = df.groupby([group, 'source']).value.sum().reset_index(name="value")
 df = df.reindex(columns=['source', 'target', 'value'])
 
 # salva o dataframe no arquivo em formato json
-df.to_json('../data/json/dados_por_decadas.json', orient='records')
+df.to_json('data/json/dados_por_decadas.json', orient='records')

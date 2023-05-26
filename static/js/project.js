@@ -1,16 +1,16 @@
-d3.json("https://raw.githubusercontent.com/tlparolin/infovis/master/data/json/dados_por_decadas.json")
+d3.json("https://raw.githubusercontent.com/tlparolin/infovis/master/data/json/prod_by_type_decade.json")
 .then(json => {
     const data = json;
 
-    const width = 754;
-    const height = width;
+    const width = 1200;
+    const height = 500;
+    // const width = 754;
+    // const height = width;
 
-    // const innerRadius = Math.min(width, height) * 0.5 - 90;
-    const innerRadius = (Math.min(width, height) / 2 )- 90;
+    const innerRadius = Math.min(width, height) * 0.5 - 90;
     const outerRadius = innerRadius + 10;
 
-    const names = Array.from(new Set(data.flatMap(d => [d.source, d.target])));//.sort(d3.ascending);
-    console.log(names);
+    const names = Array.from(new Set(data.flatMap(d => [d.source, d.target]))).sort(d3.ascending);
 
     const color = d3.scaleOrdinal(names, d3.quantize(d3.interpolateRainbow, names.length));
     //const color = d3.scaleOrdinal(d3.schemeCategory10)
@@ -91,16 +91,28 @@ d3.json("https://raw.githubusercontent.com/tlparolin/infovis/master/data/json/da
                 ${d3.sum(chords, c => (c.source.index === d.index) * c.source.value)} outgoing →
                 ${d3.sum(chords, c => (c.target.index === d.index) * c.source.value)} incoming ←`);
       
+        // svg.append("g")
+        //     .attr("fill-opacity", 0.75)
+        //     .selectAll("path")
+        //     .data(chords)
+        //     .join("path")
+        //     .style("mix-blend-mode", "multiply")
+        //     .attr("fill", d => color(names[d.target.index]))
+        //     .attr("d", ribbon)
+        //     .append("title")
+        //     .text(d => `${names[d.source.index]} → ${names[d.target.index]} ${d.source.value}`);
+        
         svg.append("g")
-            .attr("fill-opacity", 0.75)
+            .attr("fill-opacity", 0.70)
             .selectAll("path")
             .data(chords)
             .join("path")
             .style("mix-blend-mode", "multiply")
+            .attr("class", "chord")
             .attr("fill", d => color(names[d.target.index]))
             .attr("d", ribbon)
-            .append("title")
-            .text(d => `${names[d.source.index]} → ${names[d.target.index]} ${d.source.value}`);
+            .on("mouseover", d => onMouseOver(d.source))
+            .on("mouseout", d => onMouseOut(d.source));
       
         return svg.node();
     };
