@@ -2,13 +2,12 @@ d3.json("https://raw.githubusercontent.com/tlparolin/infovis/master/data/json/pr
 .then(json => {
     const data = json;
 
-    const width = 1200;
-    const height = 500;
-    // const width = 754;
+    const width = 900;
     // const height = width;
+    const height = 750;
 
     const innerRadius = Math.min(width, height) * 0.5 - 90;
-    const outerRadius = innerRadius + 10;
+    const outerRadius = innerRadius + 8;
 
     const names = Array.from(new Set(data.flatMap(d => [d.source, d.target]))).sort(d3.ascending);
 
@@ -41,7 +40,7 @@ d3.json("https://raw.githubusercontent.com/tlparolin/infovis/master/data/json/pr
     const chord = _chord(innerRadius);
 
     function chart(width, height, matrix, color, names, arc, outerRadius, ribbon) {
-        const svg = d3.create("svg")
+        var svg = d3.create("svg")
             .attr("viewBox", [-width / 2, -height / 2, width, height]);
       
         const chords = chord(matrix);

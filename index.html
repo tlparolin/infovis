@@ -26,29 +26,39 @@
 	</head>
 
 	<body class="bg-light">
-    <div class="container-fluid">
-      <div class="row mt-1">
-        <div class="col-sm-12">
-          <h3>
-            <img class="bg-white p-1 rounded-circle img-fluid" src="static/images/eye.png" width="40">
-            <span class="text-dark">Projeto de Visualização da Informação</span>
-          </h3>
-          <small>
-            Visualização da Produção, do Consumo e do Descarte do Plástico
-          </small><br>
-          <small>Thiago Luiz Parolin - 2023</small>
-        </div>
-      </div>
-      <div class="row mt-2">
-        <div class="col-sm-12 text-center">
-          <div class="card bg-white">
-            <div class="card-content p-1">
-              <div id="chart" class="svg-container"></div>
+        <div class="container-fluid">
+            <div class="row mt-2">
+                <div class="col-sm-12">
+                    <div class="card bg-white">
+                        <div class="card-content p-1">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div class="row">
+                                        <div class="col-10">
+                                            <h4>
+                                                Visualização da Produção, do Consumo e do Descarte do Plástico
+                                            </h4>
+                                        </div>
+                                        <div class="col-2">
+                                            <span class="small text-end">Thiago Luiz Parolin - 2023</span>   
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-md-2">
+                                    <div class="mb-3">
+                                        <label for="exampleFormControlInput1" class="form-label">Email address</label>
+                                        <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com">
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-md-9">
+                                    <div id="chart"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-          </div>
         </div>
-      </div>
-    </div>
-    <script src="static/js/project.js"></script>
+        <script src="static/js/project.js"></script>
 	</body>
 </html>
