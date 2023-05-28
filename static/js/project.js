@@ -4,7 +4,7 @@ d3.json("https://raw.githubusercontent.com/tlparolin/infovis/master/data/json/pr
 
     const width = 900;
     // const height = width;
-    const height = 750;
+    const height = 650;
 
     const innerRadius = Math.min(width, height) * 0.5 - 90;
     const outerRadius = innerRadius + 8;
@@ -54,11 +54,13 @@ d3.json("https://raw.githubusercontent.com/tlparolin/infovis/master/data/json/pr
       
         function onMouseOver(selected) {
             group      
-                .filter( d => d.index !== selected.index)
+                //.filter( d => d.source !== selected.target)
+                .filter( d => d.index !== selected.target.__data__.index)
                 .style("opacity", 0.3);
             
             svg.selectAll(".chord")
-                .filter( d => d.source.index !== selected.index)
+                //.filter( d => d.source.index !== selected.index)
+                .filter( d => d.source.index !== selected.target.__data__.index)
                 .style("opacity", 0.3);
         };
             
@@ -90,29 +92,21 @@ d3.json("https://raw.githubusercontent.com/tlparolin/infovis/master/data/json/pr
                 ${d3.sum(chords, c => (c.source.index === d.index) * c.source.value)} outgoing →
                 ${d3.sum(chords, c => (c.target.index === d.index) * c.source.value)} incoming ←`);
       
-        // svg.append("g")
-        //     .attr("fill-opacity", 0.75)
-        //     .selectAll("path")
-        //     .data(chords)
-        //     .join("path")
-        //     .style("mix-blend-mode", "multiply")
-        //     .attr("fill", d => color(names[d.target.index]))
-        //     .attr("d", ribbon)
-        //     .append("title")
-        //     .text(d => `${names[d.source.index]} → ${names[d.target.index]} ${d.source.value}`);
-        
         svg.append("g")
-            .attr("fill-opacity", 0.70)
+            .attr("fill-opacity", 0.75)
             .selectAll("path")
             .data(chords)
             .join("path")
-            .style("mix-blend-mode", "multiply")
             .attr("class", "chord")
+            .style("mix-blend-mode", "multiply")
             .attr("fill", d => color(names[d.target.index]))
+            .attr("stroke", d => d3.rgb(color(names[d.target.index])).darker())
             .attr("d", ribbon)
+            .append("title")
+            .text(d => `${names[d.source.index]} → ${names[d.target.index]} ${d.source.value}`)
             .on("mouseover", d => onMouseOver(d.source))
             .on("mouseout", d => onMouseOut(d.source));
-      
+              
         return svg.node();
     };
 
