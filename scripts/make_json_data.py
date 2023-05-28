@@ -32,6 +32,16 @@ df1.drop(df1[df1.polymer == 'Total'].index, inplace=True)
 df1.rename(columns={'polymer': 'source', 'year': 'target'}, inplace=True)
 # renomeia 'Other' para 'Other Polymers'
 df1.loc[df1.target.isin(['Other']), 'target'] = 'Other Polymers'
+# deixa como inteiro a coluna target (anos)
+df1['target'] = df1['target'].astype('int')
+# salva um json
+df1.to_json('data/json/prod_by_polymer.json', orient='records')
+# agrupa por década
+group = df1['target']//10*10  # como décadas
+df1 = df1.groupby([group, 'source']).value.sum().reset_index(name="value")
+# salva json por década
+df1.to_json('data/json/prod_by_polymer_decade.json', orient='records')
+
 
 # montagem do dataframe para consumo por aplicação
 df2 = pd.read_csv('data/csv/global-plastics-prod-by-application.csv')
