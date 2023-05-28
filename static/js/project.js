@@ -79,15 +79,18 @@ function grafico(arquivo) {
                 .join("g");
           
             function onMouseOver(selected) {
+                // deixa somente o selecionado com opacidade mais forte
                 group      
-                    //.filter( d => d.source !== selected.target)
                     .filter( d => d.index !== selected.target.__data__.index)
                     .style("opacity", 0.2);
                 
                 svg.selectAll(".chord")
-                    //.filter( d => d.source.index !== selected.index)
                     .filter( d => d.source.index !== selected.target.__data__.index)
                     .style("opacity", 0.2);
+                
+                // coloca o valor de cada ribbon
+                
+                
             };
                 
             function onMouseOut() {
