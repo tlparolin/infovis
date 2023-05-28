@@ -47,20 +47,20 @@
                                 <div class="col-sm-12 col-md-3 mt-5">
                                     <p>
                                         Filtrar por Produção/Consumo:
-                                        <select class="form-select form-select-sm" aria-label=".form-select-sm example">
+                                        <select id="filtro" onchange="atualiza_grafico()" class="form-select form-select-sm" aria-label=".form-select-sm example">
                                             <option selected>-----------</option>
-                                            <option value="1">Tipo</option>
-                                            <option value="2">Polímero</option>
-                                            <option value="3">Aplicação</option>
-                                            <option value="3">Local</option>
+                                            <option value="tipo">Tipo</option>
+                                            <option value="polimero">Polímero</option>
+                                            <option value="aplicacao">Aplicação</option>
+                                            <option value="local">Local</option>
                                         </select>
                                     </p>
                                     <p>
                                         Detalhe:
-                                        <select class="form-select form-select-sm" aria-label=".form-select-sm example">
+                                        <select id="detalhe" onchange="atualiza_grafico()" class="form-select form-select-sm" aria-label=".form-select-sm example">
                                             <option selected>-----------</option>
-                                            <option value="1">Tempo em Décadas</option>
-                                            <option value="2">Tempo em Anos</option>
+                                            <option value="decada">Tempo em Décadas</option>
+                                            <option value="ano">Tempo em Anos</option>
                                         </select>
                                     </p>
                                 </div>
