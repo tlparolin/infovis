@@ -55,6 +55,14 @@ df2.rename(columns={'plastics_applications': 'source', 'year': 'target'}, inplac
 df2.loc[df2.target.isin(['Other']), 'target'] = 'Other Applications'
 df2.loc[df2.target.isin(['Marine coatings']), 'target'] = 'Marine Coatings Applications'
 df2.loc[df2.target.isin(['Road marking']), 'target'] = 'Road Marking Applications'
+# salva um json
+df2.to_json('data/json/prod_by_application.json', orient='records')
+# agrupa por década
+group = df1['target']//10*10  # como décadas
+df2 = df2.groupby([group, 'source']).value.sum().reset_index(name="value")
+# salva json por década
+df2.to_json('data/json/prod_by_application_decade.json', orient='records')
+
 
 # montagem o dataframe PRINCIPAL
 df = pd.concat([df0, df1, df2], axis=0)

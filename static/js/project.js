@@ -6,6 +6,12 @@ function atualiza_grafico() {
         case "tipo":
             arquivo = "https://raw.githubusercontent.com/tlparolin/infovis/master/data/json/prod_by_type";
             break;
+        case "polimero":
+            arquivo = "https://raw.githubusercontent.com/tlparolin/infovis/master/data/json/prod_by_polymer";
+            break;
+        case "aplicacao":
+            arquivo = "https://raw.githubusercontent.com/tlparolin/infovis/master/data/json/prod_by_application";
+            break;
     };
 
     if (detalhe === "decada"){
