@@ -1,3 +1,7 @@
+function atualiza_grafico(url) {
+    return url
+};
+
 d3.json("https://raw.githubusercontent.com/tlparolin/infovis/master/data/json/prod_by_type_decade.json")
 .then(json => {
     const data = json;
@@ -56,12 +60,12 @@ d3.json("https://raw.githubusercontent.com/tlparolin/infovis/master/data/json/pr
             group      
                 //.filter( d => d.source !== selected.target)
                 .filter( d => d.index !== selected.target.__data__.index)
-                .style("opacity", 0.3);
+                .style("opacity", 0.2);
             
             svg.selectAll(".chord")
                 //.filter( d => d.source.index !== selected.index)
                 .filter( d => d.source.index !== selected.target.__data__.index)
-                .style("opacity", 0.3);
+                .style("opacity", 0.2);
         };
             
         function onMouseOut() {
