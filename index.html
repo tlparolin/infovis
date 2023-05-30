@@ -53,13 +53,13 @@
                                     <p>
                                         Gráfico:
                                         <select id="tipo_grafico" onchange="atualiza_grafico()" class="form-select form-select-sm" aria-label=".form-select-sm example">
-                                            <option selected value="sankey">Sankey</option>
-                                            <option value="chord">Roda de Dependência</option>
+                                            <option selected value="sankey">Diagrama de Sankey</option>
+                                            <option value="dependencywheel">Diagrama de Acordes</option>
                                         </select>
                                     </p>
                                     <p>
                                         Visualização:
-                                        <select id="filtro" onchange="atualiza_grafico()" class="form-select form-select-sm" aria-label=".form-select-sm example">
+                                        <select id="visualizacao" onchange="atualiza_grafico()" class="form-select form-select-sm" aria-label=".form-select-sm example">
                                             <option selected value="tipo">Produção por Tipo</option>
                                             <option value="polimero">Produção por Polímero</option>
                                             <option value="aplicacao">Consumo por Indústria</option>
@@ -68,7 +68,7 @@
                                     </p>
                                     <p>
                                         Tempo:
-                                        <select id="detalhe" onchange="atualiza_grafico()" class="form-select form-select-sm" aria-label=".form-select-sm example">
+                                        <select id="tempo" onchange="atualiza_grafico()" class="form-select form-select-sm" aria-label=".form-select-sm example">
                                             <option selected value="decada">Em Décadas</option>
                                             <option value="ano">Em Anos</option>
                                         </select>

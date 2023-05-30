@@ -1,8 +1,9 @@
 function atualiza_grafico() {
-    var detalhe = $("#detalhe").val();
-    var filtro = $("#filtro").val();
-    console.log(detalhe, filtro);
-    switch (filtro){
+    var tempo = $("#tempo").val();
+    var visualizacao = $("#visualizacao").val();
+    var tipo_grafico = $("#tipo_grafico").val();
+
+    switch (visualizacao){
         case "tipo":
             arquivo = "https://raw.githubusercontent.com/tlparolin/infovis/master/data/json/prod_by_type";
             break;
@@ -14,19 +15,20 @@ function atualiza_grafico() {
             break;
     };
 
-    if (detalhe === "decada"){
+    if (tempo === "decada"){
         arquivo += "_decade.json"
     } else {
         arquivo += ".json"
     };
-    grafico(arquivo, 'sankey', 600);
+
+    grafico(arquivo, tipo_grafico, 600);
 };
 
 function grafico(arquivo, tipo, altura){
     var options = {
         chart: {
             renderTo: 'chart',
-            type: 'dependencywheel',
+            type: tipo,
             height: 800,
             dataLabels: {
                 color: '#333',
@@ -38,6 +40,9 @@ function grafico(arquivo, tipo, altura){
                 },
                 distance: 10
             },
+        },
+        credits: {
+            enabled: false
         },
         title: {
             text: 'Highcharts Dependency Wheel'
