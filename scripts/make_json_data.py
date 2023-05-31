@@ -6,7 +6,7 @@ df0 = pd.read_csv('../data/csv/global-plastics-prod-by-type.csv')
 # retira o 'Total' da coluna 'type_of_plastic', para deixar somente os tipos
 df0.drop(df0[df0.type_of_plastic == 'Total'].index, inplace=True)
 # altera a ordem das colunas
-df0 = df0.reindex(columns=['type_of_plastic', 'year', 'weight'])
+df0 = df0.reindex(columns=['type_of_plastic', 'year', 'value'])
 # altera o nome das colunas para padronizar em 'from', 'to', e 'weight'
 df0.rename(columns={'type_of_plastic': 'from', 'year': 'to', 'value': 'weight'}, inplace=True)
 # deixa como inteiro a coluna to (anos)
