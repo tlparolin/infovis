@@ -8,14 +8,14 @@ df0.drop(df0[df0.type_of_plastic == 'Total'].index, inplace=True)
 # altera a ordem das colunas
 df0 = df0.reindex(columns=['type_of_plastic', 'year', 'value'])
 # altera o nome das colunas para padronizar em 'source', 'target', e 'value'
-df0.rename(columns={'type_of_plastic': 'source', 'year': 'target'}, inplace=True)
+df0.rename(columns={'type_of_plastic': 'from', 'year': 'to', 'value': 'weight'}, inplace=True)
 # deixa como inteiro a coluna target (anos)
-df0['target'] = df0['target'].astype('int')
+df0['to'] = df0['to'].astype('int')
 # salva um json
 df0.to_json('data/json/prod_by_type.json', orient='records')
 # agrupa por década
-group = df0['target']//10*10  # como décadas
-df0 = df0.groupby([group, 'source']).value.sum().reset_index(name="value")
+group = df0['to']//10*10  # como décadas
+df0 = df0.groupby([group, 'from']).weight.sum().reset_index(name="weight")
 # salva json por década
 df0.to_json('data/json/prod_by_type_decade.json', orient='records')
 
@@ -29,16 +29,16 @@ df1 = df1.groupby(['polymer', 'year']).value.sum().reset_index(name="value")
 # retira o 'Total' da coluna 'polymer'
 df1.drop(df1[df1.polymer == 'Total'].index, inplace=True)
 # renomeia as colunas para 'source', 'target', 'value'
-df1.rename(columns={'polymer': 'source', 'year': 'target'}, inplace=True)
+df1.rename(columns={'polymer': 'from', 'year': 'to', 'value': 'weight'}, inplace=True)
 # renomeia 'Other' para 'Other Polymers'
-df1.loc[df1.target.isin(['Other']), 'target'] = 'Other Polymers'
+df1.loc[df1.to.isin(['Other']), 'to'] = 'Other Polymers'
 # deixa como inteiro a coluna target (anos)
-df1['target'] = df1['target'].astype('int')
+df1['to'] = df1['to'].astype('int')
 # salva um json
 df1.to_json('data/json/prod_by_polymer.json', orient='records')
 # agrupa por década
-group = df1['target']//10*10  # como décadas
-df1 = df1.groupby([group, 'source']).value.sum().reset_index(name="value")
+group = df1['to']//10*10  # como décadas
+df1 = df1.groupby([group, 'from']).weight.sum().reset_index(name="weight")
 # salva json por década
 df1.to_json('data/json/prod_by_polymer_decade.json', orient='records')
 

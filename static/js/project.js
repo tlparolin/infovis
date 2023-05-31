@@ -5,13 +5,16 @@ function atualiza_grafico() {
 
     switch (visualizacao){
         case "tipo":
-            arquivo = "https://raw.githubusercontent.com/tlparolin/infovis/master/data/json/prod_by_type";
+            arquivo = "data/json/prod_by_type";
             break;
         case "polimero":
-            arquivo = "https://raw.githubusercontent.com/tlparolin/infovis/master/data/json/prod_by_polymer";
+            arquivo = "data/json/prod_by_polymer";
             break;
         case "aplicacao":
-            arquivo = "https://raw.githubusercontent.com/tlparolin/infovis/master/data/json/prod_by_application";
+            arquivo = "data/json/prod_by_application";
+            break;
+        case "local":
+            arquivo = "data/json/prod_by_region";
             break;
     };
 
@@ -21,7 +24,7 @@ function atualiza_grafico() {
         arquivo += ".json"
     };
 
-    grafico(arquivo, tipo_grafico, 600);
+    grafico(arquivo, tipo_grafico, 580);
 };
 
 function grafico(arquivo, tipo, altura){
@@ -29,7 +32,10 @@ function grafico(arquivo, tipo, altura){
         chart: {
             renderTo: 'chart',
             type: tipo,
-            height: 800,
+            height: altura,
+            zoomType: 'x',
+            panning: true,
+            panKey: 'shift',
             dataLabels: {
                 color: '#333',
                 style: {
@@ -56,7 +62,7 @@ function grafico(arquivo, tipo, altura){
         series: [{}],
     };
 
-    $.getJSON('data/json/prod_by_type.json', function (data) {
+    $.getJSON(arquivo, function (data) {
         options.series[0].data = data;
         var chart = new Highcharts.Chart(options);
     });
