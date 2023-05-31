@@ -7,15 +7,13 @@
     <link href="static/fontawesome/css/fontawesome.min.css" rel="stylesheet">
     <link href="static/fontawesome/css/brands.min.css" rel="stylesheet">
     <link href="static/fontawesome/css/solid.min.css" rel="stylesheet">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@500;700;800&display=swap" rel="stylesheet">
 
     <script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
 
     <script src="https://code.highcharts.com/highcharts.js"></script>
     <script src="https://code.highcharts.com/modules/sankey.js"></script>
     <script src="https://code.highcharts.com/modules/dependency-wheel.js"></script>
+    <script src="https://code.highcharts.com/modules/treemap.js"></script>
     <script src="https://code.highcharts.com/modules/accessibility.js"></script>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script>
@@ -30,26 +28,24 @@
     <title>Projeto</title>
 	</head>
 
-	<body class="bg-light">
-        <div class="container-fluid">
+	<body class="bg-dark">
+        <div class="container-fluid d-flex flex-column">
             <div class="row mt-2">
                 <div class="col-sm-12">
-                    <div class="card bg-white">
+                    <div class="card bg-light wrapper">
                         <div class="card-content p-1">
                             <div class="row">
                                 <div class="col-sm-12">
                                     <div class="row">
                                         <div class="col-10">
-                                            <h4>
-                                                Visualização da Produção, do Consumo e do Descarte do Plástico
-                                            </h4>
+                                            <h4>A Dependência do Plástico</h4>
                                         </div>
                                         <div class="col-2 text-end">
                                             <span class="small text-end"><small>Thiago Luiz Parolin - 2023</small></span>   
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-sm-12 col-md-2 mt-5">
+                                <div id="menu" class="col-sm-12 col-md-3 mt-2">
                                     <p>
                                         Gráfico:
                                         <select id="tipo_grafico" onchange="atualiza_grafico()" class="form-select form-select-sm" aria-label=".form-select-sm example">
@@ -67,15 +63,23 @@
                                         </select>
                                     </p>
                                     <p>
-                                        Tempo:
+                                        Período:
                                         <select id="tempo" onchange="atualiza_grafico()" class="form-select form-select-sm" aria-label=".form-select-sm example">
                                             <option selected value="decada">Em Décadas</option>
                                             <option value="ano">Em Anos</option>
                                         </select>
                                     </p>
+                                    <div id="card-fatos" class="card bg-white border mt-5">
+                                        <div class="card-body">
+                                            <h6 class="card-title">Fatos</h6>
+                                            <ul>
+                                                <div id="fatos"></div>
+                                            </ul>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="col-sm-12 col-md-10">
-                                    <div id="chart"></div>
+                                <div class="col-sm-12 col-md-9">
+                                    <div id="chart" class="chart border rounded"></div>
                                 </div>
                             </div>
                         </div>

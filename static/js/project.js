@@ -37,7 +37,7 @@ function atualiza_grafico() {
         titulo += " por Ano"
     };
 
-    grafico(arquivo, tipo_grafico, 900, titulo);
+    grafico(arquivo, tipo_grafico, 750, titulo);
 };
 
 function grafico(arquivo, tipo, altura, titulo){
@@ -45,13 +45,17 @@ function grafico(arquivo, tipo, altura, titulo){
         chart: {
             renderTo: 'chart',
             type: tipo,
-            height: altura,
+            // height: altura,
         },
         credits: {
             enabled: false
         },
         title: {
-            text: titulo
+            text: titulo,
+            style: {
+                fontFamily: 'Arial, Helvetica, sans serif',
+                fontWeight: 'normal',
+            }
         },
         subtitle: {
             text: "Valores em milhões de toneladas"
