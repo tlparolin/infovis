@@ -55,6 +55,8 @@ df2.rename(columns={'plastics_applications': 'from', 'year': 'to', 'value': 'wei
 df2.loc[df2.to.isin(['Other']), 'to'] = 'Other Applications'
 df2.loc[df2.to.isin(['Marine coatings']), 'to'] = 'Marine Coatings Applications'
 df2.loc[df2.to.isin(['Road marking']), 'to'] = 'Road Marking Applications'
+# deixa como inteiro a coluna to (anos)
+df2['to'] = df2['to'].astype('int')
 # salva um json
 df2.to_json('../data/json/prod_by_application.json', orient='records')
 # agrupa por década
@@ -63,19 +65,22 @@ df2 = df2.groupby([group, 'from']).weight.sum().reset_index(name="weight")
 # salva json por década
 df2.to_json('../data/json/prod_by_application_decade.json', orient='records')
 
+
 # montagem do dataframe de consumo por localidade
 df3 = pd.read_csv('../data/csv/global-plastics-prod-by-region.csv')
 # muda o modo da tabela de wide para long
 df3 = df3.melt(id_vars=["group", "subgroup", "country"], var_name="year", value_name="weight")
 # renomeia as colunas para 'from', 'to', 'weight'
 df3.rename(columns={'country': 'from', 'year': 'to'}, inplace=True)
+# deixa como inteiro a coluna to (anos)
+df3['to'] = df3['to'].astype('int')
 # salva um json
-df3.to_json('../data/json/prod_by_application.json', orient='records')
+df3.to_json('../data/json/prod_by_region.json', orient='records')
 # agrupa por década
 group = df3['to']//10*10  # como décadas
 df3 = df3.groupby([group, 'from']).weight.sum().reset_index(name="weight")
 # salva json por década
-df3.to_json('../data/json/prod_by_application_decade.json', orient='records')
+df3.to_json('../data/json/prod_by_region_decade.json', orient='records')
 
 
 # montagem o dataframe PRINCIPAL
