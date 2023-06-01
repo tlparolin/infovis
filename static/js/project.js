@@ -1,18 +1,23 @@
 $( document ).ready(function() {
-    //atualiza_grafico();
     inicio();
-    aumento_producao();
 });
 
+function apaga_tudo(){
+    $("#fatos").html();
+    $("#topico").html();
+    $("#chart").html();
+    $("#visualizacao").val("");
+};
+
 function atualiza_grafico() {
-    var tempo = $("#tempo").val();
     var visualizacao = $("#visualizacao").val();
-    var tipo_grafico = $("#tipo_grafico").val();
 
     switch (visualizacao){
-        case "tipo":
-            arquivo = "data/json/prod_by_type";
-            titulo = "Produção de Plástico por Tipo - Primário/Secundário";
+        case "aumento_producao":
+            arquivo = "data/json/global-plastics-production.json";
+            titulo = "Produção de Plástico"
+            subtitulo = "Produção Global Anual de Plástico em Milhões de Toneladas"
+            aumento_producao(arquivo, titulo, subtitulo);
             break;
         case "polimero":
             arquivo = "data/json/prod_by_polymer";
@@ -30,19 +35,9 @@ function atualiza_grafico() {
             arquivo = "data/json/dados";
             titulo = "Visão Geral";
     };
-
-    if (tempo === "decada"){
-        arquivo += "_decade.json"
-        titulo += " por Década"
-    } else {
-        arquivo += ".json"
-        titulo += " por Ano"
-    };
-
-    grafico(arquivo, tipo_grafico, 750, titulo);
 };
 
-function grafico(arquivo, tipo, altura, titulo){
+function grafico(arquivo, tipo, titulo){
     var options = {
         chart: {
             renderTo: 'chart',
@@ -77,6 +72,7 @@ function grafico(arquivo, tipo, altura, titulo){
 };
 
 function inicio(){
+    apaga_tudo();
     $("#fatos").html(
         '<div class="row">\
             <div class="col">\
@@ -86,7 +82,7 @@ function inicio(){
                 <p>A versatilidade, o baixo custo e a estabilidade do plástico diante dos processos naturais de degradação o tornaram onipresente no mundo, porém esses mesmos atributos o transformam em um grande agente poluidor.</p>\
             </div>\
         </div>'
-    );
+    ).hide().slideDown(1000);
     var options = {
         chart: {
             type: 'timeline',
@@ -142,7 +138,7 @@ function inicio(){
                 description: 'Waldo Semon inventou métodos para tornar útil o cloreto de polivinila com adição de compostos químicos, deixando o material mais fácil de se trabalhar e popularizando o uso do PVC.'
             }, {
                 name: '1933',
-                label: 'Polietileno de Baixa Densidade',
+                label: 'Polietileno de Baixa Densidade - LDPE',
                 description: 'Produzido pela primeira vez em 1933 na Inglaterra pela Imperial Chemical Industries Ltd. (ICI) durante estudos dos efeitos de pressões extremamente altas na polimerização do polietileno. A ICI obteve a patente de seu processo em 1937 e iniciou a produção comercial em 1939.'
             }, {
                 name: '~1934',
@@ -167,13 +163,54 @@ function inicio(){
             }, {
                 name: '1990~atualmente',
                 label: 'Preocupação Ambiental',
-                description: 'Os danos ambientais do plástico começa a se tornar mais perceptíveis e preocupantes. Inicia-se também maior volume de pesquisas em reciclagem e bioplásticos.'
+                description: 'Os danos ambientais do plástico começam a se tornar mais perceptíveis e preocupantes. Há o aumento de pesquisas em reciclagem e bioplásticos.'
             }]
         }]
     };
     new Highcharts.Chart(options);
 };
 
-function aumento_producao(){
+function aumento_producao(arquivo, titulo, subtitulo){
+    apaga_tudo();
+    $("#topico").html('<p class="p-2 text-white bg-primary rounded small"><b>O Aumento da Produção</b></p>');
+    $("#fatos").html(
+        '<div class="row">\
+            <div class="col">\
+                <h4 class="text-primary">Cada vez mais plásticos!</h4>\
+                <ul>\
+                    <li>A quantidade de plástico produzida todos os anos aumentou rapidamente, partindo de 2 milhões de toneladas produzidas em 1950 para quase 460 milhões de toneladas em 2019.</li>\
+                    <li>Mais da metade de todo o plástico foi produzido a partir do ano 2000.</li>\
+                </ul>\
+            </div>\
+        </div>'
+    ).hide().slideDown(900);
+    var options = {
+        chart: {
+            renderTo: 'chart',
+        },
+        credits: {
+            enabled: false
+        },
+        title: {
+            text: titulo,
+            style: {
+                fontFamily: 'Arial, Helvetica, sans serif',
+                fontWeight: 'normal',
+            }
+        },
+        subtitle: {
+            text: subtitulo
+        },
+        xAxis: {},
+        series: [{}],
+    };
 
+    $.getJSON(arquivo, function (data) {
+        var ano = data.map(x => x.year);
+        var valor = data.map(x => x.value);
+        options.xAxis.categories = ano;
+        options.xAxis.title = "Todos";
+        options.series[0].data = valor;
+        var chart = new Highcharts.Chart(options);
+    });
 };

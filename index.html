@@ -37,21 +37,27 @@
                         <div class="card-content p-1">
                             <div class="row">
                                 <div id="menu" class="col-sm-12 col-md-4">
-                                    <h2 class="text-danger"><strong>Em Dependência do Plástico</strong></h2>
-                                            <p><b>Fatos e Números do Plástico no Mundo</b></p>
-                                    <p class="small mt-5">
-                                        Visualização dos Fatos:
+                                    <h1 class="text-white bg-danger p-1 rounded"><b>Em Dependência do Plástico</b></h1>
+                                    <p><b>Fatos e Números do Plástico no Mundo</b></p>
+                                    <hr>
+                                    <p>
+                                        <button class="btn btn-sm btn-primary" onclick="inicio()"><i class="fas fa-home"></i></button>
+                                        <button class="btn btn-sm btn-primary"><i class="fas fa-circle-question"></i></button>
+                                    </p>
+                                    <p class="small mt-2">
+                                        Tópicos:
                                         <select id="visualizacao" onchange="atualiza_grafico()" class="form-select form-select-sm" aria-label=".form-select-sm example">
                                             <option selected>---------------</option>
-                                            <option value="tipo">Aumento da Produção</option>
+                                            <option value="aumento_producao">O Aumento da Produção</option>
                                             <option value="polimero">Produção por Polímero</option>
                                             <option value="aplicacao">Consumo por Indústria</option>
                                             <option value="local">Consumo por Local</option>
                                             <option value="descarte">Descarte de Resíduos por Local</option>
                                         </select>
                                     </p>
-                                    <div id="card-fatos my-2" class="card bg-white border mt-5">
+                                    <div id="card-fatos" class="card bg-white border mt-2">
                                         <div class="card-body">
+                                            <div id="topico"></div>
                                             <div id="fatos"></div>
                                         </div>
                                     </div>
