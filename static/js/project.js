@@ -19,9 +19,11 @@ function atualiza_grafico() {
             subtitulo = "Produção Global Anual de Plástico em Milhões de Toneladas"
             aumento_producao(arquivo, titulo, subtitulo);
             break;
-        case "polimero":
-            arquivo = "data/json/prod_by_polymer";
-            titulo = "Produção de Plástico por Polímero";
+        case "primario_secundario":
+            arquivo = "data/json/global-plastics-prod-by-type.json";
+            titulo = "Produção de Plástico por Tipo";
+            subtitulo = "Produção Global Anual de Plástico Primário (virgem) e Secundário (reciclado) em Milhões de Toneladas"
+            primario_secundario(arquivo, titulo, subtitulo);
             break;
         case "aplicacao":
             arquivo = "data/json/prod_by_application";
@@ -223,6 +225,69 @@ function aumento_producao(arquivo, titulo, subtitulo){
         options.xAxis.categories = ano;
         options.series[0].data = valor;
         options.series[0].name = "Todos os países"
+        var chart = new Highcharts.Chart(options);
+    });
+};
+
+function primario_secundario(arquivo, titulo, subtitulo){
+    apaga_tudo();
+    $("#topico").html('<p class="p-2 text-white bg-primary rounded small"><b>O Aumento da Produção</b></p>');
+    $("#fatos").html(
+        '<div class="row">\
+            <div class="col">\
+                <h4 class="text-primary">Cada vez mais plásticos!</h4>\
+                <ul>\
+                    <li>A quantidade de plástico produzida todos os anos aumentou rapidamente, partindo de 2 milhões de toneladas produzidas em 1950 para quase 460 milhões de toneladas em 2019.</li>\
+                    <li>Mais da metade de todo o plástico foi produzido a partir do ano 2000.</li>\
+                </ul>\
+            </div>\
+        </div>'
+    ).hide().slideDown(900);
+    var options = {
+        chart: {
+            renderTo: 'chart',
+        },
+        credits: {
+            enabled: false
+        },
+        title: {
+            text: titulo,
+            style: {
+                fontFamily: 'Arial, Helvetica, sans serif',
+                fontWeight: 'normal',
+            }
+        },
+        subtitle: {
+            text: subtitulo
+        },
+        plotOptions: {
+            line: {
+                marker: {
+                    states: {
+                        hover: {
+                            fillColor: 'black',
+                            radius: 10
+                        }
+                    }
+                }
+            }
+        },
+        xAxis: {},
+        series: [{}],
+    };
+
+    $.getJSON(arquivo, function (data) {
+        var ano = data.map(x => x.year);
+        var tipos = [... new Set(data.map(x => x.type_of_plastic))]
+        options.xAxis.categories = ano;
+        tipos.forEach(element => 
+            options.series[element.index].data = data.filter(
+                x => { if (x.type_of_plastic === tipos[element.index]) {
+                        return x.value
+                }}
+            )
+            options.series[element.index].name = tipos[element.index];
+        };
         var chart = new Highcharts.Chart(options);
     });
 };

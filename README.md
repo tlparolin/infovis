@@ -1,7 +1,9 @@
 # infovis
 
-Start a python dev server to just serve files locally:
+Inicie um servidor em python para servir os arquivos localmente:
 
+```
 python -m http.server 8000
+```
 
-So you can visit 'http://127.0.0.1:8000' in your browser.
+Abra o endereço 'http://127.0.0.1:8000' no seu navegador.
