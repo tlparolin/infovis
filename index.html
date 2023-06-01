@@ -11,6 +11,7 @@
     <script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
 
     <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/modules/timeline.js"></script>
     <script src="https://code.highcharts.com/modules/sankey.js"></script>
     <script src="https://code.highcharts.com/modules/dependency-wheel.js"></script>
     <script src="https://code.highcharts.com/modules/treemap.js"></script>
@@ -28,62 +29,38 @@
     <title>Projeto</title>
 	</head>
 
-	<body class="bg-dark">
+	<body class="fundo">
         <div class="container-fluid d-flex flex-column">
             <div class="row mt-2">
                 <div class="col-sm-12">
-                    <div class="card bg-light wrapper">
+                    <div class="card p-2 bg-light wrapper">
                         <div class="card-content p-1">
                             <div class="row">
-                                <div class="col-sm-12">
-                                    <div class="row">
-                                        <div class="col-10">
-                                            <h4>A Dependência do Plástico</h4>
-                                            <p class="small">Como o consumo e o descarte do plástico aumentaram na última década</p>
-                                        </div>
-                                        <div class="col-2 text-end">
-                                            <span class="small text-end"><small>Thiago Luiz Parolin - 2023</small></span>   
-                                        </div>
-                                    </div>
-                                </div>
-                                <div id="menu" class="col-sm-12 col-md-3 mt-2">
-                                    <p>
-                                        Gráfico:
-                                        <select id="tipo_grafico" onchange="atualiza_grafico()" class="form-select form-select-sm" aria-label=".form-select-sm example">
-                                            <option selected value="sankey">Diagrama de Sankey</option>
-                                            <option value="dependencywheel">Diagrama de Acordes</option>
-                                        </select>
-                                    </p>
-                                    <p>
-                                        Visualização:
+                                <div id="menu" class="col-sm-12 col-md-4">
+                                    <h2 class="text-danger"><strong>Em Dependência do Plástico</strong></h2>
+                                            <p><b>Fatos e Números do Plástico no Mundo</b></p>
+                                    <p class="small mt-5">
+                                        Visualização dos Fatos:
                                         <select id="visualizacao" onchange="atualiza_grafico()" class="form-select form-select-sm" aria-label=".form-select-sm example">
-                                            <option selected value="tipo">Produção por Tipo</option>
+                                            <option selected>---------------</option>
+                                            <option value="tipo">Aumento da Produção</option>
                                             <option value="polimero">Produção por Polímero</option>
                                             <option value="aplicacao">Consumo por Indústria</option>
                                             <option value="local">Consumo por Local</option>
                                             <option value="descarte">Descarte de Resíduos por Local</option>
                                         </select>
                                     </p>
-                                    <p>
-                                        Período:
-                                        <select id="tempo" onchange="atualiza_grafico()" class="form-select form-select-sm" aria-label=".form-select-sm example">
-                                            <option selected value="decada">Em Décadas</option>
-                                            <option value="ano">Em Anos</option>
-                                        </select>
-                                    </p>
-                                    <div id="card-fatos" class="card bg-white border mt-5">
+                                    <div id="card-fatos my-2" class="card bg-white border mt-5">
                                         <div class="card-body">
-                                            <h6 class="card-title">Fatos</h6>
-                                            <ul>
-                                                <div id="fatos"></div>
-                                            </ul>
+                                            <div id="fatos"></div>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-sm-12 col-md-9">
-                                    <div id="chart" class="chart border rounded"></div>
+                                <div class="col-sm-12 col-md-8">
+                                    <div id="chart" class="chart border rounded bg-white"></div>
                                 </div>
                             </div>
+                            <p class="credito text-end">Thiago Luiz Parolin - 2023</p>
                         </div>
                     </div>
                 </div>

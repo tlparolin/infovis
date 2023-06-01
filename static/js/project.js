@@ -1,5 +1,7 @@
 $( document ).ready(function() {
-    atualiza_grafico();
+    //atualiza_grafico();
+    inicio();
+    aumento_producao();
 });
 
 function atualiza_grafico() {
@@ -72,4 +74,106 @@ function grafico(arquivo, tipo, altura, titulo){
         options.series[0].data = data;
         var chart = new Highcharts.Chart(options);
     });
+};
+
+function inicio(){
+    $("#fatos").html(
+        '<div class="row">\
+            <div class="col">\
+                <h4 class="text-primary">Introdução</h4>\
+                <p>O ser humano se inspira em materiais existentes na natureza e os adapta para uso dando origem a outros materiais.</p>\
+                <p>O plástico é um polímero sintético, leve, resistente e durável, e que traz inovações para o desenvolvimento da sociedade.</p>\
+                <p>A versatilidade, o baixo custo e a estabilidade do plástico diante dos processos naturais de degradação o tornaram onipresente no mundo, porém esses mesmos atributos o transformam em um grande agente poluidor.</p>\
+            </div>\
+        </div>'
+    );
+    var options = {
+        chart: {
+            type: 'timeline',
+            renderTo: 'chart',
+        },
+        xAxis: {
+            visible: false
+        },
+        yAxis: {
+            visible: false
+        },
+        legend: {
+            enabled: false
+        },
+        title: {
+            text: 'Linha do Tempo do Plástico'
+        },
+        subtitle: {
+            text: 'Alguns dos principais acontecimentos relacionados ao plástico'
+        },
+        tooltip: {
+            style: {
+            width: 300
+            }
+        },
+        credits: {
+            enabled: false
+        },
+        series: [{
+            dataLabels: {
+                connectorColor: 'silver',
+                connectorWidth: 2
+            },
+            data: [{
+                name: '1839',
+                label: 'Borracha Natural',
+                description: 'Charles Goodyear cria o processo de vulcanização da borracha'
+            }, {
+                name: '1862',
+                label: 'Parkesina',
+                description: 'Inventado por Alexander Parkes, a parkesina era um material orgânico derivado da celulose que, uma vez aquecido, podia ser moldado e retinha sua forma quando resfriado.'
+            }, {
+                name: '1872',
+                label: 'Policloreto de Vinila - PVC',
+                description: 'Sintetizado acidentalmente em 1872 pelo químico Eugen Baumann quando ele esqueceu um recipiente de cloreto de vinila exposto ao sol, fazendo surgir nele um pedaço sólido de policloreto de vinila, ou PVC.'
+            }, {
+                name: '1907',
+                label: 'Baquelite',
+                description: 'Desenvolvido por Leo Baekeland e patenteado em 1909. Foi muito utilizada para se fabricar telefones, discos musicais de 78 rpm, bolas de bilhar e câmeras fotográficas.'
+            }, {
+                name: '1926',
+                label: 'PVC com aditivos',
+                description: 'Waldo Semon inventou métodos para tornar útil o cloreto de polivinila com adição de compostos químicos, deixando o material mais fácil de se trabalhar e popularizando o uso do PVC.'
+            }, {
+                name: '1933',
+                label: 'Polietileno de Baixa Densidade',
+                description: 'Produzido pela primeira vez em 1933 na Inglaterra pela Imperial Chemical Industries Ltd. (ICI) durante estudos dos efeitos de pressões extremamente altas na polimerização do polietileno. A ICI obteve a patente de seu processo em 1937 e iniciou a produção comercial em 1939.'
+            }, {
+                name: '~1934',
+                label: 'Polimetilmetacrilato - Acrílico',
+                description: 'Descoberto no início de 1930 pelos químicos britânicos Rowland Hill e John Crawford, em 1934 passou a ser comercializado pelo químico alemão Otto Rohm. A primeira grande utilização ocorreu durante a Segunda Guerra Mundial, quando ele foi usado em janelas, cúpulas de aeronaves e periscópios de submarinos.'
+            }, {
+                name: '1941',
+                label: 'Polietileno tereftalato - PET',
+                description: 'Patenteado em 1941 por dois químicos britânicos, John Rex Whinfield e James Tennant Dickson, é utilizado principalmente na forma de fibras para tecelagem e de embalagens para bebidas.'
+            }, {
+                name: '1951',
+                label: 'Polietileno de Alta Densidade - HDPE e Polipropileno - PP',
+                description: 'John Paul Hogan inventou com seu colaborador Robert Banks o polipropileno e o polietileno de alta densidade cristalino. Estes plásticos foram inicialmente denominados Marlex.'
+            }, {
+                name: '1954',
+                label: 'Isopor',
+                description: 'Material muito mais denso que o EPS e é mais comumente adequado para tarefas como isolamento térmico.'
+            }, {
+                name: '1960~1990',
+                label: 'Kevlar, PLA, PHA, etc',
+                description: 'Muito outros tipos de plásticos surgiram durante esse período.'
+            }, {
+                name: '1990~atualmente',
+                label: 'Preocupação Ambiental',
+                description: 'Os danos ambientais do plástico começa a se tornar mais perceptíveis e preocupantes. Inicia-se também maior volume de pesquisas em reciclagem e bioplásticos.'
+            }]
+        }]
+    };
+    new Highcharts.Chart(options);
+};
+
+function aumento_producao(){
+
 };

@@ -13,6 +13,15 @@ body {
     height: 85vh;
     min-height: 85vh;
 }
+@media (max-height: 600px) or (max-width: 600px){
+    .chart{
+        height: 75vh;
+        min-height: 75vh;
+    }
+}
 .credito{
-    font-size: xx-small;
+    font-size: x-small;
+}
+.fundo{
+    background-color: SlateGray;
 }
