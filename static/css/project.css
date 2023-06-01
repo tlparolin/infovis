@@ -10,6 +10,9 @@ body {
     min-height: 98vh;
 }
 .chart{
-    height: 88vh;
-    min-height: 88vh;
+    height: 85vh;
+    min-height: 85vh;
+}
+.credito{
+    font-size: xx-small;
 }
