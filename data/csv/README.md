@@ -1,0 +1,1 @@
+Os arquivos csv desta pasta foram gerados pelo LibreOffice a partir dos arquivos .xls obtidos diretamente das fontes dos dados (pasta raw)

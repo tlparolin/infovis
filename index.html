@@ -7,11 +7,15 @@
     <link href="static/fontawesome/css/fontawesome.min.css" rel="stylesheet">
     <link href="static/fontawesome/css/brands.min.css" rel="stylesheet">
     <link href="static/fontawesome/css/solid.min.css" rel="stylesheet">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@500;700;800&display=swap" rel="stylesheet">
 
-    <script src="static/js/vendors/d3.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
+
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/modules/timeline.js"></script>
+    <script src="https://code.highcharts.com/modules/sankey.js"></script>
+    <script src="https://code.highcharts.com/modules/dependency-wheel.js"></script>
+    <script src="https://code.highcharts.com/modules/treemap.js"></script>
+    <script src="https://code.highcharts.com/modules/accessibility.js"></script>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script>
 
@@ -25,49 +29,44 @@
     <title>Projeto</title>
 	</head>
 
-	<body class="bg-light">
-        <div class="container-fluid">
+	<body class="fundo">
+        <div class="container-fluid d-flex flex-column">
             <div class="row mt-2">
                 <div class="col-sm-12">
-                    <div class="card bg-white">
+                    <div class="card p-2 bg-light">
                         <div class="card-content p-1">
                             <div class="row">
-                                <div class="col-sm-12">
-                                    <div class="row">
-                                        <div class="col-10">
-                                            <h4>
-                                                Visualização da Produção, do Consumo e do Descarte do Plástico
-                                            </h4>
-                                        </div>
-                                        <div class="col-2">
-                                            <span class="small text-end">Thiago Luiz Parolin - 2023</span>   
+                                <div id="menu" class="col-sm-12 col-md-4">
+                                    <h1 class="text-white bg-danger p-1 rounded"><b>Em Dependência Plástica</b></h1>
+                                    <p><b>Fatos e Números sobre o Plástico</b></p>
+                                    <hr>
+                                    <p>
+                                        <button class="btn btn-sm btn-primary" onclick="inicio()"><i class="fas fa-home"></i></button>
+                                        <button class="btn btn-sm btn-primary"><i class="fas fa-circle-question"></i></button>
+                                    </p>
+                                    <p class="small mt-2">
+                                        Tópicos:
+                                        <select id="visualizacao" onchange="atualiza_grafico()" class="form-select form-select-sm" aria-label=".form-select-sm example">
+                                            <option selected>---------------</option>
+                                            <option value="aumento_producao">O Aumento da Produção</option>
+                                            <option value="polimero">Produção por Polímero</option>
+                                            <option value="aplicacao">Consumo por Indústria</option>
+                                            <option value="local">Consumo por Local</option>
+                                            <option value="descarte">Descarte de Resíduos por Local</option>
+                                        </select>
+                                    </p>
+                                    <div id="card-fatos" class="card bg-white border mt-2">
+                                        <div id="card-fatos-body" class="card-body">
+                                            <div id="topico"></div>
+                                            <div id="fatos"></div>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-sm-12 col-md-3 mt-5">
-                                    <p>
-                                        Visualizar Produção/Consumo:
-                                        <select id="filtro" onchange="atualiza_grafico()" class="form-select form-select-sm" aria-label=".form-select-sm example">
-                                            <option selected>-----------</option>
-                                            <option value="tipo">Tipo</option>
-                                            <option value="polimero">Polímero</option>
-                                            <option value="aplicacao">Indústria</option>
-                                            <option value="local">Local</option>
-                                        </select>
-                                    </p>
-                                    <p>
-                                        Detalhe:
-                                        <select id="detalhe" onchange="atualiza_grafico()" class="form-select form-select-sm" aria-label=".form-select-sm example">
-                                            <option selected>-----------</option>
-                                            <option value="decada">Tempo em Décadas</option>
-                                            <option value="ano">Tempo em Anos</option>
-                                        </select>
-                                    </p>
-                                </div>
-                                <div class="col-sm-12 col-md-9">
-                                    <div id="chart"></div>
+                                <div class="col-sm-12 col-md-8">
+                                    <div id="chart" class="chart border rounded bg-white"></div>
                                 </div>
                             </div>
+                            <p class="credito text-end">Thiago Luiz Parolin - 2023</p>
                         </div>
                     </div>
                 </div>
