@@ -3,9 +3,9 @@ $( document ).ready(function() {
 });
 
 function apaga_tudo(){
-    $("#fatos").html();
-    $("#topico").html();
-    $("#chart").html();
+    $("#fatos").html("");
+    $("#topico").html("");
+    $("#chart").html("");
     $("#visualizacao").val("");
 };
 
@@ -201,6 +201,18 @@ function aumento_producao(arquivo, titulo, subtitulo){
         subtitle: {
             text: subtitulo
         },
+        plotOptions: {
+            line: {
+                marker: {
+                    states: {
+                        hover: {
+                            fillColor: 'black',
+                            radius: 10
+                        }
+                    }
+                }
+            }
+        },
         xAxis: {},
         series: [{}],
     };
@@ -209,8 +221,8 @@ function aumento_producao(arquivo, titulo, subtitulo){
         var ano = data.map(x => x.year);
         var valor = data.map(x => x.value);
         options.xAxis.categories = ano;
-        options.xAxis.title = "Todos";
         options.series[0].data = valor;
+        options.series[0].name = "Todos os países"
         var chart = new Highcharts.Chart(options);
     });
 };
