@@ -3,6 +3,7 @@ $( document ).ready(function() {
 });
 
 function apaga_tudo(){
+    $("#opcoes").html("");
     $("#fatos").html("");
     $("#topico").html("");
     $("#chart").html("");
@@ -23,7 +24,15 @@ function atualiza_grafico() {
             arquivo = "data/json/global-plastics-prod-by-type.json";
             titulo = "A produção secundária está crescendo, mas representa pouco mais de 6% da produção total de plástico";
             subtitulo = "Produção Global de Plástico Primário (virgem) e Secundário (reciclado) em Milhões de Toneladas por Ano - 1990 a 2019"
-            primario_secundario(arquivo, titulo, subtitulo);
+            tipo = "area"
+            primario_secundario(arquivo, titulo, subtitulo, tipo);
+            break;
+        case "primario_secundario_dec":
+            arquivo = "data/json/global-plastics-prod-by-type-decade.json";
+            titulo = "A produção secundária está crescendo, mas representa pouco mais de 6% da produção total de plástico";
+            subtitulo = "Produção Global de Plástico Primário (virgem) e Secundário (reciclado) em Milhões de Toneladas por Década - a partir de 1990"
+            tipo = "bar"
+            primario_secundario(arquivo, titulo, subtitulo, tipo);
             break;
         case "aplicacao":
             arquivo = "data/json/prod_by_application";
@@ -238,7 +247,7 @@ function aumento_producao(arquivo, titulo, subtitulo){
     });
 };
 
-function primario_secundario(arquivo, titulo, subtitulo){
+function primario_secundario(arquivo, titulo, subtitulo, tipo){
     apaga_tudo();
     $("#topico").html('<p class="p-2 text-white bg-primary rounded small"><b>Quanto se produz de plástico reciclado?</b></p>');
     $("#fatos").html(
@@ -256,7 +265,7 @@ function primario_secundario(arquivo, titulo, subtitulo){
     var options = {
         chart: {
             renderTo: 'chart',
-            type: 'area'
+            type: tipo
         },
         credits: {
             enabled: false,

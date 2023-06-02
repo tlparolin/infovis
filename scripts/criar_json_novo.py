@@ -14,3 +14,7 @@ df0.to_json('../data/json/global-plastics-production.json', orient='records')
 df1 = pd.read_csv('../data/csv/global-plastics-prod-by-type.csv')
 df1['year'] = df1['year'].astype('int')
 df1.to_json('../data/json/global-plastics-prod-by-type.json', orient='records')
+# monta por década
+group = df1['year']//10*10  # como décadas
+df1 = df1.groupby([group, 'type_of_plastic']).value.sum().reset_index(name="value")
+df1.to_json('../data/json/global-plastics-prod-by-type-decade.json', orient='records')
