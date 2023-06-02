@@ -38,11 +38,13 @@ function atualiza_grafico() {
             arquivo = "data/json/global-plastics-prod-by-app-and-polymer-dec.json";
             titulo = "Qual o setor da indústria que utiliza a maior quantidade";
             subtitulo = "Consumo Global de Plástico em Milhões de Toneladas por Década - 1990 a 2019"
-            grafico_sankey_chord(arquivo, "sankey", titulo);
+            grafico_sankey_chord(arquivo, "sankey", titulo, subtitulo);
             break;
         case "local":
-            arquivo = "data/json/prod_by_region";
-            titulo = "Consumo de Plástico por Local";
+            arquivo = "data/json/global-plastics-prod-by-region-dec.json";
+            titulo = "Qual país ou região consome a maior quantidade?";
+            subtitulo = "Consumo Global de Plástico em Milhões de Toneladas por Década - 1990 a 2019"
+            consumo_regiao(arquivo, titulo, subtitulo);
             break;
         default:
             arquivo = "data/json/dados";
@@ -297,7 +299,7 @@ function primario_secundario(arquivo, titulo, subtitulo, tipo){
     });
 };
 
-function grafico_sankey_chord(arquivo, tipo, titulo){
+function grafico_sankey_chord(arquivo, tipo, titulo, subtitulo){
     apaga_tudo();
     $("#topico").html('<p class="p-2 text-white bg-primary rounded small"><b>Em que usamos todo esse plástico?</b></p>');
     $("#fatos").html(
@@ -327,7 +329,7 @@ function grafico_sankey_chord(arquivo, tipo, titulo){
             }
         },
         subtitle: {
-            text: "Valores em milhões de toneladas"
+            text: subtitulo
         },
         accessibility: {
             point: {
@@ -339,6 +341,79 @@ function grafico_sankey_chord(arquivo, tipo, titulo){
 
     $.getJSON(arquivo, function (data) {
         options.series[0].data = data;
+        new Highcharts.Chart(options);
+    });
+};
+
+function consumo_regiao(arquivo, titulo, subtitulo){
+    apaga_tudo();
+    $("#topico").html('<p class="p-2 text-white bg-primary rounded small"><b>Em que usamos todo esse plástico?</b></p>');
+    $("#fatos").html(
+        '<div class="row">\
+            <div class="col">\
+                <h4 class="text-primary">Aplicações e polímeros mais utilizados</h4>\
+                <ul>\
+                    <li>Juntos, as aplicações de embalagem, construção e transporte respondem por mais de 60% do uso total de plásticos. Portanto, é aqui que podem ser obtidos os maiores ganhos ambientais, se quisermos reduzir nosso consumo de plástico.</li>\
+                    <li>As outras principais aplicações do uso de plásticos incluem têxteis, produtos de consumo doméstico e produtos não domésticos ou institucionais, eletrônicos, maquinário e pneus.</li>\
+                </ul>\
+            </div>\
+        </div>'
+    ).hide().slideDown(1000);
+    var options = {
+        chart: {
+            type: 'bar',
+            renderTo: 'chart'
+        },
+        title: {
+            text: titulo
+        },
+        subtitle: {
+            text: subtitulo
+        },
+        xAxis: {
+            categories: [],
+            title: {
+                text: 'Décadas'
+            }
+        },
+        yAxis: {
+            min: 0,
+            title: {
+                text: 'Porcentagem'
+            }
+        },
+        legend: {
+            reversed: true
+        },
+        plotOptions: {
+            series: {
+                stacking: 'normal',
+                dataLabels: {
+                    enabled: false,
+                }
+            }
+        },
+        tooltip: {
+            valueSuffix: ' %'
+        },
+        series: [],
+    };
+    $.getJSON(arquivo, function (data) {
+        var ano = [... new Set(data.map(x => x.year))];
+        var tipos = [... new Set(data.map(x => x.country))]
+        options.xAxis.categories = ano;
+        for (var i=0; i<tipos.length; i++){
+            var novaserie = [];
+            $.each(data, function(j, item){
+                if (item.country === tipos[i]){
+                    novaserie.push(Math.round(item.percent*100)/100);
+                };
+            });
+            options.series.push({
+                name: tipos[i],
+                data: novaserie
+            });
+        };
         new Highcharts.Chart(options);
     });
 };

@@ -10,6 +10,7 @@ df0['year'] = df0['year'].astype('int')
 # salva um json
 df0.to_json('../data/json/global-plastics-production.json', orient='records')
 
+
 # produção por tipo
 df1 = pd.read_csv('../data/csv/global-plastics-prod-by-type.csv')
 df1['year'] = df1['year'].astype('int')
@@ -18,6 +19,7 @@ df1.to_json('../data/json/global-plastics-prod-by-type.json', orient='records')
 group = df1['year']//10*10  # como décadas
 df1 = df1.groupby([group, 'type_of_plastic']).value.sum().reset_index(name="value")
 df1.to_json('../data/json/global-plastics-prod-by-type-decade.json', orient='records')
+
 
 # para que usamos todo esse plástico
 df2 = pd.read_csv('../data/csv/global-plastics-prod-by-application.csv')
@@ -66,3 +68,31 @@ link.reset_index(drop=True, inplace=True)
 
 # salva json por década
 link.to_json('../data/json/global-plastics-prod-by-app-and-polymer-dec.json', orient='records')
+
+
+# consumo por país
+df4 = pd.read_csv('../data/csv/global-plastics-prod-by-region.csv')
+# apaga coluna group e subgroup que não iremos utilizar
+df4 = df4.drop('group', axis=1)
+df4 = df4.drop('subgroup', axis=1)
+# wide to long
+df4 = df4.melt(id_vars=["country"], var_name="year", value_name="value")
+# deixa como inteiro a coluna to (anos)
+df4['year'] = df4['year'].astype('int')
+# agrupa por década
+group4 = df4['year']//10*10  # como décadas
+df4 = df4.groupby([group4, 'country']).value.sum().reset_index(name="value")
+# calcula porcentagem, primeiro cria um dataframe para cada decada e depois faz a soma e porcentagem
+# por fim une os dataframes em um só
+# eu não sei fazer de outro jeito :(
+df41 = df4.loc[(df4['year'] == 1990), ['year', 'country', 'value']]
+df42 = df4.loc[(df4['year'] == 2000), ['year', 'country', 'value']]
+df43 = df4.loc[(df4['year'] == 2010), ['year', 'country', 'value']]
+
+df41['percent'] = (df41['value'] / df41['value'].sum()) * 100
+df42['percent'] = (df42['value'] / df42['value'].sum()) * 100
+df43['percent'] = (df43['value'] / df43['value'].sum()) * 100
+
+df4_final = pd.concat([df41, df42, df43], axis=0)
+# salva
+df4_final.to_json('../data/json/global-plastics-prod-by-region-dec.json', orient='records')
