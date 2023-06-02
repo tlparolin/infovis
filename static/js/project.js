@@ -69,7 +69,7 @@ function grafico(arquivo, tipo, titulo){
 
     $.getJSON(arquivo, function (data) {
         options.series[0].data = data;
-        var chart = new Highcharts.Chart(options);
+        new Highcharts.Chart(options);
     });
 };
 
@@ -225,7 +225,7 @@ function aumento_producao(arquivo, titulo, subtitulo){
         options.xAxis.categories = ano;
         options.series[0].data = valor;
         options.series[0].name = "Todos os países"
-        var chart = new Highcharts.Chart(options);
+        new Highcharts.Chart(options);
     });
 };
 
@@ -246,6 +246,7 @@ function primario_secundario(arquivo, titulo, subtitulo){
     var options = {
         chart: {
             renderTo: 'chart',
+            type: 'bar'
         },
         credits: {
             enabled: false
@@ -261,33 +262,29 @@ function primario_secundario(arquivo, titulo, subtitulo){
             text: subtitulo
         },
         plotOptions: {
-            line: {
-                marker: {
-                    states: {
-                        hover: {
-                            fillColor: 'black',
-                            radius: 10
-                        }
-                    }
-                }
+            series: {
+                stacking: 'normal'
             }
         },
-        xAxis: {},
-        series: [{}],
+        xAxis: {
+            categories: []
+        },
+        series: [],
     };
 
-    $.getJSON(arquivo, function (data) {
+    $.getJSON(arquivo, function(data) {
         var ano = data.map(x => x.year);
         var tipos = [... new Set(data.map(x => x.type_of_plastic))]
         options.xAxis.categories = ano;
-        tipos.forEach(element => 
-            options.series[element.index].data = data.filter(
-                x => { if (x.type_of_plastic === tipos[element.index]) {
-                        return x.value
-                }}
-            )
-            options.series[element.index].name = tipos[element.index];
-        };
-        var chart = new Highcharts.Chart(options);
+
+        var newseries;
+        $.each(data, function(i, item) {
+            newseries = {};
+            newseries.name = item.type_of_plastic;
+            newseries.data = item.value;
+            options.series.push(newseries);
+        });
+        console.log(options.series);
+        new Highcharts.Chart(options);
     });
 };
