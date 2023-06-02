@@ -15,14 +15,14 @@ function atualiza_grafico() {
     switch (visualizacao){
         case "aumento_producao":
             arquivo = "data/json/global-plastics-production.json";
-            titulo = "Produção de Plástico"
-            subtitulo = "Produção Global Anual de Plástico em Milhões de Toneladas"
+            titulo = "A produção de plástico aumentou quase 230 vezes desde 1950"
+            subtitulo = "Produção Global de Plástico em Milhões de Toneladas por Ano - 1950 a 2019"
             aumento_producao(arquivo, titulo, subtitulo);
             break;
         case "primario_secundario":
             arquivo = "data/json/global-plastics-prod-by-type.json";
-            titulo = "Produção de Plástico por Tipo";
-            subtitulo = "Produção Global Anual de Plástico Primário (virgem) e Secundário (reciclado) em Milhões de Toneladas"
+            titulo = "A produção secundária está crescendo, mas representa pouco mais de 6% da produção total de plástico";
+            subtitulo = "Produção Global de Plástico Primário (virgem) e Secundário (reciclado) em Milhões de Toneladas por Ano - 1990 a 2019"
             primario_secundario(arquivo, titulo, subtitulo);
             break;
         case "aplicacao":
@@ -79,7 +79,6 @@ function inicio(){
         '<div class="row">\
             <div class="col">\
                 <h4 class="text-primary">Introdução</h4>\
-                <p>O ser humano se inspira em materiais existentes na natureza e os adapta para uso dando origem a outros materiais.</p>\
                 <p>O plástico é um polímero sintético, leve, resistente e durável, e que traz inovações para o desenvolvimento da sociedade.</p>\
                 <p>A versatilidade, o baixo custo e a estabilidade do plástico diante dos processos naturais de degradação o tornaram onipresente no mundo, porém esses mesmos atributos o transformam em um grande agente poluidor.</p>\
             </div>\
@@ -178,10 +177,11 @@ function aumento_producao(arquivo, titulo, subtitulo){
     $("#fatos").html(
         '<div class="row">\
             <div class="col">\
-                <h4 class="text-primary">Cada vez mais plásticos!</h4>\
+                <h4 class="text-primary">Mais e mais plásticos</h4>\
                 <ul>\
-                    <li>A quantidade de plástico produzida todos os anos aumentou rapidamente, partindo de 2 milhões de toneladas produzidas em 1950 para quase 460 milhões de toneladas em 2019.</li>\
+                    <li>O uso global de plásticos está crescendo fortemente, com quase 460 milhões de toneladas produzidas em 2019.</li>\
                     <li>Mais da metade de todo o plástico foi produzido a partir do ano 2000.</li>\
+                    <li>A produção aumentou quase 4 vezes nos últimos 30 anos.</li>\
                 </ul>\
             </div>\
         </div>'
@@ -215,7 +215,16 @@ function aumento_producao(arquivo, titulo, subtitulo){
                 }
             }
         },
-        xAxis: {},
+        xAxis: {
+            title: {
+                text: "Anos",
+            },
+        },
+        yAxis:{
+            title: {
+                text: "Quantidade",
+            }
+        },
         series: [{}],
     };
 
@@ -231,14 +240,15 @@ function aumento_producao(arquivo, titulo, subtitulo){
 
 function primario_secundario(arquivo, titulo, subtitulo){
     apaga_tudo();
-    $("#topico").html('<p class="p-2 text-white bg-primary rounded small"><b>O Aumento da Produção</b></p>');
+    $("#topico").html('<p class="p-2 text-white bg-primary rounded small"><b>Quanto se produz de plástico reciclado?</b></p>');
     $("#fatos").html(
         '<div class="row">\
             <div class="col">\
-                <h4 class="text-primary">Cada vez mais plásticos!</h4>\
+                <h4 class="text-primary">A produção secundária está crescendo</h4>\
                 <ul>\
-                    <li>A quantidade de plástico produzida todos os anos aumentou rapidamente, partindo de 2 milhões de toneladas produzidas em 1950 para quase 460 milhões de toneladas em 2019.</li>\
-                    <li>Mais da metade de todo o plástico foi produzido a partir do ano 2000.</li>\
+                    <li>A produção de plásticos secundários mais do que quadruplicou nas últimas duas décadas, de aproximadamente 6,7 Milhões de Toneladas em 2000 para 29,1 Milhões de Toneladas em 2019.</li>\
+                    <li>Entretanto, continua pequena em comparação com a produção de plásticos primários representando apenas pouco mais de 6% da produção total.</li>\
+                    <li>Em conjunto, o crescimento contínuo da produção primária e o tamanho relativamente pequeno da produção secundária sugerem que não houve uma mudança fundamental no mercado para plásticos secundários.</li>\
                 </ul>\
             </div>\
         </div>'
@@ -246,7 +256,7 @@ function primario_secundario(arquivo, titulo, subtitulo){
     var options = {
         chart: {
             renderTo: 'chart',
-            type: 'bar'
+            type: 'area'
         },
         credits: {
             enabled: false,
@@ -261,10 +271,27 @@ function primario_secundario(arquivo, titulo, subtitulo){
         subtitle: {
             text: subtitulo,
         },
+        tooltip: {
+            shared: true,
+        },
         xAxis: {
             categories: [],
             title: {
                 text: "Ano"
+            }
+        },
+        plotOptions: {
+            area: {
+                marker: {
+                    enabled: false,
+                    symbol: 'circle',
+                    radius: 5,
+                    states: {
+                        hover: {
+                            enabled: true
+                        }
+                    }
+                }
             }
         },
         series: [],
