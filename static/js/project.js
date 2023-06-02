@@ -35,8 +35,10 @@ function atualiza_grafico() {
             primario_secundario(arquivo, titulo, subtitulo, tipo);
             break;
         case "aplicacao":
-            arquivo = "data/json/prod_by_application";
-            titulo = "Consumo de Plástico por Indústria/Aplicação";
+            arquivo = "data/json/global-plastics-prod-by-app-and-polymer-dec.json";
+            titulo = "Qual o setor da indústria que utiliza a maior quantidade";
+            subtitulo = "Consumo Global de Plástico em Milhões de Toneladas por Década - 1990 a 2019"
+            grafico_sankey_chord(arquivo, "sankey", titulo);
             break;
         case "local":
             arquivo = "data/json/prod_by_region";
@@ -46,40 +48,6 @@ function atualiza_grafico() {
             arquivo = "data/json/dados";
             titulo = "Visão Geral";
     };
-};
-
-function grafico(arquivo, tipo, titulo){
-    var options = {
-        chart: {
-            renderTo: 'chart',
-            type: tipo,
-            // height: altura,
-        },
-        credits: {
-            enabled: false
-        },
-        title: {
-            text: titulo,
-            style: {
-                fontFamily: 'Arial, Helvetica, sans serif',
-                fontWeight: 'normal',
-            }
-        },
-        subtitle: {
-            text: "Valores em milhões de toneladas"
-        },
-        accessibility: {
-            point: {
-                valueDescriptionFormat: '{index}. From {point.from} to {point.to}: {point.weight}.'
-            }
-        },
-        series: [{}],
-    };
-
-    $.getJSON(arquivo, function (data) {
-        options.series[0].data = data;
-        new Highcharts.Chart(options);
-    });
 };
 
 function inicio(){
@@ -326,5 +294,51 @@ function primario_secundario(arquivo, titulo, subtitulo, tipo){
     }).fail(function( jqxhr, textStatus, error ) {
         var err = textStatus + ", " + error;
         console.log( "Request Failed: " + err );
+    });
+};
+
+function grafico_sankey_chord(arquivo, tipo, titulo){
+    apaga_tudo();
+    $("#topico").html('<p class="p-2 text-white bg-primary rounded small"><b>Em que usamos todo esse plástico?</b></p>');
+    $("#fatos").html(
+        '<div class="row">\
+            <div class="col">\
+                <h4 class="text-primary">Aplicações e polímeros mais utilizados</h4>\
+                <ul>\
+                    <li>Juntos, as aplicações de embalagem, construção e transporte respondem por mais de 60% do uso total de plásticos. Portanto, é aqui que podem ser obtidos os maiores ganhos ambientais, se quisermos reduzir nosso consumo de plástico.</li>\
+                    <li>As outras principais aplicações do uso de plásticos incluem têxteis, produtos de consumo doméstico e produtos não domésticos ou institucionais, eletrônicos, maquinário e pneus.</li>\
+                </ul>\
+            </div>\
+        </div>'
+    ).hide().slideDown(1000);
+    var options = {
+        chart: {
+            renderTo: 'chart',
+            type: tipo,
+        },
+        credits: {
+            enabled: false
+        },
+        title: {
+            text: titulo,
+            style: {
+                fontFamily: 'Arial, Helvetica, sans serif',
+                fontWeight: 'normal',
+            }
+        },
+        subtitle: {
+            text: "Valores em milhões de toneladas"
+        },
+        accessibility: {
+            point: {
+                valueDescriptionFormat: '{index}. De {point.from} para {point.to}: {point.weight}.'
+            }
+        },
+        series: [{}],
+    };
+
+    $.getJSON(arquivo, function (data) {
+        options.series[0].data = data;
+        new Highcharts.Chart(options);
     });
 };
