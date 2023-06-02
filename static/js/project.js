@@ -185,7 +185,7 @@ function aumento_producao(arquivo, titulo, subtitulo){
                 </ul>\
             </div>\
         </div>'
-    ).hide().slideDown(900);
+    ).hide().slideDown(1000);
     var options = {
         chart: {
             renderTo: 'chart',
@@ -242,14 +242,14 @@ function primario_secundario(arquivo, titulo, subtitulo){
                 </ul>\
             </div>\
         </div>'
-    ).hide().slideDown(900);
+    ).hide().slideDown(1000);
     var options = {
         chart: {
             renderTo: 'chart',
             type: 'bar'
         },
         credits: {
-            enabled: false
+            enabled: false,
         },
         title: {
             text: titulo,
@@ -259,32 +259,36 @@ function primario_secundario(arquivo, titulo, subtitulo){
             }
         },
         subtitle: {
-            text: subtitulo
-        },
-        plotOptions: {
-            series: {
-                stacking: 'normal'
-            }
+            text: subtitulo,
         },
         xAxis: {
-            categories: []
+            categories: [],
+            title: {
+                text: "Ano"
+            }
         },
         series: [],
     };
 
     $.getJSON(arquivo, function(data) {
-        var ano = data.map(x => x.year);
+        var ano = [... new Set(data.map(x => x.year))];
         var tipos = [... new Set(data.map(x => x.type_of_plastic))]
         options.xAxis.categories = ano;
-
-        var newseries;
-        $.each(data, function(i, item) {
-            newseries = {};
-            newseries.name = item.type_of_plastic;
-            newseries.data = item.value;
-            options.series.push(newseries);
-        });
-        console.log(options.series);
+        for (var i=0; i<tipos.length; i++){
+            var novaserie = [];
+            $.each(data, function(j, item){
+                if (item.type_of_plastic === tipos[i]){
+                    novaserie.push(item.value);
+                };
+            });
+            options.series.push({
+                name: tipos[i],
+                data: novaserie
+            });
+        };
         new Highcharts.Chart(options);
+    }).fail(function( jqxhr, textStatus, error ) {
+        var err = textStatus + ", " + error;
+        console.log( "Request Failed: " + err );
     });
 };
