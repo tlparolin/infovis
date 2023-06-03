@@ -42,8 +42,8 @@ function atualiza_grafico() {
             break;
         case "local":
             arquivo = "data/json/global-plastics-prod-by-region-dec.json";
-            titulo = "Qual país ou região consome a maior quantidade?";
-            subtitulo = "Consumo Global de Plástico em Milhões de Toneladas por Década - 1990 a 2019"
+            titulo = "Comparação de consumo entre as regiões ou países";
+            subtitulo = "Porcentagem do Consumo Global de Plástico por Década por Região/País - 1990 a 2019"
             consumo_regiao(arquivo, titulo, subtitulo);
             break;
         default:
@@ -347,14 +347,15 @@ function grafico_sankey_chord(arquivo, tipo, titulo, subtitulo){
 
 function consumo_regiao(arquivo, titulo, subtitulo){
     apaga_tudo();
-    $("#topico").html('<p class="p-2 text-white bg-primary rounded small"><b>Em que usamos todo esse plástico?</b></p>');
+    $("#topico").html('<p class="p-2 text-white bg-primary rounded small"><b>Qual país ou região consome mais</b></p>');
     $("#fatos").html(
         '<div class="row">\
             <div class="col">\
-                <h4 class="text-primary">Aplicações e polímeros mais utilizados</h4>\
+                <h4 class="text-primary">Um comparativo de consumo entre os países</h4>\
                 <ul>\
-                    <li>Juntos, as aplicações de embalagem, construção e transporte respondem por mais de 60% do uso total de plásticos. Portanto, é aqui que podem ser obtidos os maiores ganhos ambientais, se quisermos reduzir nosso consumo de plástico.</li>\
-                    <li>As outras principais aplicações do uso de plásticos incluem têxteis, produtos de consumo doméstico e produtos não domésticos ou institucionais, eletrônicos, maquinário e pneus.</li>\
+                    <li>Estados Unidos e países europeus que fazem parte da OCDE, diminuiram suas participações mundiais no consumo global de plástico.</li>\
+                    <li>Essa diminuição se dá por conta de políticas de redução de consumo e conscientização.</li>\
+                    <li>Índia e China aumentaram suas participações, sendo a China, a maior produtora/consumidora de plástico no continente Asiático.</li>\
                 </ul>\
             </div>\
         </div>'
@@ -380,6 +381,9 @@ function consumo_regiao(arquivo, titulo, subtitulo){
             min: 0,
             title: {
                 text: 'Porcentagem'
+            },
+            labels: {
+                format: '{value}%',
             }
         },
         legend: {
