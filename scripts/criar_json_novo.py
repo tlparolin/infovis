@@ -28,16 +28,16 @@ df2 = df2.melt(id_vars=["plastics_applications"], var_name="year", value_name="w
 # retira o 'Total' da coluna 'plastics_applications'
 df2.drop(df2[df2.plastics_applications == 'Total'].index, inplace=True)
 # renomeia as colunas para 'from', 'to', 'weight'
-df2.rename(columns={'plastics_applications': 'from', 'year': 'to', 'value': 'weight'}, inplace=True)
+df2.rename(columns={'plastics_applications': 'to', 'year': 'from', 'value': 'weight'}, inplace=True)
 # renomeia 'Other', 'Marine Coatings' e 'Road Marking' para incluir 'Applications'
-df2.loc[df2['from'] == 'Other', 'from'] = 'Other Applications'
-df2.loc[df2['from'] == 'Marine coatings', 'from'] = 'Marine Coatings Applications'
-df2.loc[df2['from'] == 'Road marking', 'from'] = 'Road Marking Applications'
+df2.loc[df2['to'] == 'Other', 'to'] = 'Other Applications'
+df2.loc[df2['to'] == 'Marine coatings', 'to'] = 'Marine Coatings Applications'
+df2.loc[df2['to'] == 'Road marking', 'to'] = 'Road Marking Applications'
 # deixa como inteiro a coluna to (anos)
-df2['to'] = df2['to'].astype('int')
+df2['from'] = df2['from'].astype('int')
 # agrupa por década
-group2 = df2['to']//10*10  # como décadas
-df2 = df2.groupby([group2, 'from']).weight.sum().reset_index(name="weight")
+group2 = df2['from']//10*10  # como décadas
+df2 = df2.groupby([group2, 'to']).weight.sum().reset_index(name="weight")
 # altera a ordem das colunas
 df2 = df2.reindex(columns=['from', 'to', 'weight'])
 
@@ -50,14 +50,14 @@ df3 = df3.groupby(['polymer', 'year']).weight.sum().reset_index(name="weight")
 # retira o total da coluna polymer
 df3.drop(df3[df3.polymer == 'Total'].index, inplace=True)
 # renomeia as colunas para 'from', 'to', 'weight' mas de modo inverso ao do dataframe df2
-df3.rename(columns={'year': 'from', 'polymer': 'to'}, inplace=True)
+df3.rename(columns={'year': 'to', 'polymer': 'from'}, inplace=True)
 # renomeia other para other polymers
-df3.loc[df3['to'] == 'Other', 'to'] = 'Other Polymers'
+df3.loc[df3['from'] == 'Other', 'from'] = 'Other Polymers'
 # deixa como inteiro a coluna to (anos)
-df3['from'] = df3['from'].astype('int')
+df3['to'] = df3['to'].astype('int')
 # agrupa por década
-group3 = df3['from']//10*10  # como décadas
-df3 = df3.groupby([group3, 'to']).weight.sum().reset_index(name="weight")
+group3 = df3['to']//10*10  # como décadas
+df3 = df3.groupby([group3, 'from']).weight.sum().reset_index(name="weight")
 # altera a ordem das colunas
 df3 = df3.reindex(columns=['from', 'to', 'weight'])
 
@@ -96,3 +96,6 @@ df43['percent'] = (df43['value'] / df43['value'].sum()) * 100
 df4_final = pd.concat([df41, df42, df43], axis=0)
 # salva
 df4_final.to_json('../data/json/global-plastics-prod-by-region-dec.json', orient='records')
+
+# montagem dataframe descarte por país/região - Total
+df5 = pd.read_csv('../data/csv/plastic-waste-by-region-and-end-of-life-fate-Total.csv')
