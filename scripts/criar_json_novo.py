@@ -101,14 +101,28 @@ df4_final.to_json('../data/json/global-plastics-prod-by-region-dec.json', orient
 df5 = pd.read_csv('../data/csv/plastic-waste-by-region-and-end-of-life-fate-All.csv')
 # wide to long
 df5 = df5.melt(id_vars=["group", "subgroup", "country", "waste type"], var_name="year", value_name="value")
+# limpa registro sem valor numérico pois tem coluna com valor= '..'
+df5.drop(df5[df5.value == '..'].index, inplace=True)
+# remove espaços dos nomes das colunas
+df5.columns = df5.columns.str.replace(" ", "_")
+# retira Total do tipo de lixo, coluna waste type
+df5.drop(df5[df5.waste_type == 'Total'].index, inplace=True)
+# coloca número como número porque são números né ;)
+df5['year'] = df5['year'].astype('int')
+df5['value'] = df5['value'].astype('float')
+# agrupa por década
+group5 = df5['year']//10*10  # como décadas
+df5 = df5.groupby(['group', 'subgroup', 'country', 'waste type', group5]).value.sum().reset_index(name="value")
+# pega os valores únicos separados
 grupo = sorted(set(df5['group']))
 subgrupo = sorted(set(df5['subgroup']))
-country = sorted(set(df5['country']))
-type = sorted(set(df5['waste type']))
-year = sorted(set(df5['year']))
+pais = sorted(set(df5['country']))
+tipo = sorted(set(df5['waste type']))
+ano = sorted(set(df5['year']))
 # novamente pra não perder tempo procurando alguma solução fiz esse loop infinito...
 # pelo menos resolve o problema
 lista = []
+
 for ix, i in enumerate(grupo):
     dicionario = {}
     dicionario['id'] = 'g_' + str(ix)
@@ -120,12 +134,19 @@ for ix, i in enumerate(grupo):
         dicionario['name'] = j
         dicionario['parent'] = 'g_' + str(ix)
         lista.append(dicionario)
-        for xx, x in enumerate(country):
+        for xx, x in enumerate(df5.loc[(df5['group'] == i) & (df5['subgroup'] == j), 'country']):
+            result = 0
+            result = df5.loc[df5['country'] == x, 'value'].sum()
             dicionario = {}
             dicionario['id'] = 'c_' + str(xx)
             dicionario['name'] = x
             dicionario['parent'] = 's_' + str(jx)
+            dicionario['value'] = result
             lista.append(dicionario)
+
+
+
+
             for yx, y in enumerate(type):
                 dicionario = {}
                 dicionario['id'] = 't_' + str(yx)
