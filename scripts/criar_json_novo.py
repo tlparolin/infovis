@@ -98,4 +98,53 @@ df4_final = pd.concat([df41, df42, df43], axis=0)
 df4_final.to_json('../data/json/global-plastics-prod-by-region-dec.json', orient='records')
 
 # montagem dataframe descarte por país/região - Total
-df5 = pd.read_csv('../data/csv/plastic-waste-by-region-and-end-of-life-fate-Total.csv')
+df5 = pd.read_csv('../data/csv/plastic-waste-by-region-and-end-of-life-fate-All.csv')
+# wide to long
+df5 = df5.melt(id_vars=["group", "subgroup", "country", "waste type"], var_name="year", value_name="value")
+grupo = sorted(set(df5['group']))
+subgrupo = sorted(set(df5['subgroup']))
+country = sorted(set(df5['country']))
+type = sorted(set(df5['waste type']))
+year = sorted(set(df5['year']))
+# novamente pra não perder tempo procurando alguma solução fiz esse loop infinito...
+# pelo menos resolve o problema
+lista = []
+for ix, i in enumerate(grupo):
+    dicionario = {}
+    dicionario['id'] = 'g_' + str(ix)
+    dicionario['name'] = i
+    lista.append(dicionario)
+    for jx, j in enumerate(subgrupo):
+        dicionario = {}
+        dicionario['id'] = 's_' + str(jx)
+        dicionario['name'] = j
+        dicionario['parent'] = 'g_' + str(ix)
+        lista.append(dicionario)
+        for xx, x in enumerate(country):
+            dicionario = {}
+            dicionario['id'] = 'c_' + str(xx)
+            dicionario['name'] = x
+            dicionario['parent'] = 's_' + str(jx)
+            lista.append(dicionario)
+            for yx, y in enumerate(type):
+                dicionario = {}
+                dicionario['id'] = 't_' + str(yx)
+                dicionario['name'] = y
+                dicionario['parent'] = 'c_' + str(xx)
+                lista.append(dicionario)
+                for zx, z in enumerate(year):
+                    dicionario = {}
+                    dicionario['id'] = 'y_' + str(zx)
+                    dicionario['name'] = z
+                    dicionario['parent'] = 't_' + str(yx)
+                    lista.append(dicionario)
+                    for w in range(0, len(df5)):
+                        dicionario = {}
+                        dicionario['name'] = 'value'
+                        dicionario['parent'] = z
+                        dicionario['value'] = df5.loc[
+                            (df5['group'] == i) & (df5['subgroup'] == j) & (df5['country'] == x) &
+                            (df5['waste type'] == y) & (df5['year'] == z), 'value'
+                        ].item()
+                        print(dicionario)
+                        # lista.append(dicionario)
