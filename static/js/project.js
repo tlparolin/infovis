@@ -46,6 +46,12 @@ function atualiza_grafico() {
             subtitulo = "Porcentagem do Consumo Global de Plástico por Década por Região/País - 1990 a 2019"
             consumo_regiao(arquivo, titulo, subtitulo);
             break;
+        case "descarte":
+            arquivo = "data/json/global-wasteby-region-and-end-of-life-fate-All-dec.json";
+            titulo = "teste";
+            subtitulo = "tetetetetetewssasasdasdwwewewewewe"
+            descarte_regiao(arquivo, titulo, subtitulo);
+            break;
         default:
             arquivo = "data/json/dados";
             titulo = "Visão Geral";
@@ -455,6 +461,81 @@ function consumo_regiao(arquivo, titulo, subtitulo){
                 data: novaserie
             });
         };
+        new Highcharts.Chart(options);
+    });
+};
+
+function descarte_regiao(arquivo, titulo, subtitulo){
+    apaga_tudo();
+    $("#topico").html('<p class="p-2 text-white bg-primary rounded small"><b>Qual país ou região consome mais</b></p>');
+    $("#fatos").html(
+        '<div class="row">\
+            <div class="col">\
+                <h4 class="text-primary">Um comparativo de consumo entre os países</h4>\
+                <ul>\
+                    <li>Estados Unidos e países europeus que fazem parte da OCDE, diminuiram suas participações mundiais no consumo global de plástico.</li>\
+                    <li>Essa diminuição se dá por conta de políticas de redução de consumo e conscientização.</li>\
+                    <li>Índia e China aumentaram suas participações, sendo a China, a maior produtora/consumidora de plástico no continente Asiático.</li>\
+                </ul>\
+            </div>\
+        </div>'
+    ).hide().slideDown(1000);
+    var options = {
+        chart: {
+            type: 'bubble',
+            zoomType: 'xy',
+            renderTo: 'chart'
+        },
+        legend: {
+            enabled: false
+        },
+        title: {
+            text: titulo
+        },
+        subtitle: {
+            text: subtitulo
+        },
+        xAxis: {
+            gridLineWidth: 1,
+            title: {
+                text: 'País/Região'
+            },
+        },
+        yAxis: {
+            startOnTick: false,
+            endOnTick: false,
+            title: {
+                text: 'Tipo de Descarte'
+            },
+        },
+        tooltip: {
+            useHTML: true,
+            headerFormat: '<table>',
+            pointFormat: '<tr><th colspan="2"><h3>{point.x}</h3></th></tr>' +
+              '<tr><th>Tipo do Descarte:</th><td>{point.y}g</td></tr>' +
+              '<tr><th>Valor:</th><td>{point.z}%</td></tr>',
+            footerFormat: '</table>',
+            followPointer: true
+        },
+        series: [{}],
+    };
+    $.getJSON(arquivo, function (data) {
+        var paises = [... new Set(data.map(x => x.name))]
+        for (var i=0; i<paises.length; i++){
+            var novaserie = {};
+            $.each(data, function(j, item){
+                if (item.name === paises[i]){
+                    novaserie['x'] = item.y;
+                    novaserie['y'] = item.x;
+                    novaserie['z'] = item.z;
+                };
+            });
+            options.series.push({
+                name: paises[i],
+                data: novaserie
+            });
+        };
+        console.log(options.series[0].data);
         new Highcharts.Chart(options);
     });
 };

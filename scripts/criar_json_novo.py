@@ -99,73 +99,52 @@ df4_final.to_json('../data/json/global-plastics-prod-by-region-dec.json', orient
 
 # montagem dataframe descarte por país/região - Total
 df5 = pd.read_csv('../data/csv/plastic-waste-by-region-and-end-of-life-fate-All.csv')
+# apaga coluna group e subgroup que não iremos utilizar
+df5 = df5.drop('group', axis=1)
+df5 = df5.drop('subgroup', axis=1)
 # wide to long
-df5 = df5.melt(id_vars=["group", "subgroup", "country", "waste type"], var_name="year", value_name="value")
+df5 = df5.melt(id_vars=["country", "waste type"], var_name="year", value_name="value")
 # limpa registro sem valor numérico pois tem coluna com valor= '..'
 df5.drop(df5[df5.value == '..'].index, inplace=True)
 # remove espaços dos nomes das colunas
 df5.columns = df5.columns.str.replace(" ", "_")
-# retira Total do tipo de lixo, coluna waste type
+# retira Total do tipo de lixo, coluna waste_type
 df5.drop(df5[df5.waste_type == 'Total'].index, inplace=True)
 # coloca número como número porque são números né ;)
 df5['year'] = df5['year'].astype('int')
 df5['value'] = df5['value'].astype('float')
 # agrupa por década
 group5 = df5['year']//10*10  # como décadas
-df5 = df5.groupby(['group', 'subgroup', 'country', 'waste type', group5]).value.sum().reset_index(name="value")
+df5 = df5.groupby(['country', 'waste_type', group5]).value.sum().reset_index(name="value")
+# montagem da estrutura para bubble
+# renomeia as colunas
+df5.rename(columns={'country': 'name', 'waste_type': 'x', 'year': 'y', 'value': 'z'}, inplace=True)
+
+
+# salva json
+df5.to_json('../data/json/global-wasteby-region-and-end-of-life-fate-All-dec.json', orient='records')       
+
+
+
+
 # pega os valores únicos separados
-grupo = sorted(set(df5['group']))
-subgrupo = sorted(set(df5['subgroup']))
-pais = sorted(set(df5['country']))
-tipo = sorted(set(df5['waste type']))
-ano = sorted(set(df5['year']))
+# grupo = sorted(set(df5['group']))
+# subgrupo = sorted(set(df5['subgroup']))
+# pais = sorted(set(df5['country']))
+# tipo = sorted(set(df5['waste_type']))
+# ano = sorted(set(df5['year']))
 # novamente pra não perder tempo procurando alguma solução fiz esse loop infinito...
 # pelo menos resolve o problema
-lista = []
+# lista = []
 
-for ix, i in enumerate(grupo):
-    dicionario = {}
-    dicionario['id'] = 'g_' + str(ix)
-    dicionario['name'] = i
-    lista.append(dicionario)
-    for jx, j in enumerate(subgrupo):
-        dicionario = {}
-        dicionario['id'] = 's_' + str(jx)
-        dicionario['name'] = j
-        dicionario['parent'] = 'g_' + str(ix)
-        lista.append(dicionario)
-        for xx, x in enumerate(df5.loc[(df5['group'] == i) & (df5['subgroup'] == j), 'country']):
-            result = 0
-            result = df5.loc[df5['country'] == x, 'value'].sum()
-            dicionario = {}
-            dicionario['id'] = 'c_' + str(xx)
-            dicionario['name'] = x
-            dicionario['parent'] = 's_' + str(jx)
-            dicionario['value'] = result
-            lista.append(dicionario)
-
-
-
-
-            for yx, y in enumerate(type):
-                dicionario = {}
-                dicionario['id'] = 't_' + str(yx)
-                dicionario['name'] = y
-                dicionario['parent'] = 'c_' + str(xx)
-                lista.append(dicionario)
-                for zx, z in enumerate(year):
-                    dicionario = {}
-                    dicionario['id'] = 'y_' + str(zx)
-                    dicionario['name'] = z
-                    dicionario['parent'] = 't_' + str(yx)
-                    lista.append(dicionario)
-                    for w in range(0, len(df5)):
-                        dicionario = {}
-                        dicionario['name'] = 'value'
-                        dicionario['parent'] = z
-                        dicionario['value'] = df5.loc[
-                            (df5['group'] == i) & (df5['subgroup'] == j) & (df5['country'] == x) &
-                            (df5['waste type'] == y) & (df5['year'] == z), 'value'
-                        ].item()
-                        print(dicionario)
-                        # lista.append(dicionario)
+# for ix, i in enumerate(grupo):
+#     id = {}
+#     id['id'] = 'g_' + str(ix)
+#     id['name'] = i
+#     lista.append(id)
+#     for jx, j in enumerate(subgrupo):
+#         jd = {}
+#         jd['id'] = 's_' + str(jx)
+#         jd['name'] = j
+#         jd['parent'] = 'g_' + str(ix)
+#         lista.append(jd)
