@@ -313,10 +313,44 @@ function grafico_sankey_chord(arquivo, tipo, titulo, subtitulo){
             </div>\
         </div>'
     ).hide().slideDown(1000);
+   
+    const labels = ['Polímeros', 'Décadas', 'Indústria'];
+
     var options = {
         chart: {
             renderTo: 'chart',
             type: tipo,
+            spacingBottom: 50,
+            events: {
+            render: function() {
+                const positions = [30, this.chartWidth / 2, this.chartWidth - 30];
+
+                if (this.customLabels) {
+                this.customLabels.forEach((customLabel, i) => {
+                    customLabel.attr({
+                    x: positions[i],
+                    y: this.chartHeight - 20
+                    });
+                });
+                } else {
+                this.customLabels = [];
+                labels.forEach((label, i) => {
+                    this.customLabels.push(
+                    this.renderer.text(labels[i])
+                    .attr({
+                        x: positions[i],
+                        y: this.chartHeight - 20,
+                        align: 'center'
+                    })
+                    .css({
+                        fontSize: '12px',
+                    })
+                    .add()
+                    );
+                });
+                }
+            }
+            }
         },
         credits: {
             enabled: false
@@ -399,6 +433,9 @@ function consumo_regiao(arquivo, titulo, subtitulo){
         },
         tooltip: {
             valueSuffix: ' %'
+        },
+        credits: {
+            enabled: false
         },
         series: [],
     };
