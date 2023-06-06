@@ -117,35 +117,5 @@ df5['value'] = df5['value'].astype('float')
 group5 = df5['year']//10*10  # como décadas
 df5 = df5.groupby(['country', 'waste_type', group5]).value.sum().reset_index(name="value")
 # montagem da estrutura para bubble
-# renomeia as colunas
-df5.rename(columns={'country': 'name', 'waste_type': 'x', 'year': 'y', 'value': 'z'}, inplace=True)
-# vamos dividir o tipo de descarte em porcentagem
-for i in sorted(set(df5['x'])):
-
 # salva json
 df5.to_json('../data/json/global-wasteby-region-and-end-of-life-fate-All-dec.json', orient='records')       
-
-
-
-
-# pega os valores únicos separados
-# grupo = sorted(set(df5['group']))
-# subgrupo = sorted(set(df5['subgroup']))
-# pais = sorted(set(df5['country']))
-# tipo = sorted(set(df5['waste_type']))
-# ano = sorted(set(df5['year']))
-# novamente pra não perder tempo procurando alguma solução fiz esse loop infinito...
-# pelo menos resolve o problema
-# lista = []
-
-# for ix, i in enumerate(grupo):
-#     id = {}
-#     id['id'] = 'g_' + str(ix)
-#     id['name'] = i
-#     lista.append(id)
-#     for jx, j in enumerate(subgrupo):
-#         jd = {}
-#         jd['id'] = 's_' + str(jx)
-#         jd['name'] = j
-#         jd['parent'] = 'g_' + str(ix)
-#         lista.append(jd)
