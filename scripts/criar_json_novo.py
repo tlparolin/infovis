@@ -119,7 +119,8 @@ df5 = df5.groupby(['country', 'waste_type', group5]).value.sum().reset_index(nam
 # montagem da estrutura para bubble
 # renomeia as colunas
 df5.rename(columns={'country': 'name', 'waste_type': 'x', 'year': 'y', 'value': 'z'}, inplace=True)
-
+# vamos dividir o tipo de descarte em porcentagem
+for i in sorted(set(df5['x'])):
 
 # salva json
 df5.to_json('../data/json/global-wasteby-region-and-end-of-life-fate-All-dec.json', orient='records')       

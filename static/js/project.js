@@ -7,6 +7,7 @@ function apaga_tudo(){
     $("#fatos").html("");
     $("#topico").html("");
     $("#chart").html("");
+    $("#postexto").html("");
     $("#visualizacao").val("");
 };
 
@@ -23,16 +24,10 @@ function atualiza_grafico() {
         case "primario_secundario":
             arquivo = "data/json/global-plastics-prod-by-type.json";
             titulo = "A produção secundária está crescendo, mas representa pouco mais de 6% da produção total de plástico";
-            subtitulo = "Produção Global de Plástico Primário (virgem) e Secundário (reciclado) em Milhões de Toneladas por Ano - 1990 a 2019"
-            tipo = "area"
-            primario_secundario(arquivo, titulo, subtitulo, tipo);
-            break;
-        case "primario_secundario_dec":
-            arquivo = "data/json/global-plastics-prod-by-type-decade.json";
-            titulo = "A produção secundária está crescendo, mas representa pouco mais de 6% da produção total de plástico";
-            subtitulo = "Produção Global de Plástico Primário (virgem) e Secundário (reciclado) em Milhões de Toneladas por Década - a partir de 1990"
-            tipo = "bar"
-            primario_secundario(arquivo, titulo, subtitulo, tipo);
+            subtitulo = "Produção Global de Plástico Primário (virgem) e Secundário (reciclado) em Milhões de Toneladas por Ano - 1990 a 2019";
+            tipo = "area";
+            tempo = "anos";
+            primario_secundario(arquivo, titulo, subtitulo, tipo, tempo);
             break;
         case "aplicacao":
             arquivo = "data/json/global-plastics-prod-by-app-and-polymer-dec.json";
@@ -223,7 +218,7 @@ function aumento_producao(arquivo, titulo, subtitulo){
     });
 };
 
-function primario_secundario(arquivo, titulo, subtitulo, tipo){
+function primario_secundario(arquivo, titulo, subtitulo, tipo, tempo){
     apaga_tudo();
     $("#topico").html('<p class="p-2 text-white bg-primary rounded small"><b>Quanto se produz de plástico reciclado?</b></p>');
     $("#fatos").html(
@@ -238,6 +233,24 @@ function primario_secundario(arquivo, titulo, subtitulo, tipo){
             </div>\
         </div>'
     ).hide().slideDown(1000);
+    // coloca um botão para alterar o arquivo json do grafico
+    var titulo = "A produção secundária está crescendo, mas representa pouco mais de 6% da produção total de plástico";
+    var subtitulo = "Produção Global de Plástico Primário (virgem) e Secundário (reciclado) em Milhões de Toneladas por Década - a partir de 1990";
+    if (tempo === "anos"){
+        arquivo = "data/json/global-plastics-prod-by-type-decade.json";
+        var tipo = "bar";
+        var tempo = "area";
+        var botao = $('<input type="button" class="btn btn-sm btn-primary" value="Visualizar por Ano"/>')
+    } else {
+        arquivo = "data/json/global-plastics-prod-by-type.json";
+        var tipo = "area";
+        var tempo = "anos";
+        var botao = $('<input type="button" class="btn btn-sm btn-primary" value="Visualizar por Década"/>')
+    };
+    botao.click( function(){
+        primario_secundario(arquivo, titulo, subtitulo, tipo, tempo);
+    });
+    $("#postexto").append(botao);
     var options = {
         chart: {
             renderTo: 'chart',
