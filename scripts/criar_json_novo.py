@@ -122,28 +122,10 @@ df6 = df6.groupby(['waste_type', 'year'])['value'].sum().reset_index()
 df6.to_json('../data/json/global-waste-by-region-and-end-of-life-fate-All.json', orient='records')
 group6 = df6['year']//10*10  # como décadas
 df6 = df6.groupby(['waste_type', group6]).value.sum().reset_index(name="value")
+# troca os valores de ano para funcionar com o gráfico dumbbell (haltere)
+df6.loc[df6['year'] == 2000, 'year'] = 'low'
+df6.loc[df6['year'] == 2010, 'year'] = 'high'
+df6.rename(columns={'waste_type': 'name'}, inplace=True)
+df6 = pd.pivot(df6, index=['name'], columns='year', values='value').reset_index()
 df6.to_json('../data/json/global-waste-by-region-and-end-of-life-fate-All-dec.json', orient='records')
 
-
-
-
-# agrupa por década
-group5 = df5['year']//10*10  # como décadas
-df5 = df5.groupby(['country', 'waste_type', group5]).value.sum().reset_index(name="value")
-# montagem da estrutura para bubble
-# troca country para name, para ficar no eixo x do gráfico
-# troca year para y
-# troca value para z
-# troca waste_type para color
-df5.rename(columns={'country': 'name', 'year': 'y', 'value': 'z', 'waste_type': 'color'}, inplace=True)
-# Adiciona uma coluna x só para não ficar as bolhas uma em cima da outra
-# df5['x'] = [x for x in range(0, (len(df5)*10), 10)]
-# mapeia cada valor de descarte para uma cor, como os valores são poucos, fiz na mão mesmo
-# mapping_dict = {'2000': '#1f77b4', '2010': '#ff7f0e'}
-mapping_dict = {
-    'Incinerated': '#1f77b4', 'Landfilled': '#ff7f0e', 'Littered': '#2ca02c',
-    'Mismanaged': '#d62728', 'Recycled': '#9467bd'
-}
-df5['color'] = df5['color'].map(mapping_dict)
-# salva json
-df5.to_json('../data/json/global-wasteby-region-and-end-of-life-fate-All-dec.json', orient='records')

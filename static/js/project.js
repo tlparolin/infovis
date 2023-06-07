@@ -48,7 +48,7 @@ function atualiza_grafico() {
             descarte_regiao(arquivo, titulo, subtitulo, tempo);
             break;
         case "tipo_descarte":
-            arquivo = "data/json/global-waste-by-region-and-end-of-life-fate-All.json";
+            arquivo = "data/json/global-waste-by-region-and-end-of-life-fate-All-dec.json";
             titulo = "O que fazemos com o lixo plástico";
             subtitulo = "Quantidade Global de resíduos por tipo de destinação final"
             tempo = "decada"
@@ -709,7 +709,8 @@ function tipo_descarte(arquivo, titulo, subtitulo){
     ).hide().slideDown(1000);
     var options = {
         chart: {
-            type: 'bar',
+            type: 'dumbbell',
+            inverted: true,
             renderTo: 'chart'
         },
         title: {
@@ -723,55 +724,31 @@ function tipo_descarte(arquivo, titulo, subtitulo){
             text: subtitulo
         },
         xAxis: {
-            categories: [],
+            type: 'logarithmic',
             title: {
                 text: 'Décadas'
             }
         },
         yAxis: {
-            min: 0,
             title: {
                 text: 'Porcentagem'
             },
-            labels: {
-                format: '{value}%',
-            }
-        },
-        legend: {
-            reversed: true
-        },
-        plotOptions: {
-            series: {
-                stacking: 'normal',
-                dataLabels: {
-                    enabled: false,
-                }
-            }
         },
         tooltip: {
-            valueSuffix: ' %'
+            shared: true,
         },
         credits: {
+            enabled: false
+        },
+        legend: {
             enabled: false
         },
         series: [],
     };
     $.getJSON(arquivo, function (data) {
-        var ano = [... new Set(data.map(x => x.year))];
-        var tipos = [... new Set(data.map(x => x.country))]
-        options.xAxis.categories = ano;
-        for (var i=0; i<tipos.length; i++){
-            var novaserie = [];
-            $.each(data, function(j, item){
-                if (item.country === tipos[i]){
-                    novaserie.push(Math.round(item.percent*100)/100);
-                };
-            });
-            options.series.push({
-                name: tipos[i],
-                data: novaserie
-            });
-        };
+        options.series.push({
+            data: data
+        });
         new Highcharts.Chart(options);
     });
 };
