@@ -29,10 +29,10 @@ function atualiza_grafico() {
             primario_secundario(arquivo, titulo, subtitulo, tipo, tempo);
             break;
         case "aplicacao":
-            arquivo = "data/json/global-plastics-prod-by-app-and-polymer-dec.json";
+            arquivo = "data/json/global-plastics-prod-by-application-dec.json";
             titulo = "Qual o setor da indústria que utiliza a maior quantidade";
             subtitulo = "Consumo Global de Plástico em Milhões de Toneladas por Década - 1990 a 2019"
-            grafico_sankey_chord(arquivo, "sankey", titulo, subtitulo);
+            consumo_industria(arquivo, titulo, subtitulo);
             break;
         case "local":
             arquivo = "data/json/global-plastics-prod-by-region-dec.json";
@@ -52,7 +52,7 @@ function atualiza_grafico() {
             titulo = "O que fazemos com o lixo plástico";
             subtitulo = "Quantidade Global de resíduos por tipo de destinação final"
             tempo = "decada"
-            descarte_regiao(arquivo, titulo, subtitulo, tempo);
+            tipo_descarte(arquivo, titulo, subtitulo, tempo);
             break;
         default:
             arquivo = "data/json/dados";
@@ -65,7 +65,7 @@ function inicio(){
     $("#fatos").html(
         '<div class="row">\
             <div class="col">\
-                <h4 class="text-success">Introdução</h4>\
+                <h4 class="text-secondary">Introdução</h4>\
                 <p>O plástico é um polímero sintético, leve, resistente e durável, e que traz inovações para o desenvolvimento da sociedade.</p>\
                 <p>A versatilidade, o baixo custo e a estabilidade do plástico diante dos processos naturais de degradação o tornaram onipresente no mundo, porém esses mesmos atributos o transformam em um grande agente poluidor.</p>\
                 <p>Neste projeto é possível visualizar o crescimento da demanda global por plásticos e como esse aumento afeta o homem e o meio ambiente.</p>\
@@ -161,11 +161,11 @@ function inicio(){
 
 function aumento_producao(arquivo, titulo, subtitulo){
     apaga_tudo();
-    $("#topico").html('<p class="p-2 text-white bg-success rounded small"><b>O Aumento da Produção</b></p>');
+    $("#topico").html('<p class="p-2 text-white bg-secondary rounded small"><b>O Aumento da Produção</b></p>');
     $("#fatos").html(
         '<div class="row">\
             <div class="col">\
-                <h4 class="text-success">Mais e mais plásticos</h4>\
+                <h4 class="text-secondary">Mais e mais plásticos</h4>\
                 <ul>\
                     <li>O uso global de plásticos está crescendo fortemente, com quase 460 milhões de toneladas produzidas em 2019.</li>\
                     <li>Mais da metade de todo o plástico foi produzido a partir do ano 2000.</li>\
@@ -186,7 +186,7 @@ function aumento_producao(arquivo, titulo, subtitulo){
             text: titulo,
             style: {
                 fontFamily: 'Arial, Helvetica, sans serif',
-                fontWeight: 'normal',
+                fontWeight: 'bold',
             }
         },
         subtitle: {
@@ -198,7 +198,7 @@ function aumento_producao(arquivo, titulo, subtitulo){
                     states: {
                         hover: {
                             fillColor: 'black',
-                            radius: 10
+                            radius: 6
                         }
                     }
                 }
@@ -208,6 +208,10 @@ function aumento_producao(arquivo, titulo, subtitulo){
             title: {
                 text: "Anos",
             },
+            labels: {
+                step: 5
+            },
+            crosshair: true
         },
         yAxis:{
             title: {
@@ -229,11 +233,11 @@ function aumento_producao(arquivo, titulo, subtitulo){
 
 function primario_secundario(arquivo, titulo, subtitulo, tipo, tempo){
     apaga_tudo();
-    $("#topico").html('<p class="p-2 text-white bg-success rounded small"><b>Quanto se produz de plástico reciclado?</b></p>');
+    $("#topico").html('<p class="p-2 text-white bg-secondary rounded small"><b>Quanto se produz de plástico reciclado?</b></p>');
     $("#fatos").html(
         '<div class="row">\
             <div class="col">\
-                <h4 class="text-success">A produção secundária está crescendo</h4>\
+                <h4 class="text-secondary">A produção secundária está crescendo</h4>\
                 <ul>\
                     <li>A produção de plásticos secundários mais do que quadruplicou nas últimas duas décadas, de aproximadamente 6,7 Milhões de Toneladas em 2000 para 29,1 Milhões de Toneladas em 2019.</li>\
                     <li>Entretanto, continua pequena em comparação com a produção de plásticos primários representando apenas pouco mais de 6% da produção total.</li>\
@@ -274,7 +278,7 @@ function primario_secundario(arquivo, titulo, subtitulo, tipo, tempo){
             text: titulo,
             style: {
                 fontFamily: 'Arial, Helvetica, sans serif',
-                fontWeight: 'normal',
+                fontWeight: 'bold',
             }
         },
         subtitle: {
@@ -337,11 +341,11 @@ function primario_secundario(arquivo, titulo, subtitulo, tipo, tempo){
 
 function grafico_sankey_chord(arquivo, tipo, titulo, subtitulo){
     apaga_tudo();
-    $("#topico").html('<p class="p-2 text-white bg-success rounded small"><b>Em que usamos todo esse plástico?</b></p>');
+    $("#topico").html('<p class="p-2 text-white bg-secondary rounded small"><b>Em que usamos todo esse plástico?</b></p>');
     $("#fatos").html(
         '<div class="row">\
             <div class="col">\
-                <h4 class="text-success">Aplicações e polímeros mais utilizados</h4>\
+                <h4 class="text-secondary">Aplicações e polímeros mais utilizados</h4>\
                 <ul>\
                     <li>Juntos, as aplicações de embalagem, construção e transporte respondem por mais de 60% do uso total de plásticos. Portanto, é aqui que podem ser obtidos os maiores ganhos ambientais, se quisermos reduzir nosso consumo de plástico.</li>\
                     <li>As outras principais aplicações do uso de plásticos incluem têxteis, produtos de consumo doméstico e produtos não domésticos ou institucionais, eletrônicos, maquinário e pneus.</li>\
@@ -395,7 +399,7 @@ function grafico_sankey_chord(arquivo, tipo, titulo, subtitulo){
             text: titulo,
             style: {
                 fontFamily: 'Arial, Helvetica, sans serif',
-                fontWeight: 'normal',
+                fontWeight: 'bold',
             }
         },
         subtitle: {
@@ -415,13 +419,98 @@ function grafico_sankey_chord(arquivo, tipo, titulo, subtitulo){
     });
 };
 
-function consumo_regiao(arquivo, titulo, subtitulo){
+function consumo_industria(arquivo, titulo, subtitulo){
     apaga_tudo();
-    $("#topico").html('<p class="p-2 text-white bg-success rounded small"><b>Qual país ou região consome mais</b></p>');
+    $("#topico").html('<p class="p-2 text-white bg-secondary rounded small"><b>Em que usamos todo esse plástico?</b></p>');
     $("#fatos").html(
         '<div class="row">\
             <div class="col">\
-                <h4 class="text-success">Um comparativo de consumo entre os países</h4>\
+                <h4 class="text-secondary">Aplicações e polímeros mais utilizados</h4>\
+                <ul>\
+                    <li>Juntos, as aplicações de embalagem, construção e transporte respondem por mais de 60% do uso total de plásticos. Portanto, é aqui que podem ser obtidos os maiores ganhos ambientais, se quisermos reduzir nosso consumo de plástico.</li>\
+                    <li>Não há variação significativa da porcentagem de consumo dos diferentes ramos da indústria ao longo das últimas décadas.</li>\
+                    <li>As outras principais aplicações do uso de plásticos incluem têxteis, produtos de consumo doméstico e produtos não domésticos ou institucionais, eletrônicos, maquinário e pneus.</li>\
+                </ul>\
+            </div>\
+        </div>'
+    ).hide().slideDown(1000);
+    var options = {
+        chart: {
+            type: 'bar',
+            renderTo: 'chart'
+        },
+        title: {
+            text: titulo,
+            style: {
+                fontFamily: 'Arial, Helvetica, sans serif',
+                fontWeight: 'bold',
+            }
+        },
+        subtitle: {
+            text: subtitulo
+        },
+        xAxis: {
+            categories: [],
+            title: {
+                text: 'Décadas'
+            }
+        },
+        yAxis: {
+            min: 0,
+            title: {
+                text: 'Porcentagem'
+            },
+            labels: {
+                format: '{value}%',
+            }
+        },
+        legend: {
+            reversed: true
+        },
+        plotOptions: {
+            series: {
+                stacking: 'normal',
+                dataLabels: {
+                    enabled: false,
+                }
+            }
+        },
+        tooltip: {
+            valueSuffix: ' %'
+        },
+        credits: {
+            enabled: false
+        },
+        series: [],
+    };
+    $.getJSON(arquivo, function (data) {
+        var ano = [... new Set(data.map(x => x.year))];
+        var tipos = [... new Set(data.map(x => x.plastics_applications))]
+        options.xAxis.categories = ano;
+        for (var i=0; i<tipos.length; i++){
+            var novaserie = [];
+            $.each(data, function(j, item){
+                if (item.plastics_applications === tipos[i]){
+                    novaserie.push(Math.round(item.percent*100)/100);
+                };
+            });
+            options.series.push({
+                name: tipos[i],
+                data: novaserie
+            });
+        };
+        console.log(options.series);
+        new Highcharts.Chart(options);
+    });
+};
+
+function consumo_regiao(arquivo, titulo, subtitulo){
+    apaga_tudo();
+    $("#topico").html('<p class="p-2 text-white bg-secondary rounded small"><b>Qual país ou região consome mais</b></p>');
+    $("#fatos").html(
+        '<div class="row">\
+            <div class="col">\
+                <h4 class="text-secondary">Um comparativo de consumo entre os países</h4>\
                 <ul>\
                     <li>Estados Unidos e países europeus que fazem parte da OCDE, diminuiram suas participações mundiais no consumo global de plástico.</li>\
                     <li>Essa diminuição se dá por conta de políticas de redução de consumo e conscientização.</li>\
@@ -436,7 +525,11 @@ function consumo_regiao(arquivo, titulo, subtitulo){
             renderTo: 'chart'
         },
         title: {
-            text: titulo
+            text: titulo,
+            style: {
+                fontFamily: 'Arial, Helvetica, sans serif',
+                fontWeight: 'bold',
+            }
         },
         subtitle: {
             text: subtitulo
@@ -497,11 +590,11 @@ function consumo_regiao(arquivo, titulo, subtitulo){
 
 function descarte_regiao(arquivo, titulo, subtitulo, tempo){
     apaga_tudo();
-    $("#topico").html('<p class="p-2 text-white bg-success rounded small"><b>Quanto produzimos de lixo</b></p>');
+    $("#topico").html('<p class="p-2 text-white bg-secondary rounded small"><b>Quanto produzimos de lixo</b></p>');
     $("#fatos").html(
         '<div class="row">\
             <div class="col">\
-                <h4 class="text-success">Um comparativo do descarte entre os países/regiões</h4>\
+                <h4 class="text-secondary">Um comparativo do descarte entre os países/regiões</h4>\
                 <ul>\
                     <li>Os maiores vilões do lixo plástico são os chamados "plásticos de uso único".</li>\
                     <li>São os que possuem a menor vida útil e consequentemente os mais descartados e que causam mais danos ao meio ambiente.</li>\
@@ -536,7 +629,11 @@ function descarte_regiao(arquivo, titulo, subtitulo, tempo){
             enabled: false
         },
         title: {
-            text: titulo
+            text: titulo,
+            style: {
+                fontFamily: 'Arial, Helvetica, sans serif',
+                fontWeight: 'bold',
+            }
         },
         subtitle: {
             text: subtitulo
@@ -584,6 +681,90 @@ function descarte_regiao(arquivo, titulo, subtitulo, tempo){
             $.each(data, function(j, item){
                 if (item.country === tipos[i]){
                     novaserie.push(item.value);
+                };
+            });
+            options.series.push({
+                name: tipos[i],
+                data: novaserie
+            });
+        };
+        new Highcharts.Chart(options);
+    });
+};
+
+function tipo_descarte(arquivo, titulo, subtitulo){
+    apaga_tudo();
+    $("#topico").html('<p class="p-2 text-white bg-secondary rounded small"><b>Como é o descarte do lixo plástico</b></p>');
+    $("#fatos").html(
+        '<div class="row">\
+            <div class="col">\
+                <h4 class="text-secondary">Um comparativo de consumo entre os países</h4>\
+                <ul>\
+                    <li>Estados Unidos e países europeus que fazem parte da OCDE, diminuiram suas participações mundiais no consumo global de plástico.</li>\
+                    <li>Essa diminuição se dá por conta de políticas de redução de consumo e conscientização.</li>\
+                    <li>Índia e China aumentaram suas participações, sendo a China, a maior produtora/consumidora de plástico no continente Asiático.</li>\
+                </ul>\
+            </div>\
+        </div>'
+    ).hide().slideDown(1000);
+    var options = {
+        chart: {
+            type: 'bar',
+            renderTo: 'chart'
+        },
+        title: {
+            text: titulo,
+            style: {
+                fontFamily: 'Arial, Helvetica, sans serif',
+                fontWeight: 'bold',
+            }
+        },
+        subtitle: {
+            text: subtitulo
+        },
+        xAxis: {
+            categories: [],
+            title: {
+                text: 'Décadas'
+            }
+        },
+        yAxis: {
+            min: 0,
+            title: {
+                text: 'Porcentagem'
+            },
+            labels: {
+                format: '{value}%',
+            }
+        },
+        legend: {
+            reversed: true
+        },
+        plotOptions: {
+            series: {
+                stacking: 'normal',
+                dataLabels: {
+                    enabled: false,
+                }
+            }
+        },
+        tooltip: {
+            valueSuffix: ' %'
+        },
+        credits: {
+            enabled: false
+        },
+        series: [],
+    };
+    $.getJSON(arquivo, function (data) {
+        var ano = [... new Set(data.map(x => x.year))];
+        var tipos = [... new Set(data.map(x => x.country))]
+        options.xAxis.categories = ano;
+        for (var i=0; i<tipos.length; i++){
+            var novaserie = [];
+            $.each(data, function(j, item){
+                if (item.country === tipos[i]){
+                    novaserie.push(Math.round(item.percent*100)/100);
                 };
             });
             options.series.push({

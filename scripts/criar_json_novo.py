@@ -24,50 +24,32 @@ df1.to_json('../data/json/global-plastics-prod-by-type-decade.json', orient='rec
 # para que usamos todo esse plástico
 df2 = pd.read_csv('../data/csv/global-plastics-prod-by-application.csv')
 # muda o modo da tabela de wide para long
-df2 = df2.melt(id_vars=["plastics_applications"], var_name="year", value_name="weight")
+df2 = df2.melt(id_vars=["plastics_applications"], var_name="year", value_name="value")
 # retira o 'Total' da coluna 'plastics_applications'
 df2.drop(df2[df2.plastics_applications == 'Total'].index, inplace=True)
-# renomeia as colunas para 'from', 'to', 'weight'
-df2.rename(columns={'plastics_applications': 'to', 'year': 'from', 'value': 'weight'}, inplace=True)
 # renomeia 'Other', 'Marine Coatings' e 'Road Marking' para incluir 'Applications'
-df2.loc[df2['to'] == 'Other', 'to'] = 'Other Applications'
-df2.loc[df2['to'] == 'Marine coatings', 'to'] = 'Marine Coatings Applications'
-df2.loc[df2['to'] == 'Road marking', 'to'] = 'Road Marking Applications'
+df2.loc[df2['plastics_applications'] == 'Other', 'plastics_applications'] = 'Other Applications'
+df2.loc[df2['plastics_applications'] == 'Marine coatings', 'plastics_applications'] = 'Marine Coatings Applications'
+df2.loc[df2['plastics_applications'] == 'Road marking', 'plastics_applications'] = 'Road Marking Applications'
 # deixa como inteiro a coluna to (anos)
-df2['from'] = df2['from'].astype('int')
+df2['year'] = df2['year'].astype('int')
 # agrupa por década
-group2 = df2['from']//10*10  # como décadas
-df2 = df2.groupby([group2, 'to']).weight.sum().reset_index(name="weight")
-# altera a ordem das colunas
-df2 = df2.reindex(columns=['from', 'to', 'weight'])
+group2 = df2['year']//10*10  # como décadas
+df2 = df2.groupby([group2, 'plastics_applications']).value.sum().reset_index(name="value")
+# calcula porcentagem, primeiro cria um dataframe para cada decada e depois faz a soma e porcentagem
+# por fim une os dataframes em um só
+# eu não sei fazer de outro jeito :(
+df21 = df2.loc[(df2['year'] == 1990), ['plastics_applications', 'year', 'value']]
+df22 = df2.loc[(df2['year'] == 2000), ['plastics_applications', 'year', 'value']]
+df23 = df2.loc[(df2['year'] == 2010), ['plastics_applications', 'year', 'value']]
 
-# pega a produção por polímero para juntar com a produção por aplicação
-df3 = pd.read_csv('../data/csv/global-plastics-prod-by-polymer.csv')
-# wide to long
-df3 = df3.melt(id_vars=["polymer"], var_name="year", value_name="weight")
-# agrupa por tipo de polímero e depois por ano
-df3 = df3.groupby(['polymer', 'year']).weight.sum().reset_index(name="weight")
-# retira o total da coluna polymer
-df3.drop(df3[df3.polymer == 'Total'].index, inplace=True)
-# renomeia as colunas para 'from', 'to', 'weight' mas de modo inverso ao do dataframe df2
-df3.rename(columns={'year': 'to', 'polymer': 'from'}, inplace=True)
-# renomeia other para other polymers
-df3.loc[df3['from'] == 'Other', 'from'] = 'Other Polymers'
-# deixa como inteiro a coluna to (anos)
-df3['to'] = df3['to'].astype('int')
-# agrupa por década
-group3 = df3['to']//10*10  # como décadas
-df3 = df3.groupby([group3, 'from']).weight.sum().reset_index(name="weight")
-# altera a ordem das colunas
-df3 = df3.reindex(columns=['from', 'to', 'weight'])
+df21['percent'] = (df21['value'] / df21['value'].sum()) * 100
+df22['percent'] = (df22['value'] / df22['value'].sum()) * 100
+df23['percent'] = (df23['value'] / df23['value'].sum()) * 100
 
-# concatena df2 e df3
-link = pd.concat([df2, df3], axis=0)
-# resetar o index do dataframe que fica repetido ao fazer a concatenação (deleta e recria)
-link.reset_index(drop=True, inplace=True)
-
-# salva json por década
-link.to_json('../data/json/global-plastics-prod-by-app-and-polymer-dec.json', orient='records')
+df2_final = pd.concat([df21, df22, df23], axis=0)
+# salva
+df2_final.to_json('../data/json/global-plastics-prod-by-application-dec.json', orient='records')
 
 
 # consumo por país
