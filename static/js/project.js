@@ -42,9 +42,9 @@ function atualiza_grafico() {
             consumo_regiao(arquivo, titulo, subtitulo);
             break;
         case "descarte":
-            arquivo = "data/json/global-wasteby-region-and-end-of-life-fate-All-dec.json";
-            titulo = "teste";
-            subtitulo = "tetetetetetewssasasdasdwwewewewewe"
+            arquivo = "data/json/global-waste-by-region-and-end-of-life-fate-Total.json";
+            titulo = "Cada vez mais usados e cada vez mais descartados";
+            subtitulo = "Quantidade total de resíduos por país/região por década (sem contabilizar reciclados e coletados)- em Milhões de Toneladas - décadas de 2000 e 2010"
             descarte_regiao(arquivo, titulo, subtitulo);
             break;
         default:
@@ -61,7 +61,7 @@ function inicio(){
                 <h4 class="text-success">Introdução</h4>\
                 <p>O plástico é um polímero sintético, leve, resistente e durável, e que traz inovações para o desenvolvimento da sociedade.</p>\
                 <p>A versatilidade, o baixo custo e a estabilidade do plástico diante dos processos naturais de degradação o tornaram onipresente no mundo, porém esses mesmos atributos o transformam em um grande agente poluidor.</p>\
-                <p>Neste projeto, demonstramos o enorme aumento de consumo e produção de plástico, além do descarte inadequado e suas consequências ao meio ambiente.</p>\
+                <p>Neste projeto é possível visualizar o crescimento da demanda global por plásticos e como esse aumento afeta o homem e o meio ambiente.</p>\
             </div>\
         </div>'
     ).hide().slideDown(1000);
@@ -230,6 +230,7 @@ function primario_secundario(arquivo, titulo, subtitulo, tipo, tempo){
                     <li>A produção de plásticos secundários mais do que quadruplicou nas últimas duas décadas, de aproximadamente 6,7 Milhões de Toneladas em 2000 para 29,1 Milhões de Toneladas em 2019.</li>\
                     <li>Entretanto, continua pequena em comparação com a produção de plásticos primários representando apenas pouco mais de 6% da produção total.</li>\
                     <li>Em conjunto, o crescimento contínuo da produção primária e o tamanho relativamente pequeno da produção secundária sugerem que não houve uma mudança fundamental no mercado para plásticos secundários.</li>\
+                    <li>Definir metas de conteúdo reciclado e investir em tecnologias de reciclagem aprimoradas pode ajudar a tornar os mercados secundários mais competitivos e lucrativos.</li>\
                 </ul>\
             </div>\
         </div>'
@@ -493,19 +494,21 @@ function descarte_regiao(arquivo, titulo, subtitulo){
             <div class="col">\
                 <h4 class="text-success">Um comparativo do descarte entre os países/regiões</h4>\
                 <ul>\
-                    <li>Estados Unidos e países europeus que fazem parte da OCDE, diminuiram suas participações mundiais no consumo global de plástico.</li>\
-                    <li>Essa diminuição se dá por conta de políticas de redução de consumo e conscientização.</li>\
-                    <li>Índia e China aumentaram suas participações, sendo a China, a maior produtora/consumidora de plástico no continente Asiático.</li>\
+                    <li>Os maiores vilões do lixo plástico são os chamados "plásticos de uso único".</li>\
+                    <li>São os que possuem a menor vida útil e consequentemente os mais descartados e que causam mais danos ao meio ambiente.</li>\
+                    <li>Com o aumento do consumo destes e outros tipos de plásticos, o lixo produzido também aumenta substancialmente.</li>\
+                    <li>A reciclagem, vista anteriormente como salvadora na diminuição do lixo plástico, como já demonstrado no tópico "Quanto se produz de plástico reciclado?"\
+                    , ainda está muito longe de ser a solução efetiva do problema.</li>\
+                    <li>Aqui, cabe políticas públicas de incentivo à economia circular, conscientização e mudança de hábitos da população</li>\
                 </ul>\
             </div>\
         </div>'
     ).hide().slideDown(1000);
     var options = {
         chart: {
-            type: 'bubble',
+            type: 'column',
             zoomType: 'xy',
             renderTo: 'chart',
-            inverted: true
         },
         legend: {
             enabled: false
@@ -519,31 +522,53 @@ function descarte_regiao(arquivo, titulo, subtitulo){
         xAxis: {
             categories: [],
             title: {
-                text: 'País/Região'
+                text: 'Décadas'
             },
         },
         yAxis: {
-            startOnTick: false,
-            endOnTick: false,
             title: {
-                text: 'Tipo de Descarte'
+                text: 'Quantidade (milhões de Toneladas)'
             },
+            stackLabels: {
+                enabled: true
+            }
         },
         tooltip: {
-            useHTML: true,
-            headerFormat: '<table>',
-            pointFormat: '<tr><th colspan="2"><h3>{point.x}</h3></th></tr>' +
-              '<tr><th>Tipo do Descarte:</th><td>{point.y}g</td></tr>' +
-              '<tr><th>Valor:</th><td>{point.z}%</td></tr>',
-            footerFormat: '</table>',
-            followPointer: true
+            headerFormat: '<b>{point.x}</b><br/>',
+            pointFormat: '{series.name}: {point.y}<br/>Total: {point.stackTotal}',
+        },
+        plotOptions: {
+            column: {
+                stacking: 'normal',
+                dataLabels: {
+                    enabled: false
+                }
+            }
+        },
+        legend: {
+            layout: 'horizontal'
+        },
+        credits: {
+            enabled: false
         },
         series: [],
     };
     $.getJSON(arquivo, function (data) {
-        var paises = [... new Set(data.map(x => x.country))]
-        options.xAxis.categories = paises;
-        
+        var ano = [... new Set(data.map(x => x.year))];
+        var tipos = [... new Set(data.map(x => x.country))]
+        options.xAxis.categories = ano;
+        for (var i=0; i<tipos.length; i++){
+            var novaserie = [];
+            $.each(data, function(j, item){
+                if (item.country === tipos[i]){
+                    novaserie.push(item.value);
+                };
+            });
+            options.series.push({
+                name: tipos[i],
+                data: novaserie
+            });
+        };
         new Highcharts.Chart(options);
     });
 };

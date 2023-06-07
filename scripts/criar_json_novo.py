@@ -97,25 +97,47 @@ df4_final = pd.concat([df41, df42, df43], axis=0)
 # salva
 df4_final.to_json('../data/json/global-plastics-prod-by-region-dec.json', orient='records')
 
+
 # montagem dataframe descarte por país/região - Total
-df5 = pd.read_csv('../data/csv/plastic-waste-by-region-and-end-of-life-fate-All.csv')
+df5 = pd.read_csv('../data/csv/plastic-waste-by-region-and-end-of-life-fate-Total.csv')
 # apaga coluna group e subgroup que não iremos utilizar
 df5 = df5.drop('group', axis=1)
 df5 = df5.drop('subgroup', axis=1)
 # wide to long
-df5 = df5.melt(id_vars=["country", "waste type"], var_name="year", value_name="value")
+df5 = df5.melt(id_vars=["country"], var_name="year", value_name="value")
 # limpa registro sem valor numérico pois tem coluna com valor= '..'
 df5.drop(df5[df5.value == '..'].index, inplace=True)
-# remove espaços dos nomes das colunas
-df5.columns = df5.columns.str.replace(" ", "_")
-# retira Total do tipo de lixo, coluna waste_type
-df5.drop(df5[df5.waste_type == 'Total'].index, inplace=True)
 # coloca número como número porque são números né ;)
 df5['year'] = df5['year'].astype('int')
 df5['value'] = df5['value'].astype('float')
 # agrupa por década
+# group5 = df5['year']//10*10  # como décadas
+# df5 = df5.groupby(['country', group5]).value.sum().reset_index(name="value")
+df5.to_json('../data/json/global-waste-by-region-and-end-of-life-fate-Total.json', orient='records')
+
+
+# remove espaços dos nomes das colunas
+df5.columns = df5.columns.str.replace(" ", "_")
+# retira Total do tipo de lixo, coluna waste_type
+df5.drop(df5[df5.waste_type == 'Total'].index, inplace=True)
+
+# agrupa por década
 group5 = df5['year']//10*10  # como décadas
 df5 = df5.groupby(['country', 'waste_type', group5]).value.sum().reset_index(name="value")
 # montagem da estrutura para bubble
+# troca country para name, para ficar no eixo x do gráfico
+# troca year para y
+# troca value para z
+# troca waste_type para color
+df5.rename(columns={'country': 'name', 'year': 'y', 'value': 'z', 'waste_type': 'color'}, inplace=True)
+# Adiciona uma coluna x só para não ficar as bolhas uma em cima da outra
+# df5['x'] = [x for x in range(0, (len(df5)*10), 10)]
+# mapeia cada valor de descarte para uma cor, como os valores são poucos, fiz na mão mesmo
+# mapping_dict = {'2000': '#1f77b4', '2010': '#ff7f0e'}
+mapping_dict = {
+    'Incinerated': '#1f77b4', 'Landfilled': '#ff7f0e', 'Littered': '#2ca02c',
+    'Mismanaged': '#d62728', 'Recycled': '#9467bd'
+}
+df5['color'] = df5['color'].map(mapping_dict)
 # salva json
-df5.to_json('../data/json/global-wasteby-region-and-end-of-life-fate-All-dec.json', orient='records')       
+df5.to_json('../data/json/global-wasteby-region-and-end-of-life-fate-All-dec.json', orient='records')
