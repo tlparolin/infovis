@@ -3,7 +3,6 @@ $( document ).ready(function() {
 });
 
 function apaga_tudo(){
-    $("#opcoes").html("");
     $("#fatos").html("");
     $("#topico").html("");
     $("#chart").html("");
@@ -43,9 +42,17 @@ function atualiza_grafico() {
             break;
         case "descarte":
             arquivo = "data/json/global-waste-by-region-and-end-of-life-fate-Total.json";
-            titulo = "Cada vez mais usados e cada vez mais descartados";
-            subtitulo = "Quantidade total de resíduos por país/região por década (sem contabilizar reciclados e coletados)- em Milhões de Toneladas - décadas de 2000 e 2010"
-            descarte_regiao(arquivo, titulo, subtitulo);
+            titulo = "Maior produção, maior lixo plástico";
+            subtitulo = "Quantidade total de Resíduos por País/Região (sem contabilizar reciclados e coletados)- em Milhões de Toneladas - décadas de 2000 e 2010"
+            tempo = "decada"
+            descarte_regiao(arquivo, titulo, subtitulo, tempo);
+            break;
+        case "tipo_descarte":
+            arquivo = "data/json/global-waste-by-region-and-end-of-life-fate-All.json";
+            titulo = "O que fazemos com o lixo plástico";
+            subtitulo = "Quantidade Global de resíduos por tipo de destinação final"
+            tempo = "decada"
+            descarte_regiao(arquivo, titulo, subtitulo, tempo);
             break;
         default:
             arquivo = "data/json/dados";
@@ -169,6 +176,7 @@ function aumento_producao(arquivo, titulo, subtitulo){
     ).hide().slideDown(1000);
     var options = {
         chart: {
+            zoomType: 'xy',
             renderTo: 'chart',
         },
         credits: {
@@ -241,7 +249,7 @@ function primario_secundario(arquivo, titulo, subtitulo, tipo, tempo){
     if (tempo === "anos"){
         arquivo = "data/json/global-plastics-prod-by-type-decade.json";
         var tipo = "bar";
-        var tempo = "area";
+        var tempo = "decada";
         var botao = $('<input type="button" class="btn btn-sm btn-primary" value="Visualizar por Ano"/>')
     } else {
         arquivo = "data/json/global-plastics-prod-by-type.json";
@@ -255,6 +263,7 @@ function primario_secundario(arquivo, titulo, subtitulo, tipo, tempo){
     $("#postexto").append(botao);
     var options = {
         chart: {
+            zoomType: 'xy',
             renderTo: 'chart',
             type: tipo
         },
@@ -486,9 +495,9 @@ function consumo_regiao(arquivo, titulo, subtitulo){
     });
 };
 
-function descarte_regiao(arquivo, titulo, subtitulo){
+function descarte_regiao(arquivo, titulo, subtitulo, tempo){
     apaga_tudo();
-    $("#topico").html('<p class="p-2 text-white bg-success rounded small"><b>Como é o descarte do plástico consumido</b></p>');
+    $("#topico").html('<p class="p-2 text-white bg-success rounded small"><b>Quanto produzimos de lixo</b></p>');
     $("#fatos").html(
         '<div class="row">\
             <div class="col">\
@@ -497,13 +506,26 @@ function descarte_regiao(arquivo, titulo, subtitulo){
                     <li>Os maiores vilões do lixo plástico são os chamados "plásticos de uso único".</li>\
                     <li>São os que possuem a menor vida útil e consequentemente os mais descartados e que causam mais danos ao meio ambiente.</li>\
                     <li>Com o aumento do consumo destes e outros tipos de plásticos, o lixo produzido também aumenta substancialmente.</li>\
-                    <li>A reciclagem, vista anteriormente como salvadora na diminuição do lixo plástico, como já demonstrado no tópico "Quanto se produz de plástico reciclado?"\
+                    <li>A reciclagem, vista anteriormente como opção salvadora na diminuição do lixo plástico, como já demonstrado no tópico "Quanto se produz de plástico reciclado?"\
                     , ainda está muito longe de ser a solução efetiva do problema.</li>\
-                    <li>Aqui, cabe políticas públicas de incentivo à economia circular, conscientização e mudança de hábitos da população</li>\
+                    <li>Portanto, são necessárias políticas públicas de incentivo à economia circular, conscientização e mudança de hábitos da população</li>\
                 </ul>\
             </div>\
         </div>'
     ).hide().slideDown(1000);
+    if (tempo === "anos"){
+        arquivo = "data/json/global-waste-by-region-and-end-of-life-fate-Total-dec.json";
+        var tempo = "decada";
+        var botao = $('<input type="button" class="btn btn-sm btn-primary" value="Visualizar por Ano"/>')
+    } else {
+        arquivo = "data/json/global-waste-by-region-and-end-of-life-fate-Total.json";
+        var tempo = "anos";
+        var botao = $('<input type="button" class="btn btn-sm btn-primary" value="Visualizar por Década"/>')
+    };
+    botao.click( function(){
+        descarte_regiao(arquivo, titulo, subtitulo, tempo);
+    });
+    $("#postexto").append(botao);
     var options = {
         chart: {
             type: 'column',
@@ -522,7 +544,7 @@ function descarte_regiao(arquivo, titulo, subtitulo){
         xAxis: {
             categories: [],
             title: {
-                text: 'Décadas'
+                text: tempo.substr(0,1).toUpperCase() + tempo.substr(1)
             },
         },
         yAxis: {

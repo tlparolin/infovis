@@ -110,16 +110,40 @@ df5.drop(df5[df5.value == '..'].index, inplace=True)
 # coloca número como número porque são números né ;)
 df5['year'] = df5['year'].astype('int')
 df5['value'] = df5['value'].astype('float')
-# agrupa por década
-# group5 = df5['year']//10*10  # como décadas
-# df5 = df5.groupby(['country', group5]).value.sum().reset_index(name="value")
+# ordena por valor, crescente
+df5.sort_values(by=['value'], ascending=True)
 df5.to_json('../data/json/global-waste-by-region-and-end-of-life-fate-Total.json', orient='records')
+# agrupa por década
+group5 = df5['year']//10*10  # como décadas
+df5 = df5.groupby(['country', group5]).value.sum().reset_index(name="value")
+df5.to_json('../data/json/global-waste-by-region-and-end-of-life-fate-Total-dec.json', orient='records')
 
 
-# remove espaços dos nomes das colunas
-df5.columns = df5.columns.str.replace(" ", "_")
-# retira Total do tipo de lixo, coluna waste_type
-df5.drop(df5[df5.waste_type == 'Total'].index, inplace=True)
+# montagem dataframe para tipos de descarte de plástico
+df6 = pd.read_csv('../data/csv/plastic-waste-by-region-and-end-of-life-fate-All.csv')
+# apaga coluna group e subgroup que não iremos utilizar
+df6 = df6.drop('group', axis=1)
+df6 = df6.drop('subgroup', axis=1)
+# remove espaços dos nomes das colunas, trocando por _
+df6.columns = df6.columns.str.replace(" ", "_")
+# retira o total da coluna waste_type
+df6.drop(df6[df6.waste_type == 'Total'].index, inplace=True)
+# muda a tabela de wide para long
+df6 = df6.melt(id_vars=["country", "waste_type"], var_name="year", value_name="value")
+# limpa registro sem valor numérico pois tem coluna com valor= '..'
+df6.drop(df6[df6.value == '..'].index, inplace=True)
+# acerta o tipo da coluna para não dar erro
+df6['year'] = df6['year'].astype('int')
+df6['value'] = df6['value'].astype('float')
+# agrupar por tipo de lixo
+df6 = df6.groupby(['waste_type', 'year'])['value'].sum().reset_index()
+df6.to_json('../data/json/global-waste-by-region-and-end-of-life-fate-All.json', orient='records')
+group6 = df6['year']//10*10  # como décadas
+df6 = df6.groupby(['waste_type', group6]).value.sum().reset_index(name="value")
+df6.to_json('../data/json/global-waste-by-region-and-end-of-life-fate-All-dec.json', orient='records')
+
+
+
 
 # agrupa por década
 group5 = df5['year']//10*10  # como décadas
