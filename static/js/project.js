@@ -54,6 +54,11 @@ function atualiza_grafico() {
             tempo = "decada"
             tipo_descarte(arquivo, titulo, subtitulo, tempo);
             break;
+        case "oceanos":
+            arquivo = "data/json/global-waste-in-oceans-rivers-and-lakes.json";
+            titulo = "";
+            subtitulo = ""
+            oceanos(arquivo, titulo, subtitulo);
         default:
             arquivo = "data/json/dados";
             titulo = "Visão Geral";
@@ -765,6 +770,81 @@ function tipo_descarte(arquivo, titulo, subtitulo){
                 label: tipos[i]
             });
         };
+        new Highcharts.Chart(options);
+    });
+};
+
+function oceanos(arquivo, titulo, subtitulo){
+    apaga_tudo();
+    $("#topico").html('<p class="p-2 text-white bg-secondary rounded small"><b>O que é feito do lixo plástico</b></p>');
+    $("#fatos").html(
+        '<div class="row">\
+            <div class="col">\
+                <h4 class="text-secondary">Comparação dos diferentes destinos do lixo plástico - 2019</h4>\
+                <ul>\
+                    <li>Globalmente, 22% do lixo plástico é mal administrados.</li>\
+                    <li>A grande maioria do lixo vai parar em aterros sanitários, incinerados ou vazando para o meio ambiente, e apenas 9% são reciclados com sucesso.</li>\
+                    <li>Apesar da quantidade de lixo plástico incinerado ter aumentado nos últimos anos, essa técnica produz gases que afetam a atmosfera e ajudam com o efeito estufa.</li>\
+                </ul>\
+            </div>\
+        </div>'
+    ).hide().slideDown(1000);
+    var options = {
+        chart: {
+            zoomType: 'xy',
+            renderTo: 'chart',
+        },
+        credits: {
+            enabled: false
+        },
+        title: {
+            text: titulo,
+            style: {
+                fontFamily: 'Arial, Helvetica, sans serif',
+                fontWeight: 'bold',
+            }
+        },
+        subtitle: {
+            text: subtitulo
+        },
+        plotOptions: {
+            line: {
+                marker: {
+                    states: {
+                        hover: {
+                            fillColor: 'black',
+                            radius: 6
+                        }
+                    }
+                }
+            }
+        },
+        xAxis: {
+            title: {
+                text: "Anos",
+            },
+            crosshair: true,
+        },
+        yAxis:{
+            title: {
+                text: "Quantidade",
+            }
+        },
+        series: [{}],
+    };
+    $.getJSON(arquivo, function (data) {
+        var ano = [... new Set(data.map(x => x.year))];
+        var valor_oceano = data.filter(x => x.local === 'Accumulated stock in oceans').map(x => x.value);
+        var valor_rio = data.filter(x => x.local === 'Accumulated stock in rivers and lakes').map(x => x.value);
+        options.xAxis.categories = ano;
+        options.series.push({
+            name: 'Oceans',
+            data: valor_oceano
+        });
+        options.series.push({
+            name: 'Rivers and Lakes',
+            data: valor_rio
+        });
         new Highcharts.Chart(options);
     });
 };

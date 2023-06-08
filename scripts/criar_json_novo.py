@@ -130,3 +130,9 @@ df6.rename(columns={'waste_type': 'name'}, inplace=True)
 df6 = pd.pivot(df6, index=['name'], columns='year', values='value').reset_index()
 df6.to_json('../data/json/global-waste-by-region-and-end-of-life-fate-All-dec.json', orient='records')
 
+
+# montagem dataframe para tipos de descarte de plástico
+df7 = pd.read_csv('../data/csv/plastic-waste-in-oceans-rivers-and-lakes.csv')
+# muda a tabela de wide para long
+df7 = df7.melt(id_vars=["local"], var_name="year", value_name="value")
+df7.to_json('../data/json/global-waste-in-oceans-rivers-and-lakes.json', orient='records')
