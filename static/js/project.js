@@ -43,14 +43,14 @@ function atualiza_grafico() {
         case "descarte":
             arquivo = "data/json/global-waste-by-region-and-end-of-life-fate-Total.json";
             titulo = "Maior produção, maior lixo plástico";
-            subtitulo = "Quantidade total de Resíduos por País/Região (sem contabilizar reciclados e coletados)- em Milhões de Toneladas - décadas de 2000 e 2010"
+            subtitulo = "Quantidade Total de Resíduos por País/Região (sem contabilizar reciclados e coletados)- em Milhões de Toneladas - décadas de 2000 e 2010"
             tempo = "decada"
             descarte_regiao(arquivo, titulo, subtitulo, tempo);
             break;
         case "tipo_descarte":
-            arquivo = "data/json/global-waste-by-region-and-end-of-life-fate-All-dec.json";
-            titulo = "O que fazemos com o lixo plástico";
-            subtitulo = "Quantidade Global de resíduos por tipo de destinação final"
+            arquivo = "data/json/global-waste-by-region-and-end-of-life-fate-All.json";
+            titulo = "Globalmente, apenas 9% dos resíduos plásticos são reciclados";
+            subtitulo = "Parcela de plásticos tratados por categoria de gerenciamento de resíduos, após descarte de resíduos de reciclagem e lixo coletado, em Milhões de Toneladas - 2000 a 2019"
             tempo = "decada"
             tipo_descarte(arquivo, titulo, subtitulo, tempo);
             break;
@@ -694,23 +694,22 @@ function descarte_regiao(arquivo, titulo, subtitulo, tempo){
 
 function tipo_descarte(arquivo, titulo, subtitulo){
     apaga_tudo();
-    $("#topico").html('<p class="p-2 text-white bg-secondary rounded small"><b>Como é o descarte do lixo plástico</b></p>');
+    $("#topico").html('<p class="p-2 text-white bg-secondary rounded small"><b>O que é feito do lixo plástico</b></p>');
     $("#fatos").html(
         '<div class="row">\
             <div class="col">\
-                <h4 class="text-secondary">Um comparativo de consumo entre os países</h4>\
+                <h4 class="text-secondary">Comparação dos diferentes destinos do lixo plástico - 2019</h4>\
                 <ul>\
-                    <li>Estados Unidos e países europeus que fazem parte da OCDE, diminuiram suas participações mundiais no consumo global de plástico.</li>\
-                    <li>Essa diminuição se dá por conta de políticas de redução de consumo e conscientização.</li>\
-                    <li>Índia e China aumentaram suas participações, sendo a China, a maior produtora/consumidora de plástico no continente Asiático.</li>\
+                    <li>Globalmente, 22% do lixo plástico é mal administrados.</li>\
+                    <li>A grande maioria do lixo vai parar em aterros sanitários, incinerados ou vazando para o meio ambiente, e apenas 9% são reciclados com sucesso.</li>\
+                    <li>Apesar da quantidade de lixo plástico incinerado ter aumentado nos últimos anos, essa técnica produz gases que afetam a atmosfera e ajudam com o efeito estufa.</li>\
                 </ul>\
             </div>\
         </div>'
     ).hide().slideDown(1000);
     var options = {
         chart: {
-            type: 'dumbbell',
-            inverted: true,
+            type: 'area',
             renderTo: 'chart'
         },
         title: {
@@ -723,32 +722,49 @@ function tipo_descarte(arquivo, titulo, subtitulo){
         subtitle: {
             text: subtitulo
         },
-        xAxis: {
-            type: 'logarithmic',
+        xAxis: {},
+        yAxis: {
+            labels: {
+                format: '{value}%'
+            },
             title: {
-                text: 'Décadas'
+                enabled: false
             }
         },
-        yAxis: {
-            title: {
-                text: 'Porcentagem'
-            },
-        },
         tooltip: {
-            shared: true,
+            pointFormat: '<span style="color:{series.color}">{series.name}</span>: <b>{point.percentage:.1f}%</b> ({point.y:,.1f})<br/>',
+            split: true
         },
         credits: {
             enabled: false
         },
-        legend: {
-            enabled: false
+        plotOptions: {
+            area: {
+                stacking: 'percent',
+                marker: {
+                    enabled: false
+                }
+            }
         },
         series: [],
     };
     $.getJSON(arquivo, function (data) {
-        options.series.push({
-            data: data
-        });
+        var ano = [... new Set(data.map(x => x.year))];
+        var tipos = [... new Set(data.map(x => x.waste_type))]
+        options.xAxis.categories = ano;
+        for (var i=0; i<tipos.length; i++){
+            var novaserie = [];
+            $.each(data, function(j, item){
+                if (item.waste_type === tipos[i]){
+                    novaserie.push(item.value);
+                };
+            });
+            options.series.push({
+                name: tipos[i],
+                data: novaserie,
+                label: tipos[i]
+            });
+        };
         new Highcharts.Chart(options);
     });
 };

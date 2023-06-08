@@ -106,12 +106,13 @@ df6 = pd.read_csv('../data/csv/plastic-waste-by-region-and-end-of-life-fate-All.
 # apaga coluna group e subgroup que não iremos utilizar
 df6 = df6.drop('group', axis=1)
 df6 = df6.drop('subgroup', axis=1)
+df6 = df6.drop('country', axis=1)
 # remove espaços dos nomes das colunas, trocando por _
 df6.columns = df6.columns.str.replace(" ", "_")
 # retira o total da coluna waste_type
 df6.drop(df6[df6.waste_type == 'Total'].index, inplace=True)
 # muda a tabela de wide para long
-df6 = df6.melt(id_vars=["country", "waste_type"], var_name="year", value_name="value")
+df6 = df6.melt(id_vars=["waste_type"], var_name="year", value_name="value")
 # limpa registro sem valor numérico pois tem coluna com valor= '..'
 df6.drop(df6[df6.value == '..'].index, inplace=True)
 # acerta o tipo da coluna para não dar erro
