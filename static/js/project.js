@@ -223,7 +223,11 @@ function aumento_producao(arquivo, titulo, subtitulo){
                 text: "Quantidade",
             }
         },
-        series: [{}],
+        series: [{
+            label: {
+                enabled: false
+            }
+        }],
     };
 
     $.getJSON(arquivo, function (data) {
@@ -818,6 +822,9 @@ function oceanos(arquivo, titulo, subtitulo){
                     }
                 }
             }
+        },
+        legend: {
+            enabled: false
         },
         xAxis: {
             title: {
