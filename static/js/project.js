@@ -56,7 +56,7 @@ function atualiza_grafico() {
             break;
         case "oceanos":
             arquivo = "data/json/global-waste-in-oceans-rivers-and-lakes.json";
-            titulo = "Somente em 2019, 6,1 Milhões de Toneladas de lixo plástico foram parar em rios, lagos e oceanos";
+            titulo = "Somente em 2019, mais de 6 Milhões de Toneladas de lixo plástico foram parar em rios, lagos e oceanos";
             subtitulo = "Rota do lixo plástico dos rios até o oceano - em Milhões de Toneladas - 2019"
             grafico_sankey_chord(arquivo, "dependencywheel", titulo, subtitulo);
         default:
@@ -251,7 +251,6 @@ function primario_secundario(arquivo, titulo, subtitulo, tipo, tempo){
                     <li>A produção de plásticos secundários mais do que quadruplicou nas últimas duas décadas, de aproximadamente 6,7 Milhões de Toneladas em 2000 para 29,1 Milhões de Toneladas em 2019.</li>\
                     <li>Entretanto, continua pequena em comparação com a produção de plásticos primários representando apenas pouco mais de 6% da produção total.</li>\
                     <li>Em conjunto, o crescimento contínuo da produção primária e o tamanho relativamente pequeno da produção secundária sugerem que não houve uma mudança fundamental no mercado para plásticos secundários.</li>\
-                    <li>Definir metas de conteúdo reciclado e investir em tecnologias de reciclagem aprimoradas pode ajudar a tornar os mercados secundários mais competitivos e lucrativos.</li>\
                 </ul>\
             </div>\
         </div>'
@@ -337,15 +336,9 @@ function primario_secundario(arquivo, titulo, subtitulo, tipo, tempo){
                     novaserie.push(item.value);
                 };
             });
-            if (options.chart.type === "bar"){
-                etiquetas = {enabled: true};
-            } else {
-                etiquetas = {enabled: false};
-            }
             options.series.push({
                 name: tipos[i],
                 data: novaserie,
-                dataLabels: etiquetas
             });
         };
         new Highcharts.Chart(options);
@@ -685,7 +678,7 @@ function tipo_descarte(arquivo, titulo, subtitulo){
             <div class="col">\
                 <h4 class="text-secondary">Comparação dos diferentes destinos do lixo plástico - 2019</h4>\
                 <ul>\
-                    <li>Globalmente, 22% do lixo plástico é mal administrados.</li>\
+                    <li>Globalmente, 22% do lixo plástico é mal administrado.</li>\
                     <li>A grande maioria do lixo vai parar em aterros sanitários, incinerados ou vazando para o meio ambiente, e apenas 9% são reciclados com sucesso.</li>\
                     <li>Apesar da quantidade de lixo plástico incinerado ter aumentado nos últimos anos, essa técnica produz gases que afetam a atmosfera e agravam o efeito estufa.</li>\
                 </ul>\
@@ -750,84 +743,6 @@ function tipo_descarte(arquivo, titulo, subtitulo){
                 label: tipos[i]
             });
         };
-        new Highcharts.Chart(options);
-    });
-};
-
-function oceanos(arquivo, titulo, subtitulo){
-    apaga_tudo();
-    $("#topico").html('<p class="p-2 text-white bg-secondary rounded small"><b>O que é feito do lixo plástico</b></p>');
-    $("#fatos").html(
-        '<div class="row">\
-            <div class="col">\
-                <h4 class="text-secondary">Comparação dos diferentes destinos do lixo plástico - 2019</h4>\
-                <ul>\
-                    <li>Globalmente, 22% do lixo plástico é mal administrados.</li>\
-                    <li>A grande maioria do lixo vai parar em aterros sanitários, incinerados ou vazando para o meio ambiente, e apenas 9% são reciclados com sucesso.</li>\
-                    <li>Apesar da quantidade de lixo plástico incinerado ter aumentado nos últimos anos, essa técnica produz gases que afetam a atmosfera e ajudam com o efeito estufa.</li>\
-                </ul>\
-            </div>\
-        </div>'
-    ).hide().slideDown(1000);
-    var options = {
-        chart: {
-            zoomType: 'xy',
-            renderTo: 'chart',
-        },
-        credits: {
-            enabled: false
-        },
-        title: {
-            text: titulo,
-            style: {
-                fontFamily: 'Arial, Helvetica, sans serif',
-                fontWeight: 'bold',
-            }
-        },
-        subtitle: {
-            text: subtitulo
-        },
-        plotOptions: {
-            line: {
-                marker: {
-                    states: {
-                        hover: {
-                            fillColor: 'black',
-                            radius: 6
-                        }
-                    }
-                }
-            }
-        },
-        legend: {
-            enabled: false
-        },
-        xAxis: {
-            title: {
-                text: "Anos",
-            },
-            crosshair: true,
-        },
-        yAxis:{
-            title: {
-                text: "Quantidade",
-            }
-        },
-        series: [{}],
-    };
-    $.getJSON(arquivo, function (data) {
-        var ano = [... new Set(data.map(x => x.year))];
-        var valor_oceano = data.filter(x => x.local === 'Accumulated stock in oceans').map(x => x.value);
-        var valor_rio = data.filter(x => x.local === 'Accumulated stock in rivers and lakes').map(x => x.value);
-        options.xAxis.categories = ano;
-        options.series.push({
-            name: 'Oceans',
-            data: valor_oceano
-        });
-        options.series.push({
-            name: 'Rivers and Lakes',
-            data: valor_rio
-        });
         new Highcharts.Chart(options);
     });
 };
