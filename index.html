@@ -31,6 +31,25 @@
 	</head>
 
 	<body class="fundo">
+
+        <!-- Modal -->
+        <div class="modal fade" id="meuModal" tabindex="-1">
+            <div class="modal-dialog modal-fullscreen modal-dialog-scrollable">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h6 class="text-white bg-danger p-1 rounded"><b>Dependência Plástica</b></h6>
+                        <button type="button" onclick="inicio()" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div id="modal-chart"></div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button"  onclick="$('#meuModal').modal('hide');inicio()" class="btn btn-primary">Iniciar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <div class="container-fluid d-flex flex-column">
             <div class="row mt-2">
                 <div class="col-sm-12">
