@@ -134,3 +134,8 @@ df6.to_json('../data/json/global-waste-by-region-and-end-of-life-fate-All-dec.js
 # montagem dataframe para tipos de descarte de plástico
 df7 = pd.read_csv('../data/csv/plastic-waste-in-oceans-rivers-and-lakes.csv')
 df7.to_json('../data/json/global-waste-in-oceans-rivers-and-lakes.json', orient='records')
+
+
+# montagem dataframe sankey de resumo
+df8 = pd.read_csv('../data/csv/abstract.csv')
+df8.to_json('../data/json/abstract.json', orient='records')

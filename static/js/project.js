@@ -1,5 +1,5 @@
 $( document ).ready(function() {
-    inicio();
+    resumo();
 });
 
 function apaga_tudo(){
@@ -14,6 +14,9 @@ function atualiza_grafico() {
     var visualizacao = $("#visualizacao").val();
 
     switch (visualizacao){
+        case "introducao":
+            inicio();
+            break;
         case "aumento_producao":
             arquivo = "data/json/global-plastics-production.json";
             titulo = "A produção de plástico aumentou quase 230 vezes desde 1950"
@@ -63,6 +66,14 @@ function atualiza_grafico() {
             arquivo = "data/json/dados";
             titulo = "Visão Geral";
     };
+};
+
+function resumo(){
+    
+    arquivo = "data/json/abstract.json";
+    titulo = "Resumo - Ciclo do Lixo"
+    subtitulo = "Visualização da produção, consumo e descarte de plástico em 2019"
+    grafico_sankey_chord(arquivo, "sankey", titulo, subtitulo)
 };
 
 function inicio(){
@@ -350,18 +361,20 @@ function primario_secundario(arquivo, titulo, subtitulo, tipo, tempo){
 
 function grafico_sankey_chord(arquivo, tipo, titulo, subtitulo){
     apaga_tudo();
-    $("#topico").html('<p class="p-2 text-white bg-secondary rounded small"><b>O lixo que vai para os rios e oceanos</b></p>');
-    $("#fatos").html(
-        '<div class="row">\
-            <div class="col">\
-                <h4 class="text-secondary">Rios despejam o lixo plástico no oceano</h4>\
-                <ul>\
-                    <li>Como a maior parte dos plásticos chega ao oceano através dos rios por meio de um processo lento que pode levar anos ou até décadas, estima-se que 109 Milhões de Toneladas de plásticos tenham se acumulado nos rios globalmente até o momento, com 1,8 Milhão de Toneladas fluindo para o oceano em 2019.</li>\
-                    <li>A limpeza desses plásticos da natureza está se tornando mais difícil e cara a cada ano, à medida que os plásticos se fragmentam em partículas cada vez menores.</li>\
-                </ul>\
-            </div>\
-        </div>'
-    ).hide().slideDown(1000);
+    if (tipo === 'dependencywheel'){
+        $("#topico").html('<p class="p-2 text-white bg-secondary rounded small"><b>O lixo que vai para os rios e oceanos</b></p>');
+        $("#fatos").html(
+            '<div class="row">\
+                <div class="col">\
+                    <h4 class="text-secondary">Rios despejam o lixo plástico no oceano</h4>\
+                    <ul>\
+                        <li>Como a maior parte dos plásticos chega ao oceano através dos rios por meio de um processo lento que pode levar anos ou até décadas, estima-se que 109 Milhões de Toneladas de plásticos tenham se acumulado nos rios globalmente até o momento, com 1,8 Milhão de Toneladas fluindo para o oceano em 2019.</li>\
+                        <li>A limpeza desses plásticos da natureza está se tornando mais difícil e cara a cada ano, à medida que os plásticos se fragmentam em partículas cada vez menores.</li>\
+                    </ul>\
+                </div>\
+            </div>'
+        ).hide().slideDown(1000);
+    };
     var options = {
         chart: {
             renderTo: 'chart',
