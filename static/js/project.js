@@ -56,9 +56,9 @@ function atualiza_grafico() {
             break;
         case "oceanos":
             arquivo = "data/json/global-waste-in-oceans-rivers-and-lakes.json";
-            titulo = "";
-            subtitulo = ""
-            oceanos(arquivo, titulo, subtitulo);
+            titulo = "Somente em 2019, 6,1 Milhões de Toneladas de lixo plástico foram parar em rios, lagos e oceanos";
+            subtitulo = "Rota do lixo plástico dos rios até o oceano - em Milhões de Toneladas - 2019"
+            grafico_sankey_chord(arquivo, "dependencywheel", titulo, subtitulo);
         default:
             arquivo = "data/json/dados";
             titulo = "Visão Geral";
@@ -300,14 +300,21 @@ function primario_secundario(arquivo, titulo, subtitulo, tipo, tempo){
             categories: [],
             title: {
                 text: "Ano"
-            }
+            },
+            labels: {
+                step: 2
+            },
+        },
+        legend: {
+            enabled: false
         },
         plotOptions: {
             area: {
+                stacking: 'normal',
                 marker: {
                     enabled: false,
                     symbol: 'circle',
-                    radius: 5,
+                    radius: 3,
                     states: {
                         hover: {
                             enabled: true
@@ -321,7 +328,7 @@ function primario_secundario(arquivo, titulo, subtitulo, tipo, tempo){
 
     $.getJSON(arquivo, function(data) {
         var ano = [... new Set(data.map(x => x.year))];
-        var tipos = [... new Set(data.map(x => x.type_of_plastic))];
+        var tipos = [... new Set(data.filter(x => x.type_of_plastic != 'Total').map(x => x.type_of_plastic))];
         options.xAxis.categories = ano;
         for (var i=0; i<tipos.length; i++){
             var novaserie = [];
@@ -350,56 +357,25 @@ function primario_secundario(arquivo, titulo, subtitulo, tipo, tempo){
 
 function grafico_sankey_chord(arquivo, tipo, titulo, subtitulo){
     apaga_tudo();
-    $("#topico").html('<p class="p-2 text-white bg-secondary rounded small"><b>Em que usamos todo esse plástico?</b></p>');
+    $("#topico").html('<p class="p-2 text-white bg-secondary rounded small"><b>O lixo que vai para os rios e oceanos</b></p>');
     $("#fatos").html(
         '<div class="row">\
             <div class="col">\
-                <h4 class="text-secondary">Aplicações e polímeros mais utilizados</h4>\
+                <h4 class="text-secondary">Rios despejam o lixo plástico no oceano</h4>\
                 <ul>\
-                    <li>Juntos, as aplicações de embalagem, construção e transporte respondem por mais de 60% do uso total de plásticos. Portanto, é aqui que podem ser obtidos os maiores ganhos ambientais, se quisermos reduzir nosso consumo de plástico.</li>\
-                    <li>As outras principais aplicações do uso de plásticos incluem têxteis, produtos de consumo doméstico e produtos não domésticos ou institucionais, eletrônicos, maquinário e pneus.</li>\
+                    <li>Como a maior parte dos plásticos chega ao oceano através dos rios por meio de um processo lento que pode levar anos ou até décadas, estima-se que 109 Milhões de Toneladas de plásticos tenham se acumulado nos rios globalmente até o momento, com 1,8 Milhão de Toneladas fluindo para o oceano em 2019.</li>\
+                    <li>A limpeza desses plásticos da natureza está se tornando mais difícil e cara a cada ano, à medida que os plásticos se fragmentam em partículas cada vez menores.</li>\
                 </ul>\
             </div>\
         </div>'
     ).hide().slideDown(1000);
-   
-    const labels = ['Polímeros', 'Décadas', 'Indústria'];
-
     var options = {
         chart: {
             renderTo: 'chart',
             type: tipo,
-            spacingBottom: 50,
-            events: {
-            render: function() {
-                const positions = [30, this.chartWidth / 2, this.chartWidth - 30];
-
-                if (this.customLabels) {
-                this.customLabels.forEach((customLabel, i) => {
-                    customLabel.attr({
-                    x: positions[i],
-                    y: this.chartHeight - 20
-                    });
-                });
-                } else {
-                this.customLabels = [];
-                labels.forEach((label, i) => {
-                    this.customLabels.push(
-                    this.renderer.text(labels[i])
-                    .attr({
-                        x: positions[i],
-                        y: this.chartHeight - 20,
-                        align: 'center'
-                    })
-                    .css({
-                        fontSize: '12px',
-                    })
-                    .add()
-                    );
-                });
-                }
-            }
-            }
+        },
+        dataLabels:{
+            distance: 10
         },
         credits: {
             enabled: false
@@ -711,7 +687,7 @@ function tipo_descarte(arquivo, titulo, subtitulo){
                 <ul>\
                     <li>Globalmente, 22% do lixo plástico é mal administrados.</li>\
                     <li>A grande maioria do lixo vai parar em aterros sanitários, incinerados ou vazando para o meio ambiente, e apenas 9% são reciclados com sucesso.</li>\
-                    <li>Apesar da quantidade de lixo plástico incinerado ter aumentado nos últimos anos, essa técnica produz gases que afetam a atmosfera e ajudam com o efeito estufa.</li>\
+                    <li>Apesar da quantidade de lixo plástico incinerado ter aumentado nos últimos anos, essa técnica produz gases que afetam a atmosfera e agravam o efeito estufa.</li>\
                 </ul>\
             </div>\
         </div>'
