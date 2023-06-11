@@ -93,6 +93,7 @@ function resumo(){
         },
         series: [{
             clip: false,
+            minLinkWidth: 3,
             keys: ['from', 'to', 'weight'],
             data: [
                 ["Plásticos de <br>combustíveis<br>fósseis","Plástico<br>primário",429],
@@ -100,8 +101,8 @@ function resumo(){
                 ["Plástico<br>primário","Vazamento de<br>microplástico",2.7],
                 ["Plástico<br>primário","Plástico em uso",430.64],
                 ["Plástico secundário","Plástico em uso",29.1],
-                ["Plástico em uso","Lixo plástico",331.29],
                 ["Plástico em uso","Vazamento de<br>atividades marinhas",0.3],
+                ["Plástico em uso","Lixo plástico",331.29],
                 ["Lixo plástico","Mal administrado",79.4],
                 ["Mal administrado","Vazamento aquático",6],
                 ["Mal administrado","Vazamento terrestre",13],
@@ -110,10 +111,10 @@ function resumo(){
                 ["Lixo plástico","Incinerado",67.3],
                 ["Lixo plástico","Aterro",173.8],
                 ["Resíduo da reciclagem","Lixo plástico",22],
-                ["Vazamento aquático","Vazamento para rios",5.8],
                 ["Vazamento aquático","Vazamento das costas para oceanos",0.3],
-                ["Vazamento para rios","Microplástico - rios",0.2],
+                ["Vazamento aquático","Vazamento para rios",5.8],
                 ["Vazamento para rios","Transporte para oceanos",1.4],
+                ["Vazamento para rios","Microplástico - rios",0.2],
                 ["Vazamento das costas para oceanos","Microplástico - oceanos",0.1],
                 ["Lixo plástico","Coletado para reciclagem",55],
                 ["Coletado para reciclagem","Subproduto",32.8],
@@ -122,7 +123,7 @@ function resumo(){
                 ["Coletado para reciclagem","Resíduo da reciclagem",22],
                 ["Perdas no processamento","Resíduo da reciclagem",3.9],
                 ["Vazamento para rios","Estoque de lixo nos rios e lagos",5.8]
-                ["Estoque de lixo nos rios e lagos","Estoque de lixo nos rios e lagos",109]
+                ["Estoque de lixo nos rios e lagos","",109]
             ],
             nodes: [
                 {
@@ -132,11 +133,13 @@ function resumo(){
                 {
                     id: "Lixo plástico",
                     offsetVertical: 30,
+                    offsetHorizontal: -140,
                 },
                 {
                     id: "Resíduo da reciclagem",
                     offsetVertical: 150,
-                    column: 5
+                    offsetHorizontal: -80,
+                    column: 4
                     
                 },
                 {
@@ -145,36 +148,92 @@ function resumo(){
                     column: 2
                 },
                 {
+                    id: "Plástico em uso",
+                    offsetHorizontal: -40,
+                },
+                {
                     id: "Vazamento de<br>microplástico",
                     offsetVertical: -140,
                 },
                 {
                     id: "Vazamento de<br>atividades marinhas",
-                    offsetVertical: 130,
+                    offsetVertical: -130,
+                },
+                {
+                    id: "Mal administrado",
+                    offsetHorizontal: -130,
+                },
+                {
+                    id: "Incinerado",
+                    offsetHorizontal: -130,
+                },
+                {
+                    id: "Aterro",
+                    offsetHorizontal: -130,
+                },
+                {
+                    id: "Coletado para reciclagem",
+                    offsetHorizontal: -130,
                 },
                 {
                     id: "Vazamento aquático",
                     offsetVertical: -100,
+                    offsetHorizontal: -140,
                 },
                 {
                     id: "Vazamento terrestre",
                     offsetVertical: -70,
+                    offsetHorizontal: -140,
                 },
                 {
                     id: "Queima a céu aberto",
                     offsetVertical: -40,
+                    offsetHorizontal: -140,
                 },
                 {
                     id: "Lixões",
                     offsetVertical: -20,
+                    offsetHorizontal: -140,
                 },
                 {
                     id: "Subproduto",
                     offsetVertical: 40,
+                    offsetHorizontal: -140,
                 },
                 {
                     id: "Perdas no processamento",
                     offsetVertical: 40,
+                    offsetHorizontal: -190,
+                },
+                {
+                    id: "Vazamento para rios",
+                    offsetVertical: -30,
+                    offsetHorizontal: -160,
+                },
+                {
+                    id: "Transporte para oceanos",
+                    offsetVertical: -50,
+                    offsetHorizontal: -220,
+                },
+                {
+                    id: "Vazamento das costas para oceanos",
+                    offsetVertical: -150,
+                    offsetHorizontal: -70,
+                },
+                {
+                    id: "Microplástico - rios",
+                    offsetVertical: -10,
+                    offsetHorizontal: -150,
+                },
+                {
+                    id: "Microplástico - oceanos",
+                    offsetVertical: -110,
+                    offsetHorizontal: -90
+                },
+                {
+                    id: "Estoque de lixo nos rios e lagos",
+                    offsetVertical: 50,
+                    offsetHorizontal: -90
                 },
             ],
         }],
