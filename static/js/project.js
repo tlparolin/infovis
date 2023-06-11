@@ -71,8 +71,8 @@ function atualiza_grafico() {
 function resumo(){
     $('#meuModal').modal('show'); 
     arquivo = "data/json/abstract.json";
-    titulo = "Resumo - Ciclo do Lixo"
-    subtitulo = "Visualização da produção, consumo e descarte de plástico em 2019"
+    titulo = "Visualização da produção, consumo e descarte de plástico em 2019"
+    subtitulo = ""
     grafico_sankey_chord(arquivo, "sankey", titulo, subtitulo)
 };
 
@@ -117,6 +117,9 @@ function inicio(){
             enabled: false
         },
         series: [{
+            label: {
+                enabled: false
+            },
             dataLabels: {
                 connectorColor: 'silver',
                 connectorWidth: 2
