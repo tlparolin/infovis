@@ -1,26 +1,26 @@
 from,to,weight
-"Plásticos de combustíveis fósseis","Plástico primário",429
-"Bioplásticos","Plástico primário",2.32
-"Plástico primário","Plástico em uso",430.64
+"Plásticos de <br>combustíveis<br>fósseis","Plástico<br>primário",429
+"Bioplásticos","Plástico<br>primário",2.32
+"Plástico<br>primário","Vazamento de<br>microplástico",2.7
+"Plástico<br>primário","Plástico em uso",430.64
 "Plástico secundário","Plástico em uso",29.1
-"Resíduo plástico","Plástico secundário",29.1
-"Resíduo plástico","Perdas no processamento",3.9
+"Subproduto","Plástico secundário",29.1
+"Subproduto","Perdas no processamento",3.9
+"Plástico em uso","Vazamento de<br>atividades marinhas",0.3
 "Plástico em uso","Lixo plástico",331.29
 "Lixo plástico","Coletado para reciclagem",55
-"Coletado para reciclagem","Reciclagem de resíduos",22
-"Reciclagem de resíduos","Lixo plástico",22
-"Coletado para reciclagem","Resíduo plástico",32.8
+"Coletado para reciclagem","Resíduo da reciclagem",22
+"Resíduo da reciclagem","Lixo plástico",22
 "Lixo plástico","Incinerado",67.3
 "Lixo plástico","Aterro",173.8
 "Lixo plástico","Mal administrado",79.4
 "Lixo plástico","Limpeza de lixo",3
 "Limpeza de lixo","Mal administrado",3
-"Plástico primário","Vazamento de microplástico",2.7
-"Plástico em uso","Vazamento de atividades marinhas",0.3
 "Mal administrado","Vazamento aquático",6
 "Mal administrado","Vazamento terrestre",13
 "Mal administrado","Queima a céu aberto",26
 "Mal administrado","Lixões",34
+"Coletado para reciclagem","Subproduto",32.8
 "Vazamento aquático","Vazamento para rios",5.8
 "Vazamento aquático","Vazamento das costas para oceanos",0.3
 "Vazamento para rios","Microplástico - rios",0.2

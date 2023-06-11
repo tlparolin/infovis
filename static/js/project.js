@@ -61,7 +61,7 @@ function atualiza_grafico() {
             arquivo = "data/json/global-waste-in-oceans-rivers-and-lakes.json";
             titulo = "Somente em 2019, mais de 6 Milhões de Toneladas de lixo plástico foram parar em rios, lagos e oceanos";
             subtitulo = "Rota do lixo plástico dos rios até o oceano - em Milhões de Toneladas - 2019"
-            grafico_sankey_chord(arquivo, "dependencywheel", titulo, subtitulo);
+            oceanos(arquivo, "dependencywheel", titulo, subtitulo);
         default:
             arquivo = "data/json/dados";
             titulo = "Visão Geral";
@@ -71,9 +71,35 @@ function atualiza_grafico() {
 function resumo(){
     $('#meuModal').modal('show'); 
     arquivo = "data/json/abstract.json";
-    titulo = "Visualização da produção, consumo e descarte de plástico em 2019"
-    subtitulo = ""
-    grafico_sankey_chord(arquivo, "sankey", titulo, subtitulo)
+    apaga_tudo();
+    var options = {
+        chart: {
+            renderTo: 'modal-chart',
+            type: 'sankey',
+            marginBottom: 60
+        },
+        dataLabels:{
+            padding: 0,
+            distance: 0
+        },
+        credits: {
+            enabled: false
+        },
+        title: {
+            text: "Visualização da produção, consumo e descarte de plástico em 2019",
+            style: {
+                fontFamily: 'Arial, Helvetica, sans serif',
+                fontWeight: 'bold',
+            }
+        },
+        series: [{
+            clip: false,
+        }],
+    };
+    $.getJSON(arquivo, function (data) {
+        options.series[0].data = data;
+        new Highcharts.Chart(options);
+    });
 };
 
 function inicio(){
@@ -362,28 +388,23 @@ function primario_secundario(arquivo, titulo, subtitulo, tipo, tempo){
     });
 };
 
-function grafico_sankey_chord(arquivo, tipo, titulo, subtitulo){
+function oceanos(arquivo, tipo, titulo, subtitulo){
     apaga_tudo();
-    if (tipo === 'dependencywheel'){
-        $("#topico").html('<p class="p-2 text-white bg-secondary rounded small"><b>O lixo que vai para os rios e oceanos</b></p>');
-        $("#fatos").html(
-            '<div class="row">\
-                <div class="col">\
-                    <h4 class="text-secondary">Rios despejam o lixo plástico no oceano</h4>\
-                    <ul>\
-                        <li>Como a maior parte dos plásticos chega ao oceano através dos rios por meio de um processo lento que pode levar anos ou até décadas, estima-se que 109 Milhões de Toneladas de plásticos tenham se acumulado nos rios globalmente até o momento, com 1,8 Milhão de Toneladas fluindo para o oceano em 2019.</li>\
-                        <li>A limpeza desses plásticos da natureza está se tornando mais difícil e cara a cada ano, à medida que os plásticos se fragmentam em partículas cada vez menores.</li>\
-                    </ul>\
-                </div>\
-            </div>'
-        ).hide().slideDown(1000);
-        var lugar = 'chart';
-    } else {
-        var lugar = 'modal-chart';
-    };
+    $("#topico").html('<p class="p-2 text-white bg-secondary rounded small"><b>O lixo que vai para os rios e oceanos</b></p>');
+    $("#fatos").html(
+        '<div class="row">\
+            <div class="col">\
+                <h4 class="text-secondary">Rios despejam o lixo plástico no oceano</h4>\
+                <ul>\
+                    <li>Como a maior parte dos plásticos chega ao oceano através dos rios por meio de um processo lento que pode levar anos ou até décadas, estima-se que 109 Milhões de Toneladas de plásticos tenham se acumulado nos rios globalmente até o momento, com 1,8 Milhão de Toneladas fluindo para o oceano em 2019.</li>\
+                    <li>A limpeza desses plásticos da natureza está se tornando mais difícil e cara a cada ano, à medida que os plásticos se fragmentam em partículas cada vez menores.</li>\
+                </ul>\
+            </div>\
+        </div>'
+    ).hide().slideDown(1000);
     var options = {
         chart: {
-            renderTo: lugar,
+            renderTo: 'chart',
             type: tipo,
         },
         dataLabels:{
@@ -402,14 +423,8 @@ function grafico_sankey_chord(arquivo, tipo, titulo, subtitulo){
         subtitle: {
             text: subtitulo
         },
-        accessibility: {
-            point: {
-                valueDescriptionFormat: '{index}. De {point.from} para {point.to}: {point.weight}.'
-            }
-        },
         series: [{}],
     };
-
     $.getJSON(arquivo, function (data) {
         options.series[0].data = data;
         new Highcharts.Chart(options);
