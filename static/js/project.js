@@ -70,13 +70,12 @@ function atualiza_grafico() {
 
 function resumo(){
     $('#meuModal').modal('show'); 
-    arquivo = "data/json/abstract.json";
     apaga_tudo();
-    var options = {
+    new Highcharts.Chart({
         chart: {
             renderTo: 'modal-chart',
             type: 'sankey',
-            marginBottom: 60
+            marginBottom: 60,
         },
         dataLabels:{
             padding: 0,
@@ -94,11 +93,91 @@ function resumo(){
         },
         series: [{
             clip: false,
+            keys: ['from', 'to', 'weight'],
+            data: [
+                ["Plásticos de <br>combustíveis<br>fósseis","Plástico<br>primário",429],
+                ["Bioplásticos","Plástico<br>primário",2.32],
+                ["Plástico<br>primário","Vazamento de<br>microplástico",2.7],
+                ["Plástico<br>primário","Plástico em uso",430.64],
+                ["Plástico secundário","Plástico em uso",29.1],
+                ["Plástico em uso","Lixo plástico",331.29],
+                ["Plástico em uso","Vazamento de<br>atividades marinhas",0.3],
+                ["Lixo plástico","Mal administrado",79.4],
+                ["Mal administrado","Vazamento aquático",6],
+                ["Mal administrado","Vazamento terrestre",13],
+                ["Mal administrado","Queima a céu aberto",26],
+                ["Mal administrado","Lixões",34],
+                ["Lixo plástico","Incinerado",67.3],
+                ["Lixo plástico","Aterro",173.8],
+                ["Resíduo da reciclagem","Lixo plástico",22],
+                ["Vazamento aquático","Vazamento para rios",5.8],
+                ["Vazamento aquático","Vazamento das costas para oceanos",0.3],
+                ["Vazamento para rios","Microplástico - rios",0.2],
+                ["Vazamento para rios","Transporte para oceanos",1.4],
+                ["Vazamento das costas para oceanos","Microplástico - oceanos",0.1],
+                ["Lixo plástico","Coletado para reciclagem",55],
+                ["Coletado para reciclagem","Subproduto",32.8],
+                ["Subproduto","Perdas no processamento",3.9],
+                ["Subproduto","Plástico secundário",29.1],
+                ["Coletado para reciclagem","Resíduo da reciclagem",22],
+                ["Perdas no processamento","Resíduo da reciclagem",3.9],
+                ["Vazamento para rios","Estoque de lixo nos rios e lagos",5.8]
+                ["Estoque de lixo nos rios e lagos","Estoque de lixo nos rios e lagos",109]
+            ],
+            nodes: [
+                {
+                    id: "Plásticos de <br>combustíveis<br>fósseis",
+                    offsetVertical: -20,
+                },
+                {
+                    id: "Lixo plástico",
+                    offsetVertical: 30,
+                },
+                {
+                    id: "Resíduo da reciclagem",
+                    offsetVertical: 150,
+                    column: 5
+                    
+                },
+                {
+                    id: "Plástico secundário",
+                    offsetVertical: 150,
+                    column: 2
+                },
+                {
+                    id: "Vazamento de<br>microplástico",
+                    offsetVertical: -140,
+                },
+                {
+                    id: "Vazamento de<br>atividades marinhas",
+                    offsetVertical: 130,
+                },
+                {
+                    id: "Vazamento aquático",
+                    offsetVertical: -100,
+                },
+                {
+                    id: "Vazamento terrestre",
+                    offsetVertical: -70,
+                },
+                {
+                    id: "Queima a céu aberto",
+                    offsetVertical: -40,
+                },
+                {
+                    id: "Lixões",
+                    offsetVertical: -20,
+                },
+                {
+                    id: "Subproduto",
+                    offsetVertical: 40,
+                },
+                {
+                    id: "Perdas no processamento",
+                    offsetVertical: 40,
+                },
+            ],
         }],
-    };
-    $.getJSON(arquivo, function (data) {
-        options.series[0].data = data;
-        new Highcharts.Chart(options);
     });
 };
 
