@@ -91,7 +91,11 @@ function resumo(){
                 fontWeight: 'bold',
             }
         },
+        subtitle: {
+            text: "Quantidades Em Milhões de Toneladas"
+        },
         series: [{
+            name: 'Produção, Consumo e Descarte de Plástico',
             clip: false,
             minLinkWidth: 3,
             keys: ['from', 'to', 'weight'],
@@ -113,17 +117,21 @@ function resumo(){
                 ["Resíduo da reciclagem","Lixo plástico",22],
                 ["Vazamento aquático","Vazamento das costas para oceanos",0.3],
                 ["Vazamento aquático","Vazamento para rios",5.8],
+                ["Vazamento das costas para oceanos","Degradação para microplástico",0.1],
+                ["Vazamento para rios","Degradação para microplástico",0.2],
                 ["Vazamento para rios","Transporte para oceanos",1.4],
-                ["Vazamento para rios","Microplástico - rios",0.2],
-                ["Vazamento das costas para oceanos","Microplástico - oceanos",0.1],
                 ["Lixo plástico","Coletado para reciclagem",55],
                 ["Coletado para reciclagem","Subproduto",32.8],
                 ["Subproduto","Perdas no processamento",3.9],
                 ["Subproduto","Plástico secundário",29.1],
                 ["Coletado para reciclagem","Resíduo da reciclagem",22],
                 ["Perdas no processamento","Resíduo da reciclagem",3.9],
-                ["Vazamento para rios","Estoque de lixo nos rios e lagos",5.8]
-                ["Estoque de lixo nos rios e lagos","",109]
+                ["Vazamento para rios","Estoque acumulado de lixo nos rios e lagos",5.8],
+                ["Estoque acumulado de lixo nos rios e lagos",,109],
+                ["Degradação para microplástico","Estoque acumulado de lixo nos oceanos",0.3],
+                ["Transporte para oceanos","Estoque acumulado de lixo nos oceanos",1.4],
+                ["Vazamento das costas para oceanos","Estoque acumulado de lixo nos oceanos",0.2],
+                ["Estoque acumulado de lixo nos oceanos",,30],
             ],
             nodes: [
                 {
@@ -137,14 +145,14 @@ function resumo(){
                 },
                 {
                     id: "Resíduo da reciclagem",
-                    offsetVertical: 150,
+                    offsetVertical: 130,
                     offsetHorizontal: -80,
                     column: 4
                     
                 },
                 {
                     id: "Plástico secundário",
-                    offsetVertical: 150,
+                    offsetVertical: 140,
                     column: 2
                 },
                 {
@@ -157,7 +165,7 @@ function resumo(){
                 },
                 {
                     id: "Vazamento de<br>atividades marinhas",
-                    offsetVertical: -130,
+                    offsetVertical: -110,
                 },
                 {
                     id: "Mal administrado",
@@ -212,28 +220,28 @@ function resumo(){
                 },
                 {
                     id: "Transporte para oceanos",
-                    offsetVertical: -50,
+                    offsetVertical: 50,
                     offsetHorizontal: -220,
                 },
                 {
                     id: "Vazamento das costas para oceanos",
                     offsetVertical: -150,
-                    offsetHorizontal: -70,
+                    offsetHorizontal: -120,
                 },
                 {
-                    id: "Microplástico - rios",
-                    offsetVertical: -10,
-                    offsetHorizontal: -150,
+                    id: "Degradação para microplástico",
+                    offsetVertical: -20,
+                    offsetHorizontal: -200,
                 },
                 {
-                    id: "Microplástico - oceanos",
-                    offsetVertical: -110,
-                    offsetHorizontal: -90
+                    id: "Estoque acumulado de lixo nos rios e lagos",
+                    offsetVertical: 120,
+                    offsetHorizontal: -190
                 },
                 {
-                    id: "Estoque de lixo nos rios e lagos",
-                    offsetVertical: 50,
-                    offsetHorizontal: -90
+                    id: "Estoque acumulado de lixo nos oceanos",
+                    offsetVertical: -20,
+                    offsetHorizontal: -190
                 },
             ],
         }],
