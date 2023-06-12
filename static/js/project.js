@@ -79,7 +79,7 @@ function resumo(){
         },
         dataLabels:{
             padding: 0,
-            distance: 0
+            distance: 0,
         },
         credits: {
             enabled: false
@@ -97,7 +97,13 @@ function resumo(){
         series: [{
             name: 'Produção, Consumo e Descarte de Plástico',
             clip: false,
-            minLinkWidth: 3,
+            minLinkWidth: 4,
+            // dataLabels: {
+            //     nodeFormatter: function() {
+            //         const point = this.point;
+            //         return point.name + '<br>' + Math.round(point.sum,2)
+            //     }
+            // },
             keys: ['from', 'to', 'weight'],
             data: [
                 ["Plásticos de <br>combustíveis<br>fósseis","Plástico<br>primário",429],
