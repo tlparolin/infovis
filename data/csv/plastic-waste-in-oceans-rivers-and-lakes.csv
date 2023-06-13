@@ -1,6 +1,6 @@
 from,to,weight
-"Lixo Plástico","Plásticos no fundo de rios e lagos",3.1
-"Lixo Plástico","Lixo da costa para o oceano",0.3
+"Vazamento Aquático de lixo","Plásticos no fundo de rios e lagos",3.1
+"Vazamento Aquático de lixo","Lixo da costa para o oceano",0.3
 "Plásticos no fundo de rios e lagos","Estoque de plásticos em rios e lagos",3.1
 "Plásticos flutuando em rios","Estoque de plásticos em rios e lagos",1.3
 "Transporte para o oceano","Plásticos flutuando próximo ao litoral",1.5
@@ -8,7 +8,7 @@ from,to,weight
 "Transporte para o oceano","Plásticos flutuando em alto mar",0.1
 "Lixo da costa para o oceano","Transporte para o oceano",0.3
 "Plásticos flutuando em rios","Transporte para o oceano",1.4
-"Lixo Plástico","Plásticos flutuando em rios",2.7
+"Vazamento Aquático de lixo","Plásticos flutuando em rios",2.7
 "Plásticos flutuando próximo ao litoral","Estoque de plásticos no oceano",1.5
 "Plásticos no fundo do oceano","Estoque de plásticos no oceano",0.2
 "Plásticos flutuando em alto mar","Estoque de plásticos no oceano",0.1
