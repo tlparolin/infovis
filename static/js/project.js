@@ -93,7 +93,7 @@ function resumo(){
             }
         },
         subtitle: {
-            text: "Quantidades Em Milhões de Toneladas"
+            text: "Quantidades em Milhões de Toneladas"
         },
         series: [{
             name: 'Produção, Consumo e Descarte de Plástico',
