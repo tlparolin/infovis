@@ -36,14 +36,29 @@
         <div class="modal fade" id="meuModal" tabindex="-1">
             <div class="modal-dialog modal-fullscreen modal-dialog-scrollable">
                 <div class="modal-content">
-                    <div class="modal-header">
-                        <h6 class="text-white bg-danger p-1 rounded"><b>Dependência Plástica</b></h6>
-                    </div>
                     <div class="modal-body">
-                        <div id="modal-chart"></div>
-                        <p class="text-end mt-5">
-                            <button type="button"  onclick="$('#meuModal').modal('hide');inicio()" class="btn btn-primary">Iniciar</button>
-                        </p>
+                        <div class="row border-bottom">
+                            <div class="col-sm-12 col-md-4 text-start">
+                                <h6 class="text-white d-flex d-inline-flex bg-danger p-1 rounded"><b>Dependência Plástica</b></h6>
+                            </div>
+                            <div class="col-sm-12 col-md-4 text-center">
+                                <p class="credito">
+                                    Passe o mouse sobre o diagrama para verificar os fluxos e valores<br>
+                                    Site melhor visualizado em resolução HD (1280x720) ou superior
+                                </p>
+                            </div>
+                            <div class="col-sm-12 col-md-4 text-end">
+                                <button type="button" onclick="$('#meuModal').modal('hide');inicio()" class="btn btn-primary">Iniciar</button>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <div id="modal-chart"></div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col"><p class="credito small text-end">Thiago Luiz Parolin - 2023</p></div>
+                        </div>
                     </div>
                 </div>
             </div>
