@@ -1,7 +1,7 @@
 body {
     font-family: Arial, Helvetica, sans-serif !important;
 }
-.chart{
+.chart, .modal-chart{
     height: 85vh;
     min-height: 85vh;
 }
@@ -9,6 +9,10 @@ body {
     .chart{
         height: 75vh;
         min-height: 75vh;
+    }
+    .modal-chart{
+        height: 90vh;
+        min-height: 90vh;
     }
 }
 .credito{

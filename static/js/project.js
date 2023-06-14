@@ -2,6 +2,15 @@ $( document ).ready(function() {
     resumo();
 });
 
+function tutorial(){
+    introJs().setOptions({
+        prevLabel: 'Anterior',
+        nextLabel: 'Próximo',
+        doneLabel: 'Terminar',
+        disableInteraction: true,
+    }).start();
+};
+
 function apaga_tudo(){
     $("#fatos").html("");
     $("#topico").html("");
@@ -75,7 +84,7 @@ function resumo(){
         chart: {
             renderTo: 'modal-chart',
             type: 'sankey',
-            height: 600,
+            height: 550,
             marginBottom: 70,
         },
         dataLabels:{
@@ -164,8 +173,8 @@ function resumo(){
                 {
                     id: "Plástico secundário",
                     column: 2,
-                    offsetVertical: 230,
-                    offsetHorizontal: -50
+                    offsetVertical: 190,
+                    offsetHorizontal: -70
                 },
                 {
                     id: "Plástico em uso",
@@ -186,7 +195,7 @@ function resumo(){
                 {
                     id: "Vazamento de atividades marinhas",
                     column: 4,
-                    offsetVertical: -220,
+                    offsetVertical: -200,
                     offsetHorizontal: -20
                 },
                 {
@@ -220,7 +229,7 @@ function resumo(){
                 {
                     id: "Transporte para<br>o oceano",
                     offsetVertical: -150,
-                    offsetHorizontal: 30
+                    offsetHorizontal: -20
                 },
                 {
                     id: "Estoque acumulado<br>de plásticos em<br>rios e lagos",
@@ -233,11 +242,11 @@ function resumo(){
                 },
                 {
                     id: "Plásticos no fundo<br>do oceano",
-                    offsetVertical: -40
+                    offsetVertical: -60
                 },
                 {
                     id: "Plásticos flutuando<br>em alto mar",
-                    offsetVertical: 20
+                    offsetVertical: -120
                 },
                 
                 
