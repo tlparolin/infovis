@@ -491,7 +491,8 @@ function primario_secundario(arquivo, titulo, subtitulo, tipo, tempo){
     botao.click( function(){
         primario_secundario(arquivo, titulo, subtitulo, tipo, tempo);
     });
-    $("#postexto").append(botao);
+    var botao_linlog = $('<input type="button" id="linlog" class="btn btn-sm btn-primary mx-2" value="Alterar Escala"/>');
+    $("#postexto").append(botao).append(botao_linlog);
     var options = {
         chart: {
             panning: {
@@ -545,6 +546,10 @@ function primario_secundario(arquivo, titulo, subtitulo, tipo, tempo){
                 step: 2
             },
         },
+        yAxis: {
+            type: 'linear',
+            minorTickInterval: 'auto'
+        },
         legend: {
             enabled: true
         },
@@ -582,7 +587,15 @@ function primario_secundario(arquivo, titulo, subtitulo, tipo, tempo){
                 data: novaserie,
             });
         };
-        new Highcharts.Chart(options);
+        var chart = new Highcharts.Chart(options);
+
+        var isLogarithmic = false;
+        $("#linlog").on( "click", () => {
+            chart.yAxis[0].update({
+                type: isLogarithmic ? 'linear' : 'logarithmic'
+            });
+            isLogarithmic = !isLogarithmic; 
+        });
     }).fail(function( jqxhr, textStatus, error ) {
         var err = textStatus + ", " + error;
         console.log( "Request Failed: " + err );
