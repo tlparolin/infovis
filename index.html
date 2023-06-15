@@ -35,7 +35,7 @@
 
 	<body class="fundo">
 
-        <!-- Modal -->
+        <!-- Modal inicio -->
         <div class="modal fade" id="meuModal" tabindex="-1">
             <div class="modal-dialog modal-fullscreen modal-dialog-scrollable">
                 <div class="modal-content">
@@ -67,6 +67,25 @@
             </div>
         </div>
 
+        <!-- Modal Fim -->
+        <div class="modal fade" id="modal-conclusao" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="modal-conclusao-titulo"></h1>
+                    <button type="button" onclick="$('#modal-conclusao').modal('hide')" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                   <div id="modal-conclusao-fatos"></div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-sm btn-primary" data-bs-dismiss="modal">Fechar</button>
+                </div>
+                </div>
+            </div>
+        </div>
+          
+
         <div class="container-fluid d-flex flex-column">
             <div class="row mt-2">
                 <div class="col-sm-12">
@@ -75,7 +94,7 @@
                             <div class="row">
                                 <div id="menu" class="col-sm-12 col-md-4">
                                     <h3 class="text-white bg-danger p-1 rounded"><b>PlastView</b></h3>
-                                    <p><b>Visualização da Relação entre o Mundo e o Plástico</b></p>
+                                    <p><b>Visualização da Relação de Dependência do Mundo com o Plástico</b></p>
                                     <hr>
                                     <p>
                                         <button data-intro="Clique aqui para ver o diagrama inicial que resume a produção, consumo e descarte de plástico em 2019" class="btn btn-sm btn-primary" onclick="resumo()"><i class="fas fa-home"></i></button>
@@ -93,6 +112,7 @@
                                             <option value="descarte">Quanto produzimos de lixo</option>
                                             <option value="tipo_descarte">O que é feito do lixo plástico</option>
                                             <option value="oceanos">O lixo que vai para os rios e oceanos</option>
+                                            <option value="conclusao">Conclusão</option>
                                         </select>
                                     </p>
                                     <div id="card-fatos" class="card bg-white border mt-2" data-intro="Neste espaço, são apresentados fatos e inferências sobre os gráficos">

@@ -71,10 +71,27 @@ function atualiza_grafico() {
             titulo = "Somente em 2019, mais de 6 Milhões de Toneladas de lixo plástico foram parar em rios, lagos e oceanos";
             subtitulo = "Rota do lixo plástico dos rios até o oceano - em Milhões de Toneladas - 2019"
             oceanos(arquivo, "dependencywheel", titulo, subtitulo);
+            break;
+        case "conclusao":
+            conclusao();
+            break;
         default:
-            arquivo = "data/json/dados";
-            titulo = "Visão Geral";
+            resumo();
     };
+};
+
+function conclusao(){
+    $("#visualizacao").val("");
+    $('#modal-conclusao').modal('show'); 
+    $('#modal-conclusao-titulo').html('Conclusão');
+    $("#modal-conclusao-fatos").html( 
+        '<div class="row">\
+            <div class="col">\
+                <p>Através da visualização interativa e da análise dos dados, é possível a identificação da necessidade de se buscar soluções sustentáveis e reduzir nossa dependência do plástico descartável.</p>\
+                <p>Esperamos que esta ferramenta contribua para uma maior conscientização e para a promoção de ações efetivas na busca por um futuro mais sustentável, onde a relação com o plástico seja redefinida com base em princípios de responsabilidade e preservação ambiental.</p>\
+            </div>\
+        </div>'
+    );
 };
 
 function resumo(){
@@ -95,7 +112,7 @@ function resumo(){
             enabled: false
         },
         title: {
-            text: "Diagrama de Fluxo de produção, consumo e descarte de plástico em 2019",
+            text: "Fluxo de produção, consumo e descarte de plástico em 2019",
             style: {
                 fontFamily: 'Arial, Helvetica, sans serif',
                 fontWeight: 'bold',
@@ -107,7 +124,7 @@ function resumo(){
         series: [{
             name: 'Produção, Consumo e Descarte de Plástico',
             clip: false,
-            minLinkWidth: 5,
+            minLinkWidth: 2,
             // dataLabels: {
             //     nodeFormatter: function() {
             //         const point = this.point;
@@ -140,15 +157,14 @@ function resumo(){
                 ["Subproduto","Plástico secundário",29.1],
                 ["Coletado para<br>reciclagem","Resíduo da reciclagem",22.2],
                 ["Perdas no<br>processamento","Resíduo da reciclagem",3.9],
-                ["Vazamento<br>aquático","Plásticos no fundo<br>de rios e lagos",3.1],
+                ["Vazamento<br>aquático","Plásticos flutuando<br>em rios",2.7],
                 ["Plásticos flutuando<br>em rios","Estoque acumulado<br>de plásticos em<br>rios e lagos",1.3],
                 ["Plásticos flutuando<br>em rios","Transporte para<br>o oceano",1.4],
                 ["Transporte para<br>o oceano","Plásticos flutuando<br>próximo ao litoral",1.5],
                 ["Transporte para<br>o oceano","Plásticos no fundo<br>do oceano",0.2],
                 ["Transporte para<br>o oceano","Plásticos flutuando<br>em alto mar",0.1],
                 ["Lixo da costa<br>para o oceano","Transporte para<br>o oceano",0.3],
-                ["Vazamento<br>aquático","Plásticos flutuando<br>em rios",2.7],
-                ["Vazamento<br>aquático","Lixo da costa<br>para o oceano",0.3],
+                ["Vazamento<br>aquático","Plásticos no fundo<br>de rios e lagos",3.1],
                 ["Plásticos no fundo<br>de rios e lagos","Estoque acumulado<br>de plásticos em<br>rios e lagos",3.1],
                 ["Estoque acumulado<br>de plásticos em<br>rios e lagos",,109],
                 ["Plásticos flutuando<br>próximo ao litoral","Estoque acumulado<br>de plásticos<br>no oceano",1.5],
@@ -248,12 +264,6 @@ function resumo(){
                     id: "Plásticos flutuando<br>em alto mar",
                     offsetVertical: -120
                 },
-                
-                
-                
-                
-                
-                "Estoque acumulado<br>de plásticos<br>no oceano",
             ],
         }],
     });
