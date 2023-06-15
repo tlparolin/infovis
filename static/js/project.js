@@ -8,6 +8,48 @@ function tutorial(){
         nextLabel: 'Próximo',
         doneLabel: 'Terminar',
         disableInteraction: true,
+        steps: [
+            {
+                title: "Ajuda",
+                intro: "Bem-vindo ao mini tutorial de utilização do dashboard."
+            },
+            {
+                element: "#botao-home",
+                intro: "Clique aqui para ver o diagrama inicial que resume a produção, consumo e descarte de plástico em 2019."
+            },
+            {
+                element: "#ajudaa",
+                intro: "Clique aqui para acionar esse mini tutorial."
+            },
+            {
+                element: "#visualizacao",
+                intro: "Aqui estão disponíveis os tópicos que ajudam a contar nossa tese sobre a dependência plástica global da sociedade."
+            },
+            {
+                element: "#card-fatos",
+                intro: "Neste espaço, são apresentados fatos e inferências sobre os gráficos."
+            },
+            {
+                element: "#chart",
+                intro: "Aqui é o espaço destinado à visualização das informações para defesa de nossa história."
+            },
+            {
+                element: "#chart",
+                intro: "Todos os gráficos respondem e exibem valores com o movimento do mouse e com o clique em legendas."
+            },
+            {
+                element: "#chart",
+                intro: "Você pode dar zoom em alguns tipos de gráficos ao clicar e arrastar sobre a área de interesse"
+            },
+            {
+                element: "#chart",
+                intro: "Algumas etiquetas de valores podem ficar ocultas dependendo da resolução da tela para evitar sobreposições de textos."
+            },
+            {
+                element: "#postexto",
+                intro: "Neste local aparecem opções para mudar o tipo de gráfico quando disponível."
+            },
+        ]
     }).start();
 };
 
