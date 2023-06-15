@@ -51,7 +51,7 @@
                                 </p>
                             </div>
                             <div class="col-sm-12 col-md-4 text-end">
-                                <button type="button" onclick="$('#meuModal').modal('hide');inicio()" class="btn btn-sm btn-primary"><i class="fa-solid fa-arrow-pointer"></i> Iniciar</button>
+                                <button type="button" data-bs-toggle="tooltip" data-bs-title="Clique aqui" onclick="$('#meuModal').modal('hide');inicio()" class="btn btn-sm btn-primary"><i class="fa-solid fa-arrow-pointer"></i> Iniciar</button>
                             </div>
                         </div>
                         <div class="row">
@@ -97,9 +97,9 @@
                                     <p><b>Visualização da Relação de Dependência do Mundo com o Plástico</b></p>
                                     <hr>
                                     <p>
-                                        <button id="botao-home" class="btn btn-sm btn-primary" onclick="resumo()"><i class="fas fa-home"></i></button>
-                                        <button id="ajudaa" class="btn btn-sm btn-primary" onclick="tutorial()"><i class="fas fa-circle-question"></i></button>
-                                        <button id="fonte" class="btn btn-sm btn-primary" onclick="fonte()"><i class="fa-solid fa-database"></i></button>
+                                        <button id="botao-home" data-bs-toggle="tooltip" data-bs-title="Início" class="btn btn-sm btn-primary" onclick="resumo()"><i class="fas fa-home"></i></button>
+                                        <button id="ajudaa" data-bs-toggle="tooltip" data-bs-title="Ajuda" class="btn btn-sm btn-primary" onclick="tutorial()"><i class="fas fa-circle-question"></i></button>
+                                        <button id="fonte" data-bs-toggle="tooltip" data-bs-title="Fonte dos dados" class="btn btn-sm btn-primary" onclick="fonte()"><i class="fa-solid fa-database"></i></button>
                                     </p>
                                     <p class="small mt-2">
                                         Tópicos:
