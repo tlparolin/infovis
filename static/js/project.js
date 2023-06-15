@@ -662,6 +662,24 @@ function consumo_industria(arquivo, titulo, subtitulo){
     ).hide().slideDown(1000);
     var options = {
         chart: {
+            zoomType: 'xy',
+            resetZoomButton: {
+                theme: {
+                    fill: '#0d6efd',
+                    stroke: 'white',
+                    style: {
+                        color: 'white'
+                    },
+                    states: {
+                        hover: {
+                            fill: '#0b5ed7',
+                            style: {
+                                color: 'white'
+                            }
+                        }
+                    }
+                }
+            },
             type: 'bar',
             renderTo: 'chart'
         },
