@@ -39,7 +39,11 @@ function tutorial(){
             },
             {
                 element: "#chart",
-                intro: "Você pode dar zoom em alguns tipos de gráficos ao clicar e arrastar sobre a área de interesse"
+                intro: "Você pode dar zoom em alguns tipos de gráficos ao clicar e arrastar sobre a área de interesse, para retornar, utilize o botão 'Reset Zoom' que aparecerá no canto superior direito do gráfico."
+            },
+            {
+                element: "#chart",
+                intro: "Utilize a tecla 'SHIFT' + clique e arraste para fazer movimento de PAN nos gráficos onde o zoom está disponível"
             },
             {
                 element: "#chart",
@@ -120,6 +124,20 @@ function atualiza_grafico() {
         default:
             resumo();
     };
+};
+
+function fonte(){
+    $("#visualizacao").val("");
+    $('#modal-conclusao').modal('show'); 
+    $('#modal-conclusao-titulo').html('Fonte dos Dados');
+    $("#modal-conclusao-fatos").html( 
+        '<div class="row">\
+            <div class="col">\
+                <p>Todos os dados deste projeto foram obtidos por meio de acesso livre e gratuito do seguinte endereço:</p>\
+                <p><i>"Global Plastics Outlook Dataset"</i> - <a href="https://www.oecd-ilibrary.org/environment/data/global-plastic-outlook_c0821f81-en">Site da OCDE</a></p>\
+            </div>\
+        </div>'
+    );
 };
 
 function conclusao(){
