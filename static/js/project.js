@@ -378,6 +378,11 @@ function aumento_producao(arquivo, titulo, subtitulo){
     ).hide().slideDown(1000);
     var options = {
         chart: {
+            panning: {
+                enabled: true,
+                type: 'xy'
+            },
+            panKey: 'shift',
             zoomType: 'xy',
             resetZoomButton: {
                 theme: {
@@ -489,6 +494,11 @@ function primario_secundario(arquivo, titulo, subtitulo, tipo, tempo){
     $("#postexto").append(botao);
     var options = {
         chart: {
+            panning: {
+                enabled: true,
+                type: 'xy'
+            },
+            panKey: 'shift',
             zoomType: 'xy',
             resetZoomButton: {
                 theme: {
@@ -825,6 +835,11 @@ function descarte_regiao(arquivo, titulo, subtitulo, tempo){
     var options = {
         chart: {
             type: 'column',
+            panning: {
+                enabled: true,
+                type: 'xy'
+            },
+            panKey: 'shift',
             zoomType: 'xy',
             resetZoomButton: {
                 theme: {
