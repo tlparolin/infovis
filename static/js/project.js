@@ -379,6 +379,23 @@ function aumento_producao(arquivo, titulo, subtitulo){
     var options = {
         chart: {
             zoomType: 'xy',
+            resetZoomButton: {
+                theme: {
+                    fill: '#0d6efd',
+                    stroke: 'white',
+                    style: {
+                        color: 'white'
+                    },
+                    states: {
+                        hover: {
+                            fill: '#0b5ed7',
+                            style: {
+                                color: 'white'
+                            }
+                        }
+                    }
+                }
+            },
             renderTo: 'chart',
         },
         credits: {
@@ -473,6 +490,23 @@ function primario_secundario(arquivo, titulo, subtitulo, tipo, tempo){
     var options = {
         chart: {
             zoomType: 'xy',
+            resetZoomButton: {
+                theme: {
+                    fill: '#0d6efd',
+                    stroke: 'white',
+                    style: {
+                        color: 'white'
+                    },
+                    states: {
+                        hover: {
+                            fill: '#0b5ed7',
+                            style: {
+                                color: 'white'
+                            }
+                        }
+                    }
+                }
+            },
             renderTo: 'chart',
             type: tipo
         },
@@ -502,7 +536,7 @@ function primario_secundario(arquivo, titulo, subtitulo, tipo, tempo){
             },
         },
         legend: {
-            enabled: false
+            enabled: true
         },
         plotOptions: {
             area: {
@@ -792,6 +826,23 @@ function descarte_regiao(arquivo, titulo, subtitulo, tempo){
         chart: {
             type: 'column',
             zoomType: 'xy',
+            resetZoomButton: {
+                theme: {
+                    fill: '#0d6efd',
+                    stroke: 'white',
+                    style: {
+                        color: 'white'
+                    },
+                    states: {
+                        hover: {
+                            fill: '#0b5ed7',
+                            style: {
+                                color: 'white'
+                            }
+                        }
+                    }
+                }
+            },
             renderTo: 'chart',
         },
         legend: {
