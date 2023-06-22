@@ -26,6 +26,10 @@ function tutorial(){
                 intro: "Clique aqui para acionar esse mini tutorial."
             },
             {
+                element: "#fonte",
+                intro: "Clique aqui para ter acesso à fonte de dados utilizada neste projeto."
+            },
+            {
                 element: "#visualizacao",
                 intro: "Aqui estão disponíveis os tópicos que ajudam a contar nossa tese sobre a dependência plástica global da sociedade."
             },
@@ -47,7 +51,7 @@ function tutorial(){
             },
             {
                 element: "#chart",
-                intro: "Utilize a tecla 'SHIFT' + clique e arraste para fazer movimento de PAN nos gráficos onde o zoom está disponível"
+                intro: "Clique e arraste segurando a tecla SHIFT para fazer movimento de PAN (panorâmica) nos gráficos onde o zoom está disponível"
             },
             {
                 element: "#chart",
