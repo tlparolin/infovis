@@ -144,6 +144,11 @@ function fonte(){
                 <p>Todos os dados deste projeto foram obtidos por meio de acesso livre e gratuito do seguinte endereço:</p>\
                 <p><i>"Global Plastics Outlook Dataset"</i> - <a href="https://www.oecd-ilibrary.org/environment/data/global-plastic-outlook_c0821f81-en">Site da OCDE</a></p>\
             </div>\
+        </div>\
+        <div class="row">\
+            <div class="col">\
+                <p>Código fonte deste projeto: Github - <a href="https://github.com/tlparolin/plastview">Repositório PlastView</a></p>\
+            </div>\
         </div>'
     );
 };
